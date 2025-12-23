@@ -1,0 +1,5 @@
+{
+  "name": "LensOptics Lab",
+  "description": "An interactive educational platform demonstrating camera lens imaging principles, geometric optics, aspherical lens correction, and autofocus motor mechanics.",
+  "requestFramePermissions": []
+}
