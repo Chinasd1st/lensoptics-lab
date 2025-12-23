@@ -11,7 +11,8 @@ import { VideoEngineeringView } from './components/VideoEngineeringView';
 import { CinematographyView } from './components/CinematographyView';
 import { OpticalFiltersView } from './components/OpticalFiltersView';
 import { PostProductionView } from './components/PostProductionView';
-import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye } from 'lucide-react';
+import { GearShowcaseView } from './components/GearShowcaseView';
+import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper } from 'lucide-react';
 
 const App: React.FC = () => {
   const [activeModule, setActiveModule] = useState<ModuleType>(ModuleType.DIGITAL_ISP);
@@ -29,6 +30,7 @@ const App: React.FC = () => {
       case ModuleType.DIGITAL_ISP: return <DigitalISPView />;
       case ModuleType.VIDEO_ENGINEERING: return <VideoEngineeringView />;
       case ModuleType.POST_PRODUCTION: return <PostProductionView />;
+      case ModuleType.GEAR_SHOWCASE: return <GearShowcaseView />;
       default: return <LensAdvancedView />;
     }
   };
@@ -66,6 +68,11 @@ const App: React.FC = () => {
         `}>
           <div className="p-4 space-y-8">
             
+            {/* Top Priority: News */}
+            <div className="mb-6">
+               <NavButton active={activeModule === ModuleType.GEAR_SHOWCASE} onClick={() => selectModule(ModuleType.GEAR_SHOWCASE)} icon={<Newspaper size={18}/>} label="2025 新品发布" subLabel="Sony α7 V / 100 GM" />
+            </div>
+
             {/* 1. 物理光学层 */}
             <NavGroup title="Step 1: 物理光学 (Optics)">
               <NavButton active={activeModule === ModuleType.GEOMETRIC_OPTICS} onClick={() => selectModule(ModuleType.GEOMETRIC_OPTICS)} icon={<Ruler size={18}/>} label="几何光学基础" />

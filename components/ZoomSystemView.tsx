@@ -48,6 +48,20 @@ const LENS_PRESETS = {
     lengthFactor: 1.4,
     minFocus: 1000,
     meme: '公园大爷的最爱。荷花、翠鸟、还有漫展。只要够长，不仅能拍鸟，还能用来防身。'
+  },
+  'MACRO_100': {
+    name: '100mm F2.8 GM (2025新品)',
+    nickname: '百微 GM II',
+    type: 'Prime',
+    minF: 100,
+    maxF: 100,
+    minAp: 2.8,
+    maxAp: 32,
+    elements: '16 elements (双浮动对焦)',
+    weight: '650g',
+    lengthFactor: 1.2,
+    minFocus: 240,
+    meme: '1.4倍放大倍率，数毛党的终极兵器。连螨虫的腿毛都能拍清楚，密集恐惧症慎入。'
   }
 };
 
