@@ -163,25 +163,42 @@ const App: React.FC = () => {
                      <NavButton active={activeModule === ModuleType.SONY_SYSTEM} onClick={() => handleModuleChange(ModuleType.SONY_SYSTEM)} icon={<Book size={18}/>} label="索尼系统百科 (Sony Wiki)" subLabel="E卡口 / 菜单 / 专有名词" />
                   </div>
 
-                  <NavGroup title="1. 物理光学 (Optics)" defaultOpen={true}>
+                  <NavGroup 
+                    title="1. 物理光学 (Optics)" 
+                    defaultOpen={true}
+                    activeModule={activeModule}
+                    triggers={[ModuleType.GEOMETRIC_OPTICS, ModuleType.LENS_ADVANCED, ModuleType.ZOOM_SYSTEM, ModuleType.OPTICAL_FILTERS]}
+                  >
                     <NavButton active={activeModule === ModuleType.GEOMETRIC_OPTICS} onClick={() => handleModuleChange(ModuleType.GEOMETRIC_OPTICS)} icon={<Ruler size={18}/>} label="几何光学基础" />
                     <NavButton active={activeModule === ModuleType.LENS_ADVANCED} onClick={() => handleModuleChange(ModuleType.LENS_ADVANCED)} icon={<Aperture size={18}/>} label="镜头工程与像差" subLabel="非球面 / MTF / 镀膜" />
                     <NavButton active={activeModule === ModuleType.ZOOM_SYSTEM} onClick={() => handleModuleChange(ModuleType.ZOOM_SYSTEM)} icon={<Microscope size={18}/>} label="变焦系统结构" />
                     <NavButton active={activeModule === ModuleType.OPTICAL_FILTERS} onClick={() => handleModuleChange(ModuleType.OPTICAL_FILTERS)} icon={<Disc size={18}/>} label="前置物理滤镜" subLabel="ND / CPL / Mist" />
                   </NavGroup>
 
-                  <NavGroup title="2. 摄影机硬件 (Hardware)">
+                  <NavGroup 
+                    title="2. 摄影机硬件 (Hardware)"
+                    activeModule={activeModule}
+                    triggers={[ModuleType.SENSOR_EXPOSURE, ModuleType.MECHANICS, ModuleType.CINEMATOGRAPHY]}
+                  >
                     <NavButton active={activeModule === ModuleType.SENSOR_EXPOSURE} onClick={() => handleModuleChange(ModuleType.SENSOR_EXPOSURE)} icon={<ScanLine size={18}/>} label="传感器与曝光" subLabel="18%灰 / 双原生ISO" />
                     <NavButton active={activeModule === ModuleType.MECHANICS} onClick={() => handleModuleChange(ModuleType.MECHANICS)} icon={<Zap size={18}/>} label="机身机械系统" subLabel="马达 / 防抖 / 法兰距" />
                     <NavButton active={activeModule === ModuleType.CINEMATOGRAPHY} onClick={() => handleModuleChange(ModuleType.CINEMATOGRAPHY)} icon={<Video size={18}/>} label="电影摄影技术" subLabel="布光 / 运镜 / 变形镜头" />
                   </NavGroup>
 
-                  <NavGroup title="3. 信号与流程 (Pipeline)">
+                  <NavGroup 
+                    title="3. 信号与流程 (Pipeline)"
+                    activeModule={activeModule}
+                    triggers={[ModuleType.DIGITAL_ISP, ModuleType.VIDEO_ENGINEERING]}
+                  >
                     <NavButton active={activeModule === ModuleType.DIGITAL_ISP} onClick={() => handleModuleChange(ModuleType.DIGITAL_ISP)} icon={<Cpu size={18}/>} label="ISP 信号处理" subLabel="拜耳 / 色深 / Log" />
                     <NavButton active={activeModule === ModuleType.VIDEO_ENGINEERING} onClick={() => handleModuleChange(ModuleType.VIDEO_ENGINEERING)} icon={<Film size={18}/>} label="视频编码工程" subLabel="ProRes / H.265 / GOP" />
                   </NavGroup>
 
-                  <NavGroup title="4. 后期交付 (Post & Deliver)">
+                  <NavGroup 
+                    title="4. 后期交付 (Post & Deliver)"
+                    activeModule={activeModule}
+                    triggers={[ModuleType.POST_PRODUCTION, ModuleType.LOUDNESS_STANDARD, ModuleType.BROADCAST_STANDARDS]}
+                  >
                     <NavButton active={activeModule === ModuleType.POST_PRODUCTION} onClick={() => handleModuleChange(ModuleType.POST_PRODUCTION)} icon={<Palette size={18}/>} label="DI 数字中间片" subLabel="DaVinci 调色流程" />
                     <NavButton active={activeModule === ModuleType.LOUDNESS_STANDARD} onClick={() => handleModuleChange(ModuleType.LOUDNESS_STANDARD)} icon={<Volume2 size={18}/>} label="音频响度标准" subLabel="LUFS / 混音工作流" />
                     <NavButton active={activeModule === ModuleType.BROADCAST_STANDARDS} onClick={() => handleModuleChange(ModuleType.BROADCAST_STANDARDS)} icon={<Tv size={18}/>} label="广播电视制式" subLabel="PAL / NTSC" />
@@ -376,8 +393,21 @@ const IntroCard: React.FC<{ onClick: () => void; icon: React.ReactNode; title: s
    </button>
 );
 
-const NavGroup: React.FC<{ title: string; children: React.ReactNode; defaultOpen?: boolean }> = ({ title, children, defaultOpen = false }) => {
+const NavGroup: React.FC<{ 
+  title: string; 
+  children: React.ReactNode; 
+  defaultOpen?: boolean;
+  activeModule?: ModuleType;
+  triggers?: ModuleType[];
+}> = ({ title, children, defaultOpen = false, activeModule, triggers = [] }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  
+  // Auto-expand if active module is within this group
+  useEffect(() => {
+    if (activeModule && triggers.includes(activeModule)) {
+      setIsOpen(true);
+    }
+  }, [activeModule, triggers]);
   
   return (
     <div className="mb-2">
