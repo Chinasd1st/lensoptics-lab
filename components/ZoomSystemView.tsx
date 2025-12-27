@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Slider, Toggle, Select } from './Controls';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, traceRayThroughSystem } from '../utils/optics';
 import { OpticalSurface } from '../types';
-import { Microscope, Activity, Aperture as ApertureIcon, Maximize2, Scan, Eye, Layers, Calculator, AlertTriangle, Scale, Sparkles } from 'lucide-react';
+import { Microscope, Activity, Aperture as ApertureIcon, Maximize2, Scan, Eye, Layers, Calculator, AlertTriangle, Scale, Sparkles, MonitorPlay } from 'lucide-react';
 
 // Lens Preset Definitions with "Meme" descriptions
 const LENS_PRESETS = {
@@ -67,13 +67,23 @@ const LENS_PRESETS = {
 
 type PresetKey = keyof typeof LENS_PRESETS;
 
-export const ZoomSystemView: React.FC = () => {
+interface ZoomSystemViewProps {
+  initialTab?: string;
+}
+
+// Extend OpticalSurface type for internal use with visualization types
+interface VisualOpticalSurface extends OpticalSurface {
+   type?: 'XA' | 'ED' | 'APERTURE' | 'STD';
+}
+
+export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) => {
   // State
   const [selectedLensId, setSelectedLensId] = useState<PresetKey>('ZOOM_STD');
   const [zoomPos, setZoomPos] = useState(0.5); // 0.0 to 1.0
   const [apertureStop, setApertureStop] = useState(5.6);
   const [showRays, setShowRays] = useState(true);
   const [focusDistance, setFocusDistance] = useState(1200); // mm
+  const [breathingComp, setBreathingComp] = useState(false);
 
   const currentLens = LENS_PRESETS[selectedLensId];
 
@@ -106,15 +116,29 @@ export const ZoomSystemView: React.FC = () => {
 
   // Focus Breathing Simulation
   const maxBreathing = 0.15; 
-  const breathingFactor = 1.0 + (1 - Math.min(focusDistance, 5000) / 5000) * (maxBreathing * (600 / Math.max(focusDistance, 600)));
+  const rawBreathing = (1 - Math.min(focusDistance, 5000) / 5000) * (maxBreathing * (600 / Math.max(focusDistance, 600)));
+  const breathingFactor = 1.0 + (breathingComp ? rawBreathing * 0.05 : rawBreathing); // Minimal breathing if compensated
   
   // Optical Surfaces Generation
-  const surfaces: OpticalSurface[] = useMemo(() => [
-    { x: FRONT_LENS_X, f: 120 * currentLens.lengthFactor, h: 45, name: '前玉 (G1)' },
-    { x: g2Pos, f: -60, h: 35, name: '变焦组' },
-    { x: apertureX, f: Infinity, h: (50 / apertureStop) * 10, name: '光圈' }, 
-    { x: g3Pos, f: 110 * currentLens.lengthFactor, h: 40, name: '对焦组' },
-  ], [g2Pos, g3Pos, apertureX, apertureStop, currentLens.lengthFactor, FRONT_LENS_X]);
+  // Assign types to simulate the XA/ED diagram style
+  const surfaces: VisualOpticalSurface[] = useMemo(() => {
+     // Default for generic
+     if (selectedLensId !== 'ZOOM_STD') {
+        return [
+           { x: FRONT_LENS_X, f: 120 * currentLens.lengthFactor, h: 45, name: '前玉 (G1)', type: 'STD' },
+           { x: g2Pos, f: -60, h: 35, name: '变焦组', type: 'STD' },
+           { x: apertureX, f: Infinity, h: (50 / apertureStop) * 10, name: '光圈', type: 'APERTURE' }, 
+           { x: g3Pos, f: 110 * currentLens.lengthFactor, h: 40, name: '对焦组', type: 'STD' },
+        ];
+     }
+     // GM Specific styling (XA/ED)
+     return [
+        { x: FRONT_LENS_X, f: 120 * currentLens.lengthFactor, h: 45, name: 'XA 前玉', type: 'XA' },
+        { x: g2Pos, f: -60, h: 35, name: 'ED 变焦组', type: 'ED' },
+        { x: apertureX, f: Infinity, h: (50 / apertureStop) * 10, name: '光圈', type: 'APERTURE' }, 
+        { x: g3Pos, f: 110 * currentLens.lengthFactor, h: 40, name: 'XA 对焦组', type: 'XA' },
+     ];
+  }, [g2Pos, g3Pos, apertureX, apertureStop, currentLens.lengthFactor, FRONT_LENS_X, selectedLensId]);
 
   // Object Source Position
   const objectX = SENSOR_X - focusDistance;
@@ -212,15 +236,32 @@ export const ZoomSystemView: React.FC = () => {
              <Activity size={14} />
              <span>MTF: {(100 - (apertureStop > 8 ? (apertureStop-8)*5 : (4-apertureStop)*8)).toFixed(0)}%</span>
           </div>
+          {breathingComp && (
+             <div className="flex items-center gap-2 text-purple-400 animate-pulse">
+                <MonitorPlay size={14} />
+                <span>BREATHING COMP: ON</span>
+             </div>
+          )}
         </div>
 
         {/* Legend */}
-        <div className="absolute bottom-4 right-4 z-10 flex gap-4 text-[10px] text-slate-500">
-           <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> 轴上光线</div>
-           <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span> 边缘光场</div>
+        <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-1 items-end pointer-events-none">
+           <div className="flex gap-4 text-[10px] text-slate-500 bg-black/50 p-2 rounded border border-slate-800">
+              <div className="flex items-center gap-1"><span className="w-3 h-3 border border-orange-500 bg-[url(#pattern-xa)]"></span> XA 极值非球面</div>
+              <div className="flex items-center gap-1"><span className="w-3 h-3 border border-green-500 bg-[url(#pattern-ed)]"></span> ED 低色散</div>
+           </div>
         </div>
 
         <svg className="w-full h-full" viewBox="0 0 800 500">
+          <defs>
+             <pattern id="pattern-xa" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+               <line x1="0" y1="0" x2="0" y2="6" stroke="#ea580c" strokeWidth="2" />
+             </pattern>
+             <pattern id="pattern-ed" patternUnits="userSpaceOnUse" width="6" height="6">
+               <line x1="0" y1="0" x2="6" y2="0" stroke="#16a34a" strokeWidth="2" />
+             </pattern>
+          </defs>
+
           <line x1="0" y1={OPTICAL_AXIS_Y} x2="800" y2={OPTICAL_AXIS_Y} stroke="#334155" strokeDasharray="4,4" />
 
           {/* Sensor Plane */}
@@ -231,7 +272,7 @@ export const ZoomSystemView: React.FC = () => {
 
           {/* Lenses */}
           {surfaces.map((surf, i) => (
-             surf.name === '光圈' ? (
+             surf.type === 'APERTURE' ? (
                 <g key={i} transform={`translate(${surf.x}, ${OPTICAL_AXIS_Y})`}>
                    <line x1="0" y1={-surf.h - 20} x2="0" y2={-surf.h} stroke="#eab308" strokeWidth="3" />
                    <line x1="0" y1={surf.h + 20} x2="0" y2={surf.h} stroke="#eab308" strokeWidth="3" />
@@ -243,11 +284,11 @@ export const ZoomSystemView: React.FC = () => {
                         ? `M-5,-${surf.h} Q15,0 -5,${surf.h} L5,${surf.h} Q-15,0 5,-${surf.h} Z`
                         : `M-5,-${surf.h} Q-15,0 -5,${surf.h} L5,${surf.h} Q15,0 5,-${surf.h} Z`
                      }
-                     fill="rgba(34, 211, 238, 0.15)"
-                     stroke={surf.f > 0 ? "#22d3ee" : "#a8a29e"}
+                     fill={surf.type === 'XA' ? 'url(#pattern-xa)' : surf.type === 'ED' ? 'url(#pattern-ed)' : 'rgba(34, 211, 238, 0.15)'}
+                     stroke={surf.type === 'XA' ? '#ea580c' : surf.type === 'ED' ? '#16a34a' : (surf.f > 0 ? "#22d3ee" : "#a8a29e")}
                      strokeWidth="1.5"
                    />
-                   <text x="-10" y={-surf.h - 10} fill="#475569" fontSize="9">{surf.name}</text>
+                   <text x="-10" y={-surf.h - 10} fill={surf.type === 'XA' ? '#ea580c' : surf.type === 'ED' ? '#16a34a' : '#475569'} fontSize="9" fontWeight="bold">{surf.name}</text>
                    <path d="M-2,-10 L2,0" stroke="white" strokeWidth="1" opacity="0.3" />
                 </g>
              )
@@ -304,7 +345,7 @@ export const ZoomSystemView: React.FC = () => {
       </div>
 
       {/* Engineering Controls - ENHANCED PANELS */}
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 flex flex-col overflow-y-auto">
+      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 flex flex-col overflow-y-auto select-none">
          
          {/* Main Header */}
          <div className="p-6 pb-2 border-b border-slate-800">
@@ -397,6 +438,12 @@ export const ZoomSystemView: React.FC = () => {
                     onChange={e => setFocusDistance(parseFloat(e.target.value))}
                     className="w-full accent-emerald-500 h-1 bg-slate-700 appearance-none rounded dir-rtl"
                   />
+                  <div className="mt-4">
+                     <Toggle label="呼吸补偿 (Breathing Comp.)" checked={breathingComp} onChange={setBreathingComp} />
+                     <div className="text-[10px] text-slate-500 leading-tight">
+                        {breathingComp ? "启用补偿：视角锁定。通过裁切画面边缘，抵消对焦时的物理焦距变化。" : "原生光学：视角随对焦距离改变（呼吸效应）。"}
+                     </div>
+                  </div>
                </div>
 
                <div>

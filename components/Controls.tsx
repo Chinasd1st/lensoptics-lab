@@ -14,7 +14,7 @@ interface SliderProps {
 
 export const Slider: React.FC<SliderProps> = ({ label, value, min, max, step = 1, unit = '', onChange, disabled }) => {
   return (
-    <div className={`mb-5 ${disabled ? 'opacity-30 pointer-events-none' : ''}`}>
+    <div className={`mb-5 ${disabled ? 'opacity-30 pointer-events-none' : ''} select-none`}>
       <div className="flex justify-between mb-2">
         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</span>
         <span className="text-sm text-cyan-400 font-mono font-bold bg-cyan-900/20 px-2 rounded">{value}{unit}</span>
@@ -55,7 +55,7 @@ interface SelectProps {
 }
 
 export const Select: React.FC<SelectProps> = ({ label, value, options, onChange }) => (
-  <div className="mb-5">
+  <div className="mb-5 select-none">
     <label className="block text-xs font-bold text-slate-400 mb-2 uppercase tracking-wider">{label}</label>
     <select
       value={value}

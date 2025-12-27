@@ -3,7 +3,11 @@ import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, generatePrincipalRays, calculateIma
 import { Slider, Toggle } from './Controls';
 import { Settings, Info } from 'lucide-react';
 
-export const GeometricView: React.FC = () => {
+interface GeometricViewProps {
+  initialTab?: string;
+}
+
+export const GeometricView: React.FC<GeometricViewProps> = ({ initialTab }) => {
   const [focalLength, setFocalLength] = useState(100);
   const [objectDist, setObjectDist] = useState(250); // Positive UI value, converted to negative in math
   const [objectHeight, setObjectHeight] = useState(60);

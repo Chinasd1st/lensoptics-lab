@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Slider } from './Controls';
 import { Disc, Sun, CloudFog } from 'lucide-react';
 
-export const OpticalFiltersView: React.FC = () => {
+interface OpticalFiltersViewProps {
+   initialTab?: string;
+}
+
+export const OpticalFiltersView: React.FC<OpticalFiltersViewProps> = ({ initialTab }) => {
    const [filterType, setFilterType] = useState<'NONE' | 'CPL' | 'ND' | 'MIST'>('NONE');
    const [rotation, setRotation] = useState(0); 
    const [ndStop, setNdStop] = useState(3); 
    const [mistStrength, setMistStrength] = useState(0.5); 
+
+   useEffect(() => {
+      if (initialTab && ['NONE', 'CPL', 'ND', 'MIST'].includes(initialTab)) {
+         setFilterType(initialTab as any);
+      }
+   }, [initialTab]);
 
    const reflectionOpacity = filterType === 'CPL' ? Math.abs(Math.cos(rotation * Math.PI / 180)) : 1;
    const skySaturation = filterType === 'CPL' ? 1 + Math.sin(rotation * Math.PI / 180) * 0.5 : 1;

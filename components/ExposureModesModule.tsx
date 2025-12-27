@@ -157,7 +157,7 @@ export const ExposureModesModule: React.FC = () => {
       </div>
 
       {/* Control Panel */}
-      <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col border-l border-slate-700">
+      <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col border-l border-slate-700 select-none">
          <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Camera size={18}/> 模式转盘</h3>
          
          <div className="grid grid-cols-4 gap-2 mb-8">
