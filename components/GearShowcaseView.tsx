@@ -1,16 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import { A7M5Page, FX2Page, Lens400800GPage, Lens50150GMPage, Lens100GMPage, TeleconverterPage, A1M2Page } from './GearPages';
+import { A7M5Page, FX2Page, Lens400800GPage, Lens50150GMPage, Lens100GMPage, TeleconverterPage, A1M2Page, A9M3Page } from './GearPages';
 
 interface GearShowcaseViewProps {
   initialTab?: string;
 }
 
 export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }) => {
-  const [activeProduct, setActiveProduct] = useState<'A1M2' | 'A7M5' | 'FX2' | '100GM' | '50150GM' | '400800G' | 'TC'>('A1M2');
+  const [activeProduct, setActiveProduct] = useState<'A1M2' | 'A9M3' | 'A7M5' | 'FX2' | '100GM' | '50150GM' | '400800G' | 'TC'>('A1M2');
 
   useEffect(() => {
-     if (initialTab && ['A1M2', 'A7M5', 'FX2', '100GM', '50150GM', '400800G', 'TC'].includes(initialTab)) {
+     if (initialTab && ['A1M2', 'A9M3', 'A7M5', 'FX2', '100GM', '50150GM', '400800G', 'TC'].includes(initialTab)) {
         setActiveProduct(initialTab as any);
      }
   }, [initialTab]);
@@ -36,6 +36,19 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               desc="11月19日发布 · 50MP 堆栈"
               gradient="from-slate-800 to-slate-900 border-yellow-500/50"
               accent="bg-yellow-500"
+           />
+
+           {/* A9 III */}
+           <NavButton 
+              id="A9M3" 
+              active={activeProduct} 
+              setActive={setActiveProduct}
+              title="α9 III" 
+              badge="GLOBAL" 
+              badgeColor="bg-red-600"
+              desc="全域快门速度旗舰 · 2023发布"
+              gradient="from-slate-800 to-slate-900 border-red-500/50"
+              accent="bg-red-500"
            />
 
            {/* A7M5 */}
@@ -124,6 +137,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
       {/* Content Area */}
       <div className="flex-1 relative overflow-y-auto no-scrollbar">
          {activeProduct === 'A1M2' && <A1M2Page />}
+         {activeProduct === 'A9M3' && <A9M3Page />}
          {activeProduct === 'A7M5' && <A7M5Page />}
          {activeProduct === 'FX2' && <FX2Page />}
          {activeProduct === '400800G' && <Lens400800GPage />}

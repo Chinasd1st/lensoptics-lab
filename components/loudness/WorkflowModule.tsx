@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Settings, Sliders, Activity, ArrowDown, ArrowRight, Calculator, Layers, Workflow, AlertTriangle, CheckCircle, XCircle, Volume2 } from 'lucide-react';
+import { Sliders, Activity, ArrowDown, Calculator, Layers, Workflow, AlertTriangle, CheckCircle, XCircle, Volume2, Settings } from 'lucide-react';
 
 export const WorkflowModule: React.FC = () => {
    const [step, setStep] = useState(1);
@@ -181,7 +181,7 @@ export const WorkflowModule: React.FC = () => {
             </div>
          </div>
 
-         {/* Part 3: Common Mistakes */}
+         {/* Part 4: Common Mistakes */}
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">

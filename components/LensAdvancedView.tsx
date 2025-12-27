@@ -3,6 +3,7 @@ import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, calculateSphericalAberration } from '../utils/optics';
 import { Toggle, Slider } from './Controls';
 import { Aperture, Sparkles, AlertTriangle, Hammer, Film, Camera as CameraIcon, Info, LineChart, BookOpen, SunDim } from 'lucide-react';
+import { AsphericalView } from './AsphericalView';
 
 type Tab = 'ASPHERICAL' | 'COATING' | 'ABERRATIONS' | 'CINE_VS_PHOTO' | 'MTF_LAB' | 'DIFFRACTION';
 
@@ -25,16 +26,16 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
         {/* Tab Bar - Unified Style */}
         <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
            <TabButton active={activeTab === 'MTF_LAB'} onClick={() => setActiveTab('MTF_LAB')} icon={<LineChart size={16}/>} label="MTF 曲线实验室" />
+           <TabButton active={activeTab === 'ASPHERICAL'} onClick={() => setActiveTab('ASPHERICAL')} icon={<Aperture size={16}/>} label="非球面与球差" />
            <TabButton active={activeTab === 'DIFFRACTION'} onClick={() => setActiveTab('DIFFRACTION')} icon={<SunDim size={16}/>} label="衍射极限 (Diffraction)" />
            <TabButton active={activeTab === 'CINE_VS_PHOTO'} onClick={() => setActiveTab('CINE_VS_PHOTO')} icon={<Film size={16}/>} label="电影镜 vs 摄影镜" />
-           <TabButton active={activeTab === 'ASPHERICAL'} onClick={() => setActiveTab('ASPHERICAL')} icon={<Aperture size={16}/>} label="非球面校正" />
            <TabButton active={activeTab === 'COATING'} onClick={() => setActiveTab('COATING')} icon={<Sparkles size={16}/>} label="镀膜技术" />
            <TabButton active={activeTab === 'ABERRATIONS'} onClick={() => setActiveTab('ABERRATIONS')} icon={<AlertTriangle size={16}/>} label="边缘像差" />
         </div>
 
         <div className="flex-1 relative overflow-hidden bg-slate-950">
            {activeTab === 'CINE_VS_PHOTO' && <CineVsPhotoModule />}
-           {activeTab === 'ASPHERICAL' && <AsphericalModule />}
+           {activeTab === 'ASPHERICAL' && <AsphericalView />} 
            {activeTab === 'COATING' && <CoatingModule />}
            {activeTab === 'ABERRATIONS' && <AberrationsModule />}
            {activeTab === 'MTF_LAB' && <MTFModule />}
@@ -106,10 +107,22 @@ const DiffractionModule: React.FC = () => {
                <div className="h-32 relative border-l border-b border-slate-600 mt-4">
                   <div className="absolute bottom-0 left-0 right-0 h-full flex items-end">
                      {/* Sweet Spot Curve */}
-                     <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
-                        <path d="M 0,50 Q 20,90 30,95 Q 50,90 100,20" fill="none" stroke="#22d3ee" strokeWidth="2" />
+                     {/* Scale viewBox X: 0-300 matches roughly the visual width, Y: 0-100 */}
+                     <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 300 100">
+                        {/* Curve peaks at f/8. 
+                            f/1.4 (x~10) low sharpness due to aberrations (simulated)
+                            f/8 (x~75) max sharpness
+                            f/32 (x~300) low sharpness due to diffraction
+                        */}
+                        <path d="M 10,50 Q 75,95 85,95 Q 150,90 300,20" fill="none" stroke="#22d3ee" strokeWidth="3" vectorEffect="non-scaling-stroke" />
+                        
                         {/* Current Position Marker */}
-                        <circle cx={(fStop / 32) * 100} cy={100 - (fStop < 8 ? (fStop/8)*95 : Math.max(20, 95 - (fStop-8)*4))} r="4" fill="white" />
+                        {/* fStop 1.4 -> 32. Map to 0 -> 300 */}
+                        <circle 
+                           cx={(fStop / 32) * 300} 
+                           cy={100 - (fStop < 8 ? 50 + (fStop/8)*45 : Math.max(20, 95 - ((fStop-8)/24)*75))} 
+                           r="6" fill="white" stroke="#22d3ee" strokeWidth="2"
+                        />
                      </svg>
                   </div>
                   <div className="absolute -bottom-4 left-0 text-[9px] text-slate-500">f/1.4</div>
@@ -399,76 +412,6 @@ const InfoItem: React.FC<{ title: string; content: string; color?: string }> = (
       <div className="text-[10px] text-slate-400 leading-relaxed">{content}</div>
    </div>
 );
-
-const AsphericalModule: React.FC = () => {
-  const [isAspherical, setIsAspherical] = useState(false);
-  const [lensRadius, setLensRadius] = useState(100);
-  const focalLength = 180;
-  const { rays, focalPoints } = useMemo(() => calculateSphericalAberration(isAspherical, lensRadius, focalLength), [isAspherical, lensRadius]);
-  const spread = Math.max(...focalPoints) - Math.min(...focalPoints);
-
-  return (
-    <div className="flex flex-col lg:flex-row h-full">
-       <div className="flex-1 bg-slate-900 relative">
-         <svg className="w-full h-full" viewBox="0 0 800 500">
-           <defs>
-             <pattern id="pattern-xa-adv" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
-               <line x1="0" y1="0" x2="0" y2="6" stroke="#ea580c" strokeWidth="2" />
-             </pattern>
-           </defs>
-           <line x1="0" y1={OPTICAL_AXIS_Y} x2="800" y2={OPTICAL_AXIS_Y} stroke="#475569" strokeDasharray="5,5" />
-           <g transform={`translate(${CENTER_X}, ${CENTER_Y})`}>
-             {/* Dynamic Path for Aspherical Visualization */}
-             {isAspherical ? (
-                <path 
-                  d={`M0,-${lensRadius} 
-                     C 35,-${lensRadius/2} 35,${lensRadius/2} 0,${lensRadius} 
-                     C -35,${lensRadius/2} -35,-${lensRadius/2} 0,-${lensRadius}`} 
-                  fill="url(#pattern-xa-adv)" 
-                  stroke="#ea580c" 
-                  strokeWidth="2" 
-                />
-             ) : (
-                <path 
-                  d={`M0,-${lensRadius} 
-                     Q 40,0 0,${lensRadius} 
-                     Q -40,0 0,-${lensRadius}`} 
-                  fill="rgba(244, 114, 182, 0.1)" 
-                  stroke="#F472B6" 
-                  strokeWidth="2" 
-                />
-             )}
-           </g>
-           {/* Rays */}
-           {rays.map((ray, i) => (
-             <path key={i} d={`M${ray.x1},${ray.y1} L${ray.x2},${ray.y2}`} stroke={ray.color} strokeWidth={1} fill="none" opacity={0.6} />
-           ))}
-           <line x1={CENTER_X + focalLength} y1={CENTER_Y - 50} x2={CENTER_X + focalLength} y2={CENTER_Y + 50} stroke="white" strokeWidth="1" strokeDasharray="2,2" opacity="0.3" />
-           {!isAspherical && (
-             <circle cx={CENTER_X + focalLength} cy={CENTER_Y} r={spread/2} fill="none" stroke="red" strokeWidth="1" opacity="0.3">
-               <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
-             </circle>
-           )}
-         </svg>
-       </div>
-       <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col">
-        <h3 className="text-xl font-bold text-white mb-6">球差校正原理</h3>
-        <Toggle label="启用非球面 (Aspherical)" checked={isAspherical} onChange={setIsAspherical} />
-        <Slider label="镜片口径 (Aperture)" value={lensRadius} min={50} max={140} onChange={setLensRadius} />
-        <div className="mt-8 space-y-4">
-           <div className="bg-slate-900 p-3 rounded border border-slate-700">
-              <h4 className="text-pink-400 font-bold text-sm mb-1">球面镜片 (Spherical)</h4>
-              <p className="text-xs text-slate-400">边缘光线折射过强，汇聚点比中心光线更靠前。导致大光圈拍摄时画面柔光、锐度下降（球差）。</p>
-           </div>
-           <div className="bg-slate-900 p-3 rounded border border-slate-700">
-              <h4 className="text-orange-400 font-bold text-sm mb-1">非球面镜片 (Aspherical)</h4>
-              <p className="text-xs text-slate-400">通过改变镜片边缘曲率（使其更平坦），让边缘光线与中心光线汇聚于同一点。现代高素质镜头的核心技术。</p>
-           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const CoatingModule: React.FC = () => {
    const [coating, setCoating] = useState<'NONE' | 'NANO'>('NONE');

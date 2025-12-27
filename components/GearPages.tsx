@@ -73,7 +73,7 @@ export const A1M2Page: React.FC = () => (
                <div>
                   <h2 className="text-2xl font-bold text-white mb-1">全画幅微单™旗舰 · AI 进化</h2>
                   <div className="text-xs text-slate-500 bg-slate-800 px-2 py-1 inline-block rounded">
-                     发布时间: 2024年11月19日 (非2025新品)
+                     发布时间: 2024年11月19日
                   </div>
                </div>
                <span className="text-2xl font-black text-yellow-500">$6,499</span>
@@ -122,6 +122,77 @@ export const A1M2Page: React.FC = () => (
    </div>
 );
 
+// --- NEW A9M3 Page (Global Shutter) ---
+export const A9M3Page: React.FC = () => (
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+         <div className="absolute top-4 right-4 z-10">
+            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-red-500/30">
+               <Zap size={12} className="text-red-500 fill-red-500"/>
+               <span className="text-[10px] font-bold text-red-100 tracking-wide">RELEASED NOV 2023</span>
+            </div>
+         </div>
+         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-neutral-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+            <div className="text-center z-10 w-full">
+               <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black text-white tracking-tighter mb-2 italic">
+                  α9 <span className="text-red-500">III</span>
+               </h1>
+               <p className="text-lg text-slate-400 font-light tracking-[0.3em] uppercase mt-4">The Global Shutter Revolution</p>
+            </div>
+         </div>
+         <div className="p-8 bg-slate-900">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+               <div>
+                  <h2 className="text-2xl font-bold text-white mb-1">全球首款全域快门全画幅</h2>
+                  <div className="text-xs text-slate-500 bg-slate-800 px-2 py-1 inline-block rounded">
+                     发布时间: 2023年11月7日 (已上市)
+                  </div>
+               </div>
+               <span className="text-2xl font-black text-red-500">$5,999</span>
+            </div>
+            <p className="text-sm text-slate-300 leading-7 text-justify max-w-3xl">
+               Sony α9 III (ILCE-9M3) 是影像历史的里程碑。它搭载了世界上首款全画幅全域快门 (Global Shutter) 影像传感器，彻底消除了果冻效应。
+               支持高达 120fps 的无黑屏连拍（含 AF/AE 追踪）和 1/80,000 秒的最高快门速度，并实现了全速闪光同步。这是体育、新闻和野生动物摄影的终极速度机器。
+            </p>
+         </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+         <SpecCard icon={<Scan className="text-red-400"/>} label="Sensor" value="24.6MP" sub="全域快门 CMOS" />
+         <SpecCard icon={<Zap className="text-yellow-400"/>} label="Speed" value="120 fps" sub="无黑屏连拍" />
+         <SpecCard icon={<Timer className="text-blue-400"/>} label="Shutter" value="1/80,000s" sub="全速闪光同步" />
+         <SpecCard icon={<Brain className="text-purple-400"/>} label="AF" value="AI Unit" sub="实时识别追踪" />
+      </div>
+
+      <TechDeepDive items={[
+         {
+            term: "全域快门 (Global Shutter)",
+            icon: <Scan size={16}/>,
+            def: "所有像素在同一微秒内同时曝光和读取，而非传统的逐行扫描。",
+            why: "彻底消除了拍摄高速运动物体时的果冻效应（变形）。无论高尔夫球杆挥动多快，它在画面中永远是直的。同时消除了频闪条纹。"
+         },
+         {
+            term: "120fps 无黑屏连拍",
+            icon: <Zap size={16}/>,
+            def: "每秒拍摄 120 张 2460 万像素的 RAW 照片，且取景器完全无延迟、无黑屏。",
+            why: "捕捉人眼无法察觉的瞬间（如箭离弦、鸟捕食）。配合预拍摄功能，不可能错过任何关键时刻。"
+         },
+         {
+            term: "全速闪光同步",
+            icon: <Timer size={16}/>,
+            def: "在任何快门速度下（最高 1/80,000s）都能同步闪光灯。",
+            why: "打破了传统相机 1/250s 的同步速度限制。摄影师可以在正午强光下使用大光圈配合闪光灯压暗背景，无需损失功率的 HSS (高速同步) 模式。"
+         },
+         {
+            term: "4K 120p 无裁切",
+            icon: <Film size={16}/>,
+            def: "从 6K 超采样生成 4K 60p，或以点对点方式拍摄 4K 120p。",
+            why: "不仅是照相机，也是强大的电影机。全域快门意味着手持运镜或拍摄快速摇摄（Whip Pan）时背景不再倾斜。"
+         }
+      ]}/>
+   </div>
+);
+
 // --- 1. A7M5 Page ---
 export const A7M5Page: React.FC = () => (
    <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -135,7 +206,6 @@ export const A7M5Page: React.FC = () => (
          <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-gray-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
             <div className="absolute inset-0 opacity-30" style={{backgroundImage: 'radial-gradient(circle at 70% 30%, rgba(234, 88, 12, 0.15) 0%, transparent 60%)'}}></div>
             <div className="text-center z-10 max-w-3xl w-full px-4">
-               {/* Fixed Overflow: Responsive text sizing */}
                <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-white tracking-tighter mb-2 italic drop-shadow-2xl break-words whitespace-normal leading-none">
                   α7 <span className="text-orange-500">V</span>
                </h1>
@@ -231,7 +301,7 @@ export const FX2Page: React.FC = () => (
          {
             term: "S-Cinetone",
             icon: <Palette size={16}/>,
-            def: "源自威尼斯（Venice）高端电影机的色彩科学，专门针对数码传感器的人像肤色进行了优化。",
+            def: "源自威尼斯（Venice）高端电影机的色彩科学，专门负责对数码传感器的人像肤色进行了优化。",
             why: "直出画面即可拥有电影质感，肤色红润通透，高光滚落（Roll-off）柔和。适合不进行复杂后期调色的快速交付项目。"
          },
          {

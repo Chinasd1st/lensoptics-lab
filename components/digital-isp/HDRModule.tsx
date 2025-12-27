@@ -67,8 +67,9 @@ const MultiFrameVisual: React.FC = () => {
             </div>
 
             {/* Frame 2: Overexposed (Shadows) */}
+            {/* Fix: Use 'left' for both states to allow smooth transition. left-[65%] approximates right-[10%] for typical widths */}
             <div className={`absolute transition-all duration-700 ease-in-out border-2 border-slate-600 rounded-lg overflow-hidden bg-black shadow-xl
-               ${merge ? 'left-1/2 -translate-x-1/2 top-0 w-[400px] h-[250px] opacity-0 z-0' : 'right-[10%] top-0 w-64 h-40 opacity-100 rotate-[6deg] z-10 hover:z-30 hover:scale-110'}
+               ${merge ? 'left-1/2 -translate-x-1/2 top-0 w-[400px] h-[250px] opacity-0 z-0' : 'left-[65%] top-0 w-64 h-40 opacity-100 rotate-[6deg] z-10 hover:z-30 hover:scale-110'}
             `}>
                <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=600" className="w-full h-full object-cover brightness-[1.8] contrast-75" draggable={false}/>
                <div className="absolute bottom-2 left-2 text-[10px] bg-black/60 px-2 py-1 rounded text-orange-400 font-bold border border-orange-500/30">Long Exp (Shadow)</div>

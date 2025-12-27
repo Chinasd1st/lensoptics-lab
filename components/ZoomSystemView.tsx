@@ -3,65 +3,93 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Slider, Toggle, Select } from './Controls';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, traceRayThroughSystem } from '../utils/optics';
 import { OpticalSurface } from '../types';
-import { Microscope, Activity, Aperture as ApertureIcon, Maximize2, Scan, Eye, Layers, Calculator, AlertTriangle, Scale, Sparkles, MonitorPlay } from 'lucide-react';
+import { Microscope, Activity, Aperture as ApertureIcon, Maximize2, Scan, Eye, Layers, Calculator, AlertTriangle, Scale, Sparkles, MonitorPlay, Info } from 'lucide-react';
 
-// Lens Preset Definitions with "Meme" descriptions
+// Lens Preset Definitions (Updated with 2025 New Lenses & Accurate Specs)
 const LENS_PRESETS = {
-  'ZOOM_STD': {
-    name: '24-70mm GM II (索尼大法好)',
-    nickname: '明日之镜',
+  'ZOOM_F2_STD': {
+    name: 'FE 28-70mm F2 GM',
+    nickname: '夜之光 (F2标变)',
     type: 'Zoom',
-    minF: 24,
-    maxF: 70,
-    minAp: 2.8,
-    maxAp: 22,
-    elements: '20 elements (堆料狂魔)',
-    weight: '695g (健身器材轻量化)',
-    lengthFactor: 1.0, 
-    minFocus: 210, 
-    meme: '索尼罪大滔天，百姓无不怀念。买G大师不仅是买镜头，更是充值信仰。'
+    minF: 28, maxF: 70,
+    minAp: 2.0, maxAp: 22,
+    elements: '20片/14组 (3XA, 3Super ED)',
+    weight: '918g',
+    lengthFactor: 1.2, // ~140mm
+    minFocus: 380, 
+    meme: '恒定光圈 F2.0。婚礼摄影师的终极梦想，暗光环境下无需闪光灯也能获得纯净画质。'
   },
-  'PRIME_FAST': {
-    name: '50mm f/1.2 L (感动牌牙膏厂)',
-    nickname: '人像镜皇',
-    type: 'Prime',
-    minF: 50,
-    maxF: 50,
-    minAp: 1.2,
-    maxAp: 16,
-    elements: '14 elements (挤爆牙膏)',
-    weight: '998g (练臂力)',
-    lengthFactor: 0.8,
-    minFocus: 400,
-    meme: '光圈全开锐度爆表，焦外如奶油般化开，这就是"德味"（虽然是日产）。'
+  'ZOOM_STD': {
+    name: 'FE 24-70mm F2.8 GM II',
+    nickname: '明日之镜 II',
+    type: 'Zoom',
+    minF: 24, maxF: 70,
+    minAp: 2.8, maxAp: 22,
+    elements: '15组20枚 (2XA, 3ED)',
+    weight: '695g',
+    lengthFactor: 1.0, // ~120mm
+    minFocus: 210, // 0.21m(W)
+    meme: '只有G大师才能打败G大师。画质、体积、对焦的完美平衡。日常/旅游/视频全能王。'
+  },
+  'ZOOM_WIDE': {
+    name: 'FE 16-35mm F2.8 GM II',
+    nickname: '广角大三元 II',
+    type: 'Zoom',
+    minF: 16, maxF: 35,
+    minAp: 2.8, maxAp: 22,
+    elements: '12组15枚 (3XA, 1ED非)',
+    weight: '547g (轻量化)',
+    lengthFactor: 0.9, // ~112mm
+    minFocus: 220, 
+    meme: '风光摄影师的毕业装备。既轻便画质又顶，星空慧差控制极佳。'
   },
   'ZOOM_TELE': {
-    name: '70-200mm (老法师之剑)',
-    nickname: '公园打鸟神器',
+    name: 'FE 70-200mm F2.8 GM OSS II',
+    nickname: '空气切割机 II',
     type: 'Zoom',
-    minF: 70,
-    maxF: 200,
-    minAp: 4.0,
-    maxAp: 32,
-    elements: '21 elements',
-    weight: '1200g',
-    lengthFactor: 1.4,
-    minFocus: 1000,
-    meme: '公园大爷的最爱。荷花、翠鸟、还有漫展。只要够长，不仅能拍鸟，还能用来防身。'
+    minF: 70, maxF: 200,
+    minAp: 2.8, maxAp: 22,
+    elements: '14组17枚 (1XA, 1ED非)',
+    weight: '1045g',
+    lengthFactor: 1.6, // ~200mm
+    minFocus: 400, 
+    meme: '以前是健身器材，现在是精密仪器。对焦速度快到能抓拍蜂鸟翅膀。'
+  },
+  'ZOOM_F2_TELE': {
+    name: 'FE 50-150mm F2 GM',
+    nickname: '人像变焦神镜',
+    type: 'Zoom',
+    minF: 50, maxF: 150,
+    minAp: 2.0, maxAp: 22,
+    elements: '旗舰级堆料 (XA/ED)',
+    weight: '约1250g',
+    lengthFactor: 1.5, // ~180mm
+    minFocus: 500,
+    meme: '一支镜头干掉 50/85/135 三支定焦。全程 F2 虚化，糖水片制造机。'
+  },
+  'PRIME_50': {
+    name: 'FE 50mm F1.2 GM',
+    nickname: '50GM (定焦镜皇)',
+    type: 'Prime',
+    minF: 50, maxF: 50,
+    minAp: 1.2, maxAp: 16,
+    elements: '10组14枚 (3XA)',
+    weight: '778g',
+    lengthFactor: 0.9, // ~108mm
+    minFocus: 400, 
+    meme: 'F1.2 全开即锐度爆表。梦幻散景与极致解析力的物理极限，这就是"德味"。'
   },
   'MACRO_100': {
-    name: '100mm F2.8 GM (2025新品)',
-    nickname: '百微 GM II',
+    name: 'FE 100mm F2.8 Macro GM',
+    nickname: '百微 GM (1.4x)',
     type: 'Prime',
-    minF: 100,
-    maxF: 100,
-    minAp: 2.8,
-    maxAp: 32,
-    elements: '16 elements (双浮动对焦)',
-    weight: '650g',
-    lengthFactor: 1.2,
-    minFocus: 240,
-    meme: '1.4倍放大倍率，数毛党的终极兵器。连螨虫的腿毛都能拍清楚，密集恐惧症慎入。'
+    minF: 100, maxF: 100,
+    minAp: 2.8, maxAp: 32,
+    elements: '双浮动对焦 (XA/ED)',
+    weight: '约730g',
+    lengthFactor: 1.1, // ~130mm
+    minFocus: 260,
+    meme: '1.4x 原生放大倍率。连昆虫复眼的六边形结构都能数得清清楚楚，微观世界的显微镜。'
   }
 };
 
@@ -71,77 +99,69 @@ interface ZoomSystemViewProps {
   initialTab?: string;
 }
 
-// Extend OpticalSurface type for internal use with visualization types
 interface VisualOpticalSurface extends OpticalSurface {
    type?: 'XA' | 'ED' | 'APERTURE' | 'STD';
 }
 
 export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) => {
   // State
-  const [selectedLensId, setSelectedLensId] = useState<PresetKey>('ZOOM_STD');
+  const [selectedLensId, setSelectedLensId] = useState<PresetKey>('ZOOM_F2_STD');
   const [zoomPos, setZoomPos] = useState(0.5); // 0.0 to 1.0
-  const [apertureStop, setApertureStop] = useState(5.6);
+  const [apertureStop, setApertureStop] = useState(2.8);
   const [showRays, setShowRays] = useState(true);
-  const [focusDistance, setFocusDistance] = useState(1200); // mm
+  const [focusDistance, setFocusDistance] = useState(1000); // mm
   const [breathingComp, setBreathingComp] = useState(false);
 
   const currentLens = LENS_PRESETS[selectedLensId];
 
+  // Visual Scaling Constants
+  const PIXELS_PER_MM = 0.6; // Scale factor for visualization
+  const SENSOR_X = 750;
+  
+  // Calculate Front Lens Position based on physical length approximation
+  // lengthFactor 1.0 ~= 120mm physical
+  const lensPhysicalLength = currentLens.lengthFactor * 120;
+  const lensVisualLength = lensPhysicalLength * PIXELS_PER_MM * 3; // Exaggerate slightly for element spacing visibility
+  const FRONT_LENS_X = SENSOR_X - lensVisualLength;
+
   // Reset/Clamp values when lens changes
   useEffect(() => {
-    // Clamp aperture
     if (apertureStop < currentLens.minAp) setApertureStop(currentLens.minAp);
     if (apertureStop > currentLens.maxAp) setApertureStop(currentLens.maxAp);
     
-    // Reset zoom if Prime
     if (currentLens.type === 'Prime') setZoomPos(0);
 
-    // Clamp Focus
     if (focusDistance < currentLens.minFocus) setFocusDistance(currentLens.minFocus);
   }, [selectedLensId]);
 
   // Derived Values
   const focalLengthEquiv = currentLens.minF + zoomPos * (currentLens.maxF - currentLens.minF);
   
-  // System Configuration & Geometry
-  const SENSOR_X = 750;
-  // Adjust spacing based on lens type (Telephoto is longer)
-  const FRONT_LENS_X = 200 - (currentLens.lengthFactor - 1) * 50; 
-  
-  // Calculate element positions based on zoom (cam simulation)
-  const zoomTravel = currentLens.type === 'Prime' ? 0 : 100;
-  const g2Pos = FRONT_LENS_X + 50 + zoomPos * zoomTravel; 
-  const g3Pos = FRONT_LENS_X + 250 + zoomPos * (zoomTravel * 0.5);
-  const apertureX = g3Pos - 20;
+  // Lens Internal Movement (Cam Simulation)
+  const zoomTravel = currentLens.type === 'Prime' ? 0 : 60;
+  const g2Pos = FRONT_LENS_X + 40 + zoomPos * zoomTravel; 
+  const g3Pos = FRONT_LENS_X + 120 + zoomPos * (zoomTravel * 0.5);
+  const apertureX = g3Pos - 15;
 
   // Focus Breathing Simulation
   const maxBreathing = 0.15; 
   const rawBreathing = (1 - Math.min(focusDistance, 5000) / 5000) * (maxBreathing * (600 / Math.max(focusDistance, 600)));
-  const breathingFactor = 1.0 + (breathingComp ? rawBreathing * 0.05 : rawBreathing); // Minimal breathing if compensated
+  const breathingFactor = 1.0 + (breathingComp ? rawBreathing * 0.05 : rawBreathing); 
   
   // Optical Surfaces Generation
-  // Assign types to simulate the XA/ED diagram style
   const surfaces: VisualOpticalSurface[] = useMemo(() => {
-     // Default for generic
-     if (selectedLensId !== 'ZOOM_STD') {
-        return [
-           { x: FRONT_LENS_X, f: 120 * currentLens.lengthFactor, h: 45, name: '前玉 (G1)', type: 'STD' },
-           { x: g2Pos, f: -60, h: 35, name: '变焦组', type: 'STD' },
-           { x: apertureX, f: Infinity, h: (50 / apertureStop) * 10, name: '光圈', type: 'APERTURE' }, 
-           { x: g3Pos, f: 110 * currentLens.lengthFactor, h: 40, name: '对焦组', type: 'STD' },
-        ];
-     }
-     // GM Specific styling (XA/ED)
      return [
-        { x: FRONT_LENS_X, f: 120 * currentLens.lengthFactor, h: 45, name: 'XA 前玉', type: 'XA' },
-        { x: g2Pos, f: -60, h: 35, name: 'ED 变焦组', type: 'ED' },
+        { x: FRONT_LENS_X, f: 150 * currentLens.lengthFactor, h: 45, name: 'XA 前玉', type: 'XA' },
+        { x: g2Pos, f: -80, h: 35, name: 'ED 变焦组', type: 'ED' },
         { x: apertureX, f: Infinity, h: (50 / apertureStop) * 10, name: '光圈', type: 'APERTURE' }, 
-        { x: g3Pos, f: 110 * currentLens.lengthFactor, h: 40, name: 'XA 对焦组', type: 'XA' },
+        { x: g3Pos, f: 120 * currentLens.lengthFactor, h: 40, name: 'XA 对焦组', type: 'XA' },
      ];
   }, [g2Pos, g3Pos, apertureX, apertureStop, currentLens.lengthFactor, FRONT_LENS_X, selectedLensId]);
 
-  // Object Source Position
-  const objectX = SENSOR_X - focusDistance;
+  // Object Source Position (Scaled)
+  // Distance from Sensor in mm
+  const objectVisualDist = focusDistance * PIXELS_PER_MM;
+  const objectX = SENSOR_X - objectVisualDist;
   
   // Ray Tracing Logic
   const rays = useMemo(() => {
@@ -153,13 +173,14 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
     ];
 
     for (const pt of sourcePoints) {
-      const angles = [-0.15, -0.07, 0, 0.07, 0.15];
+      const angles = [-0.12, -0.06, 0, 0.06, 0.12];
       for (const angle of angles) {
          const dx = FRONT_LENS_X - objectX;
          const dy = OPTICAL_AXIS_Y - pt.y;
          const baseAngle = Math.atan2(dy, dx);
-         // Narrower spread for telephoto to keep rays hitting lens
-         const spreadFactor = 1000 / (focusDistance * currentLens.lengthFactor);
+         
+         // Spread rays to fill aperture
+         const spreadFactor = 800 / (focusDistance * currentLens.lengthFactor);
          
          const trace = traceRayThroughSystem(
            { x: objectX, y: pt.y },
@@ -180,37 +201,33 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
     const width = 180;
     const height = 80;
     let performance = 1.0;
-    // Fast lenses are softer wide open
-    if (apertureStop < 2.8) performance -= (2.8 - apertureStop) * 0.15;
-    if (apertureStop > 16) performance -= (apertureStop - 16) * 0.05; // Diffraction
-    // Zooms are softer at extremes
-    if (currentLens.type === 'Zoom') performance -= Math.abs(zoomPos - 0.5) * 0.1;
+    // F2.0 is slightly softer than F2.8, but GM is good
+    if (apertureStop < 2.8) performance -= (2.8 - apertureStop) * 0.03; 
+    if (apertureStop > 16) performance -= (apertureStop - 16) * 0.05; 
+    if (currentLens.type === 'Zoom') performance -= Math.abs(zoomPos - 0.5) * 0.02;
 
-    performance = Math.max(0.3, performance);
+    performance = Math.max(0.4, performance);
 
     const peakY = height - (height * performance);
-    const endY = height - (height * (performance * 0.5)); 
+    const endY = height - (height * (performance * 0.8)); 
     
     return `M 0,${peakY} Q ${width/2},${peakY} ${width},${endY}`;
   }, [apertureStop, zoomPos, currentLens.type]);
 
-  // DoF Calculator Logic (Simplified)
+  // DoF Calculator Logic
   const calculateDoF = () => {
-    // CoC for Full Frame approx 0.03mm
     const coc = 0.03; 
     const f = focalLengthEquiv;
     const N = apertureStop;
     const d = focusDistance; // mm
 
-    // Hyperfocal distance H = f^2 / (N * c) + f
     const H = (f * f) / (N * coc) + f;
-    
     const near = (H * d) / (H + (d - f));
     const far = (H * d) / (H - (d - f));
     
     return {
       near: near,
-      far: far > 0 ? far : Infinity, // if d > H, far is infinity
+      far: far > 0 ? far : Infinity,
       depth: far > 0 ? far - near : Infinity
     };
   };
@@ -234,7 +251,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
           </div>
           <div className="flex items-center gap-2">
              <Activity size={14} />
-             <span>MTF: {(100 - (apertureStop > 8 ? (apertureStop-8)*5 : (4-apertureStop)*8)).toFixed(0)}%</span>
+             <span>MTF: {(100 - (apertureStop > 8 ? (apertureStop-8)*5 : (4-apertureStop)*5)).toFixed(0)}%</span>
           </div>
           {breathingComp && (
              <div className="flex items-center gap-2 text-purple-400 animate-pulse">
@@ -244,7 +261,18 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
           )}
         </div>
 
-        {/* Legend */}
+        {/* Ray Legend */}
+        <div className="absolute top-24 left-4 z-10 space-y-2 pointer-events-none bg-black/60 p-3 rounded-lg border border-white/10 backdrop-blur-sm shadow-xl">
+           <div className="text-[10px] font-bold text-slate-300 mb-1 flex items-center gap-1"><Info size={12}/> 光路图例</div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-green-500 shadow-[0_0_5px_lime]"></div><span className="text-[9px] text-green-400">中心成像 (Axial)</span></div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-blue-500 shadow-[0_0_5px_blue]"></div><span className="text-[9px] text-blue-400">上边缘 (Upper Marginal)</span></div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-red-500 shadow-[0_0_5px_red]"></div><span className="text-[9px] text-red-400">下边缘 (Lower Marginal)</span></div>
+           <div className="mt-2 text-[8px] text-slate-500 leading-tight w-32">
+              观察红蓝光线在 CMOS 处的汇聚情况可判断边缘画质。
+           </div>
+        </div>
+
+        {/* Element Legend */}
         <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-1 items-end pointer-events-none">
            <div className="flex gap-4 text-[10px] text-slate-500 bg-black/50 p-2 rounded border border-slate-800">
               <div className="flex items-center gap-1"><span className="w-3 h-3 border border-orange-500 bg-[url(#pattern-xa)]"></span> XA 极值非球面</div>
@@ -267,7 +295,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
           {/* Sensor Plane */}
           <g transform={`translate(${SENSOR_X}, ${OPTICAL_AXIS_Y})`}>
              <line x1="0" y1="-60" x2="0" y2="60" stroke="#94a3b8" strokeWidth="4" />
-             <text x="10" y="0" fill="#64748b" fontSize="10" style={{writingMode: 'vertical-rl'}}>CMOS</text>
+             <text x="10" y="0" fill="#64748b" fontSize="10" style={{writingMode: 'vertical-rl'}}>CMOS Full Frame</text>
           </g>
 
           {/* Lenses */}
@@ -305,11 +333,13 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
              />
           ))}
 
-          {/* Object - Only visible if within canvas somewhat */}
-          {objectX > -50 && (
+          {/* Object - With visibility check to prevent it being drawn inside lens */}
+          {objectX < FRONT_LENS_X - 10 && (
              <g transform={`translate(${objectX}, ${OPTICAL_AXIS_Y})`}>
                <line x1="0" y1="-40" x2="0" y2="40" stroke="white" strokeWidth="2" />
                <text x="-10" y="-50" fill="white" fontSize="10">Subject</text>
+               {/* Arrow head */}
+               <path d="M0,-40 L-5,-30 L5,-30 Z" fill="white" />
              </g>
           )}
 
@@ -317,21 +347,15 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
           <g className="transition-opacity duration-300">
             {(() => {
                const measureY = OPTICAL_AXIS_Y + 120;
-               const isOffScreen = objectX < 20;
-               const startX = isOffScreen ? 20 : objectX;
+               const startX = objectX < 20 ? 20 : objectX;
                const endX = SENSOR_X;
                const textX = Math.min(Math.max((startX + endX) / 2, 100), 700);
 
                return (
                  <g>
                     <line x1={startX} y1={measureY} x2={endX} y2={measureY} stroke="#10b981" strokeWidth="1" />
-                    {isOffScreen && (
-                       <path d={`M${startX},${measureY} L${startX+10},${measureY-4} L${startX+10},${measureY+4} Z`} fill="#10b981" />
-                    )}
                     <line x1={endX} y1={measureY - 5} x2={endX} y2={measureY + 5} stroke="#10b981" strokeWidth="2" />
-                    {!isOffScreen && (
-                       <line x1={startX} y1={measureY - 5} x2={startX} y2={measureY + 5} stroke="#10b981" strokeWidth="2" />
-                    )}
+                    <line x1={startX} y1={measureY - 5} x2={startX} y2={measureY + 5} stroke="#10b981" strokeWidth="2" />
                     <line x1={endX} y1={OPTICAL_AXIS_Y + 70} x2={endX} y2={measureY} stroke="#10b981" strokeDasharray="2,2" opacity="0.3" />
                     <rect x={textX - 40} y={measureY - 10} width="80" height="20" fill="#020617" rx="4" stroke="#10b981" strokeWidth="1" />
                     <text x={textX} y={measureY + 4} fill="#10b981" fontSize="11" textAnchor="middle" fontFamily="monospace">
@@ -344,7 +368,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
         </svg>
       </div>
 
-      {/* Engineering Controls - ENHANCED PANELS */}
+      {/* Engineering Controls */}
       <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 flex flex-col overflow-y-auto select-none">
          
          {/* Main Header */}
@@ -406,7 +430,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                </div>
                
                {/* Aperture Blades Overlay */}
-               <div className="absolute inset-0 pointer-events-none bg-black transition-opacity duration-300" style={{opacity: 0.8 - (22 - apertureStop)/22 * 0.8 }}></div>
+               <div className="absolute inset-0 pointer-events-none bg-black transition-opacity duration-300" style={{opacity: 0.8 - (32 - apertureStop)/32 * 0.8 }}></div>
 
                <div className="absolute inset-4 border border-white/20 pointer-events-none"></div>
             </div>
@@ -455,7 +479,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                      type="range" 
                      min={currentLens.minAp} 
                      max={currentLens.maxAp} 
-                     step="0.1" 
+                     step={0.1} 
                      value={apertureStop} 
                      onChange={e => setApertureStop(parseFloat(e.target.value))}
                      className="w-full accent-yellow-500 h-1 bg-slate-700 appearance-none rounded"

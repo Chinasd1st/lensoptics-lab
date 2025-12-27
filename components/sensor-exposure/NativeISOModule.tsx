@@ -42,21 +42,29 @@ export const NativeISOModule: React.FC = () => {
 
    // Chart Dimensions
    const width = 600;
-   const height = 200;
-   const padding = 20;
+   const height = 250; // Increased height for better aspect ratio
+   const paddingX = 40;
+   const paddingY = 20;
+   const graphW = width - paddingX * 2;
+   const graphH = height - paddingY * 2;
    
    // Generate Polyline
    const points = isoSteps.map((step, i) => {
-      const x = (i / (isoSteps.length - 1)) * width;
-      // Map DR 8-15 to Y axis. 15 stops = top (0), 8 stops = bottom (height)
+      const x = paddingX + (i / (isoSteps.length - 1)) * graphW;
+      // Map DR 8-15 to Y axis. 
+      // Max DR 15 -> y = paddingY
+      // Min DR 8 -> y = height - paddingY
       const dr = getDR(step);
-      const y = height - ((dr - 8) / 7) * height; 
+      const drRange = 15 - 8;
+      const normalizedDR = (dr - 8) / drRange; // 0 to 1
+      const y = (height - paddingY) - (normalizedDR * graphH); 
       return `${x},${y}`;
    }).join(' ');
 
    // Active Point Position
-   const activeX = (isoIndex / (isoSteps.length - 1)) * width;
-   const activeY = height - ((currentDR - 8) / 7) * height;
+   const activeX = paddingX + (isoIndex / (isoSteps.length - 1)) * graphW;
+   const normalizedCurrentDR = (currentDR - 8) / 7;
+   const activeY = (height - paddingY) - (normalizedCurrentDR * graphH);
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
@@ -69,54 +77,60 @@ export const NativeISOModule: React.FC = () => {
                   <TrendingUp size={14} className="text-cyan-400"/> 动态范围 (Dynamic Range)
                </div>
                
-               <div className="h-64 relative mt-6">
-                  {/* Y-Axis Labels */}
-                  <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[9px] text-slate-500 font-mono pointer-events-none">
-                     <span>15 Stops</span>
-                     <span>11.5 Stops</span>
-                     <span>8 Stops</span>
-                  </div>
-
+               <div className="relative mt-6 w-full aspect-[2/1]">
                   {/* Graph Area */}
-                  <div className="ml-12 h-full relative">
-                     {/* Horizontal Grid */}
-                     <div className="absolute top-0 w-full border-t border-slate-600/30"></div>
-                     <div className="absolute top-1/2 w-full border-t border-slate-600/30"></div>
-                     <div className="absolute bottom-0 w-full border-t border-slate-600/30"></div>
+                  <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`}>
+                     <defs>
+                        <linearGradient id="gradCurve" x1="0" y1="0" x2="0" y2="1">
+                           <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.5"/>
+                           <stop offset="100%" stopColor="#fbbf24" stopOpacity="0"/>
+                        </linearGradient>
+                     </defs>
+
+                     {/* Grid Lines & Labels */}
+                     {[15, 11.5, 8].map((val, i) => {
+                        const norm = (val - 8) / 7;
+                        const y = (height - paddingY) - (norm * graphH);
+                        return (
+                           <g key={val}>
+                              <line x1={paddingX} y1={y} x2={width - paddingX} y2={y} stroke="#475569" strokeWidth="1" strokeDasharray="4,4" opacity="0.5" />
+                              <text x={paddingX - 10} y={y + 4} textAnchor="end" fontSize="10" fill="#94a3b8" font-family="monospace">{val} Stops</text>
+                           </g>
+                        );
+                     })}
 
                      {/* The Curve */}
-                     <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-                        <defs>
-                           <linearGradient id="gradCurve" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.5"/>
-                              <stop offset="100%" stopColor="#fbbf24" stopOpacity="0"/>
-                           </linearGradient>
-                        </defs>
-                        <polyline points={points} fill="none" stroke="#fbbf24" strokeWidth="3" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round"/>
-                        
-                        {/* Area under curve */}
-                        <polygon points={`0,${height} ${points} ${width},${height}`} fill="url(#gradCurve)" opacity="0.2"/>
-
-                        {/* Active Indicator */}
-                        <circle cx={activeX} cy={activeY} r="6" fill="#fbbf24" stroke="white" strokeWidth="2" className="shadow-lg transition-all duration-300"/>
-                        <line x1={activeX} y1={activeY} x2={activeX} y2={height} stroke="white" strokeDasharray="3,3" opacity="0.5"/>
-                     </svg>
-
-                     {/* X-Axis Labels */}
-                     <div className="absolute top-[105%] w-full flex justify-between text-[9px] text-slate-500 font-mono">
-                        {isoSteps.map((s, i) => (
-                           // Show only some labels to avoid crowding
-                           (i === 0 || i === 3 || i === 8 || i === 11) && 
-                           <div key={s} className="absolute -translate-x-1/2" style={{ left: `${(i / (isoSteps.length - 1)) * 100}%` }}>
-                              {s}
-                           </div>
-                        ))}
-                     </div>
+                     <polyline points={points} fill="none" stroke="#fbbf24" strokeWidth="3" vectorEffect="non-scaling-stroke" strokeLinecap="round" strokeLinejoin="round"/>
                      
-                     {/* Key ISO Markers */}
-                     <div className="absolute top-0 left-[27.2%] -translate-x-1/2 -translate-y-6 text-[9px] text-emerald-400 font-bold bg-emerald-900/30 px-1 rounded border border-emerald-500/30">Base 800</div>
-                     <div className="absolute top-0 left-[72.7%] -translate-x-1/2 -translate-y-6 text-[9px] text-yellow-400 font-bold bg-yellow-900/30 px-1 rounded border border-yellow-500/30">Base 12800</div>
-                  </div>
+                     {/* Area under curve */}
+                     <polygon points={`${paddingX},${height-paddingY} ${points} ${width-paddingX},${height-paddingY}`} fill="url(#gradCurve)" opacity="0.2"/>
+
+                     {/* Active Indicator */}
+                     <circle cx={activeX} cy={activeY} r="6" fill="#fbbf24" stroke="white" strokeWidth="2" className="shadow-lg transition-all duration-300"/>
+                     <line x1={activeX} y1={activeY} x2={activeX} y2={height - paddingY} stroke="white" strokeDasharray="3,3" opacity="0.5"/>
+
+                     {/* X Axis Labels */}
+                     {isoSteps.map((s, i) => {
+                        // Show selected steps
+                        if (i === 0 || i === 3 || i === 8 || i === 11) {
+                           const x = paddingX + (i / (isoSteps.length - 1)) * graphW;
+                           return (
+                              <text key={s} x={x} y={height - 5} textAnchor="middle" fontSize="10" fill="#94a3b8" font-family="monospace">{s}</text>
+                           );
+                        }
+                        return null;
+                     })}
+
+                     {/* Annotations */}
+                     <g transform={`translate(${paddingX + (3 / 11) * graphW}, 30)`}>
+                        <text textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="bold" dy="-5">Base 800</text>
+                        <path d="M0,0 L0,10" stroke="#10b981" strokeWidth="1" opacity="0.5"/>
+                     </g>
+                     <g transform={`translate(${paddingX + (8 / 11) * graphW}, 30)`}>
+                        <text textAnchor="middle" fill="#f59e0b" fontSize="10" fontWeight="bold" dy="-5">Base 12800</text>
+                        <path d="M0,0 L0,10" stroke="#f59e0b" strokeWidth="1" opacity="0.5"/>
+                     </g>
+                  </svg>
                </div>
             </div>
 
