@@ -1,7 +1,7 @@
 
 import React, { useState, Suspense, useMemo, useRef, useEffect } from 'react';
 import { ModuleType } from './types';
-import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu } from 'lucide-react';
+import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu, Calculator, GraduationCap } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { FULL_SEARCH_INDEX, SearchItem } from './utils/searchIndex';
 
@@ -20,6 +20,8 @@ const GearShowcaseView = React.lazy(() => import('./components/GearShowcaseView'
 const SonySystemView = React.lazy(() => import('./components/SonySystemView').then(m => ({ default: m.SonySystemView })));
 const LoudnessStandardView = React.lazy(() => import('./components/LoudnessStandardView').then(m => ({ default: m.LoudnessStandardView })));
 const BroadcastStandardsView = React.lazy(() => import('./components/BroadcastStandardsView').then(m => ({ default: m.BroadcastStandardsView })));
+const UtilityToolsView = React.lazy(() => import('./components/UtilityToolsView').then(m => ({ default: m.UtilityToolsView })));
+const KnowledgeQuizView = React.lazy(() => import('./components/KnowledgeQuizView').then(m => ({ default: m.KnowledgeQuizView })));
 
 const LoadingFallback = () => (
    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 text-slate-500">
@@ -49,7 +51,7 @@ const App: React.FC = () => {
   const handleModuleChange = (m: ModuleType, tab?: string) => {
     setActiveModule(m);
     setActiveTabOverride(tab); // Set the target tab
-    setIsSidebarOpen(false);
+    setIsSidebarOpen(false); // Close sidebar on mobile
     setSearchQuery(''); // Clear search on select
     setShowIntro(false); // Ensure we leave intro
   };
@@ -72,6 +74,8 @@ const App: React.FC = () => {
       case ModuleType.SONY_SYSTEM: return <SonySystemView {...commonProps} />;
       case ModuleType.LOUDNESS_STANDARD: return <LoudnessStandardView {...commonProps} />;
       case ModuleType.BROADCAST_STANDARDS: return <BroadcastStandardsView {...commonProps} />;
+      case ModuleType.UTILITY_TOOLS: return <UtilityToolsView {...commonProps} />;
+      case ModuleType.KNOWLEDGE_QUIZ: return <KnowledgeQuizView />;
       default: return <GearShowcaseView />;
     }
   };
@@ -88,12 +92,12 @@ const App: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
       {/* Header */}
-      <header className="h-14 border-b border-slate-800 flex items-center justify-between px-4 lg:px-6 bg-slate-900 shrink-0 z-40 shadow-xl">
+      <header className="h-14 border-b border-slate-800 flex items-center justify-between px-4 lg:px-6 bg-slate-900 shrink-0 z-50 shadow-xl relative">
         <div className="flex items-center gap-3 text-cyan-400 cursor-pointer" onClick={() => setShowIntro(true)}>
           <Workflow size={24} />
           <h1 className="text-base lg:text-lg font-bold tracking-tight text-white">
             Cine<span className="text-cyan-400">Tech</span> Architecture
-            <span className="hidden sm:inline-block text-[10px] ml-2 font-normal text-slate-500 border border-slate-700 px-2 py-0.5 rounded">MASTERCLASS v7.5</span>
+            <span className="hidden sm:inline-block text-[10px] ml-2 font-normal text-slate-500 border border-slate-700 px-2 py-0.5 rounded">MASTERCLASS v7.7</span>
           </h1>
         </div>
         <button 
@@ -105,9 +109,17 @@ const App: React.FC = () => {
       </header>
 
       <div className="flex flex-1 overflow-hidden relative">
+        {/* Backdrop for mobile - Placed BEFORE nav to ensure z-index correctness */}
+        {isSidebarOpen && (
+          <div 
+            className="lg:hidden fixed inset-0 bg-black/80 z-30 backdrop-blur-sm transition-opacity" 
+            onClick={() => setIsSidebarOpen(false)} 
+          />
+        )}
+
         {/* Sidebar - Enhanced Accordion Style */}
         <nav className={`
-          fixed lg:relative z-30 h-full bg-slate-900 border-r border-slate-800 transition-transform duration-300 w-80 flex flex-col shrink-0
+          absolute lg:relative z-40 h-full bg-slate-900 border-r border-slate-800 transition-transform duration-300 w-80 flex flex-col shrink-0
           ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
         `}>
           {/* Search Box */}
@@ -161,6 +173,7 @@ const App: React.FC = () => {
                      <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Featured</div>
                      <NavButton active={activeModule === ModuleType.GEAR_SHOWCASE} onClick={() => handleModuleChange(ModuleType.GEAR_SHOWCASE)} icon={<Newspaper size={18}/>} label="器材陈列室 (Showcase)" subLabel="2025 新品 / α9 III" />
                      <NavButton active={activeModule === ModuleType.SONY_SYSTEM} onClick={() => handleModuleChange(ModuleType.SONY_SYSTEM)} icon={<Book size={18}/>} label="索尼系统百科 (Sony Wiki)" subLabel="E卡口 / 菜单 / 专有名词" />
+                     <NavButton active={activeModule === ModuleType.UTILITY_TOOLS} onClick={() => handleModuleChange(ModuleType.UTILITY_TOOLS)} icon={<Calculator size={18}/>} label="实用工具箱 (Tools)" subLabel="景深 / 延时 / 响度" />
                   </div>
 
                   <NavGroup 
@@ -201,26 +214,25 @@ const App: React.FC = () => {
                   >
                     <NavButton active={activeModule === ModuleType.POST_PRODUCTION} onClick={() => handleModuleChange(ModuleType.POST_PRODUCTION)} icon={<Palette size={18}/>} label="DI 数字中间片" subLabel="DaVinci 调色流程" />
                     <NavButton active={activeModule === ModuleType.LOUDNESS_STANDARD} onClick={() => handleModuleChange(ModuleType.LOUDNESS_STANDARD)} icon={<Volume2 size={18}/>} label="音频响度标准" subLabel="LUFS / 混音工作流" />
-                    <NavButton active={activeModule === ModuleType.BROADCAST_STANDARDS} onClick={() => handleModuleChange(ModuleType.BROADCAST_STANDARDS)} icon={<Tv size={18}/>} label="广播电视制式" subLabel="PAL / NTSC" />
+                    <NavButton active={activeModule === ModuleType.BROADCAST_STANDARDS} onClick={() => handleModuleChange(ModuleType.BROADCAST_STANDARDS)} icon={<Tv size={18}/>} label="广播制式" subLabel="PAL / NTSC" />
                   </NavGroup>
+
+                  <div className="mt-4 pt-4 border-t border-slate-800">
+                     <NavButton active={activeModule === ModuleType.KNOWLEDGE_QUIZ} onClick={() => handleModuleChange(ModuleType.KNOWLEDGE_QUIZ)} icon={<GraduationCap size={18}/>} label="终极考核 (Quiz)" subLabel="随机20题挑战" />
+                  </div>
                </>
             )}
           </div>
         </nav>
 
         {/* Content */}
-        <main className="flex-1 relative overflow-hidden bg-slate-950">
+        <main className="flex-1 relative overflow-hidden bg-slate-950 w-full">
           <Suspense fallback={<LoadingFallback />}>
              <React.Fragment key={activeModule}>
                 {renderModule()}
              </React.Fragment>
           </Suspense>
         </main>
-
-        {/* Backdrop for mobile */}
-        {isSidebarOpen && (
-          <div className="lg:hidden fixed inset-0 bg-black/80 z-20 backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)} />
-        )}
       </div>
     </div>
   );
@@ -301,7 +313,7 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
             <div className="text-center relative z-10 max-w-3xl space-y-6">
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-xs text-cyan-400 font-mono mb-4 animate-in fade-in zoom-in duration-500">
                   <Workflow size={12} />
-                  <span>MASTERCLASS VISUALIZER v7.5</span>
+                  <span>MASTERCLASS VISUALIZER v7.7</span>
                </div>
                
                <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter mb-2 animate-in slide-in-from-bottom-4 duration-700">
@@ -358,6 +370,7 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
                </h2>
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                   <IntroCard onClick={() => onEnter(ModuleType.GEAR_SHOWCASE)} icon={<Newspaper/>} title="器材陈列室" desc="2025 新品发布、A1 II / A9 III" color="text-yellow-400" />
+                  <IntroCard onClick={() => onEnter(ModuleType.UTILITY_TOOLS)} icon={<Calculator/>} title="实用工具箱" desc="景深、延时、ND计算器" color="text-cyan-400" />
                   <IntroCard onClick={() => onEnter(ModuleType.SONY_SYSTEM)} icon={<Book/>} title="Sony 百科" desc="E卡口生态、菜单逻辑、术语表" color="text-slate-200" />
                   
                   <IntroCard onClick={() => onEnter(ModuleType.GEOMETRIC_OPTICS)} icon={<Ruler/>} title="几何光学" desc="透镜成像、焦距与物距关系" color="text-blue-400" />
@@ -374,6 +387,7 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
                   <IntroCard onClick={() => onEnter(ModuleType.POST_PRODUCTION)} icon={<Palette/>} title="后期调色" desc="一级校色、节点、示波器" color="text-fuchsia-400" />
                   <IntroCard onClick={() => onEnter(ModuleType.LOUDNESS_STANDARD)} icon={<Volume2/>} title="音频响度" desc="LUFS 标准、混音工作流" color="text-green-400" />
                   <IntroCard onClick={() => onEnter(ModuleType.BROADCAST_STANDARDS)} icon={<Tv/>} title="广播制式" desc="PAL vs NTSC、帧率选择" color="text-indigo-300" />
+                  <IntroCard onClick={() => onEnter(ModuleType.KNOWLEDGE_QUIZ)} icon={<GraduationCap/>} title="知识挑战" desc="随机20题，测试理论水平" color="text-white" />
                </div>
             </div>
 

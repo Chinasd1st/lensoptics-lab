@@ -76,6 +76,12 @@ export const FULL_SEARCH_INDEX: SearchItem[] = [
   // Broadcast
   { module: ModuleType.BROADCAST_STANDARDS, title: "广播制式 (PAL/NTSC)", desc: "50Hz vs 60Hz，帧率选择与灯光频闪。", keywords: "broadcast standards pal ntsc 50hz 60hz frame rate flicker safe shutter 制式 频闪" },
 
+  // Utility Tools (NEW)
+  { module: ModuleType.UTILITY_TOOLS, tab: 'DOF', title: "景深计算器 (DoF)", desc: "计算超焦距、前景深、后景深。", keywords: "dof depth of field calculator focus hyperfocal near far limit 景深 计算器" },
+  { module: ModuleType.UTILITY_TOOLS, tab: 'TIMELAPSE', title: "延时摄影计算", desc: "计算拍摄时长、间隔时间与成片长度。", keywords: "timelapse calculator interval duration fps clip length 延时 计算" },
+  { module: ModuleType.UTILITY_TOOLS, tab: 'ND_CALC', title: "ND/长曝光换算", desc: "计算使用减光镜后的快门速度。", keywords: "nd filter calculator long exposure shutter speed stop neutral density 减光 曝光" },
+  { module: ModuleType.UTILITY_TOOLS, tab: 'LOUDNESS', title: "音频响度分析 (Tool)", desc: "在线检测本地音频的 LUFS 和 True Peak。", keywords: "loudness analyzer lufs true peak audio file analysis tool 响度 分析" },
+
   // Sony System
   { module: ModuleType.SONY_SYSTEM, tab: 'CORE', title: "Sony E 卡口", desc: "法兰距、Exmor 传感器演变。", keywords: "sony alpha e-mount flange exmor sensor stacked bsi 索尼 卡口" },
   { module: ModuleType.SONY_SYSTEM, tab: 'LENS', title: "GM 光学", desc: "XA 极值非球面镜片、ED 低色散镜片。", keywords: "sony gm lens g master xa element ed glass optics 镜头 光学" },

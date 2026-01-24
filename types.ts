@@ -14,6 +14,8 @@ export enum ModuleType {
   SONY_SYSTEM = 'SONY_SYSTEM', // 索尼系统百科
   LOUDNESS_STANDARD = 'LOUDNESS_STANDARD', // 音频响度标准
   BROADCAST_STANDARDS = 'BROADCAST_STANDARDS', // 广播制式 PAL/NTSC
+  UTILITY_TOOLS = 'UTILITY_TOOLS', // 实用工具箱
+  KNOWLEDGE_QUIZ = 'KNOWLEDGE_QUIZ', // 摄影知识挑战
 }
 
 export enum MotorType {
