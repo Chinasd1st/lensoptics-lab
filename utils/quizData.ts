@@ -70,7 +70,7 @@ export const QUIZ_DATABASE: QuizQuestion[] = [
     ["Full Frame (全画幅)", "36mm x 24mm"],
     ["APS-C (Sony/Nikon)", "23.5mm x 15.6mm"],
     ["Micro 4/3", "17.3mm x 13mm"],
-    ["Medium Format (中画幅 4433)", "44mm x 33mm"]
+    ["Medium Format (中画幅)", "44mm x 33mm"]
   ], "全画幅基于 35mm 胶片。APS-C 约小 1.5 倍，M43 约小 2 倍（面积小 4 倍）。"),
 
   matchQ(804, "Lighting", "请将布光位置与其视觉作用进行配对：", [
@@ -729,7 +729,7 @@ export const QUIZ_DATABASE: QuizQuestion[] = [
     "数码传感器对紫外线不敏感，且前置滤镜已集成 UV 截止功能。现代 UV 镜主要起物理保护作用（防刮、防尘）。"),
 
   q(259, "Sensor", "“半画幅”通常指哪种传感器规格？",
-    ["APS-C", "Micro 4/3", "1英寸", "中画幅", "全画幅", "Super 16"],
+    ["APS-C", "Micro 4/3", "1英寸", "Super 16"],
     "APS-C",
     "APS-C 尺寸约为全画幅的一半（面积约 43%），常被称为半画幅。"),
 
