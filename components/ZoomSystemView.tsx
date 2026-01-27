@@ -137,6 +137,15 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
   // Derived Values
   const focalLengthEquiv = currentLens.minF + zoomPos * (currentLens.maxF - currentLens.minF);
   
+  // Viewfinder Scale: consistent object size based on focal length
+  // Baseline: 16mm fills the frame (Scale 1.0)
+  const BASE_FL = 16;
+  const viewScale = focalLengthEquiv / BASE_FL;
+
+  // Diffraction Simulation
+  // Diffraction becomes visible typically around f/11 on high-res sensors
+  const diffractionBlur = apertureStop > 11 ? (apertureStop - 11) * 0.5 : 0;
+
   // Lens Internal Movement (Cam Simulation)
   const zoomTravel = currentLens.type === 'Prime' ? 0 : 60;
   const g2Pos = FRONT_LENS_X + 40 + zoomPos * zoomTravel; 
@@ -203,6 +212,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
     let performance = 1.0;
     // F2.0 is slightly softer than F2.8, but GM is good
     if (apertureStop < 2.8) performance -= (2.8 - apertureStop) * 0.03; 
+    // Diffraction at small aperture affects MTF
     if (apertureStop > 16) performance -= (apertureStop - 16) * 0.05; 
     if (currentLens.type === 'Zoom') performance -= Math.abs(zoomPos - 0.5) * 0.02;
 
@@ -257,6 +267,12 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
              <div className="flex items-center gap-2 text-purple-400 animate-pulse">
                 <MonitorPlay size={14} />
                 <span>BREATHING COMP: ON</span>
+             </div>
+          )}
+          {diffractionBlur > 0 && (
+             <div className="flex items-center gap-2 text-orange-400 animate-pulse bg-black/50 px-1 rounded">
+                <AlertTriangle size={14} />
+                <span>DIFFRACTION: {diffractionBlur.toFixed(1)}px</span>
              </div>
           )}
         </div>
@@ -413,11 +429,13 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                
                {/* Scene */}
                <div 
-                  className="w-full h-full relative transition-transform duration-300 ease-out"
+                  className="w-full h-full relative transition-transform duration-300 ease-out origin-center"
                   style={{ 
-                    transform: `scale(${1 + zoomPos * 1.5}) scale(${breathingFactor})`, 
+                    // Scaled by focal length for consistent object size simulation
+                    transform: `scale(${viewScale * breathingFactor})`, 
                     backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-                    backgroundSize: '20px 20px'
+                    backgroundSize: '20px 20px',
+                    filter: `blur(${diffractionBlur}px)`
                   }}
                >
                   <div className="absolute inset-0 flex items-center justify-center">

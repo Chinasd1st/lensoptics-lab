@@ -1,7 +1,7 @@
 
 import React, { useState, Suspense, useMemo, useRef, useEffect } from 'react';
 import { ModuleType } from './types';
-import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu, Calculator, GraduationCap } from 'lucide-react';
+import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu, Calculator, GraduationCap, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { FULL_SEARCH_INDEX, SearchItem } from './utils/searchIndex';
 
@@ -34,7 +34,11 @@ const App: React.FC = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [activeModule, setActiveModule] = useState<ModuleType>(ModuleType.GEAR_SHOWCASE);
   const [activeTabOverride, setActiveTabOverride] = useState<string | undefined>(undefined);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  // Navigation State
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile toggle
+  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false); // Desktop collapse
+  
   const [searchQuery, setSearchQuery] = useState('');
 
   // Initialize Fuse.js
@@ -97,7 +101,7 @@ const App: React.FC = () => {
           <Workflow size={24} />
           <h1 className="text-base lg:text-lg font-bold tracking-tight text-white">
             Cine<span className="text-cyan-400">Tech</span> Architecture
-            <span className="hidden sm:inline-block text-[10px] ml-2 font-normal text-slate-500 border border-slate-700 px-2 py-0.5 rounded">MASTERCLASS v7.7</span>
+            <span className="hidden sm:inline-block text-[10px] ml-2 font-normal text-slate-500 border border-slate-700 px-2 py-0.5 rounded">MASTERCLASS v7.8</span>
           </h1>
         </div>
         <button 
@@ -109,7 +113,7 @@ const App: React.FC = () => {
       </header>
 
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Backdrop for mobile - Placed BEFORE nav to ensure z-index correctness */}
+        {/* Backdrop for mobile */}
         {isSidebarOpen && (
           <div 
             className="lg:hidden fixed inset-0 bg-black/80 z-30 backdrop-blur-sm transition-opacity" 
@@ -117,26 +121,48 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Sidebar - Enhanced Accordion Style */}
+        {/* Desktop Sidebar Trigger (Invisible Zone) */}
+        {isDesktopCollapsed && (
+           <div 
+              className="hidden lg:flex fixed left-0 top-14 bottom-0 w-4 z-50 hover:w-8 transition-all group items-center justify-center cursor-pointer"
+              onClick={() => setIsDesktopCollapsed(false)}
+           >
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="p-1 bg-cyan-600 rounded-r shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 animate-pulse">
+                 <PanelLeftOpen size={16} className="text-white" />
+              </div>
+           </div>
+        )}
+
+        {/* Sidebar */}
         <nav className={`
-          absolute lg:relative z-40 h-full bg-slate-900 border-r border-slate-800 transition-transform duration-300 w-80 flex flex-col shrink-0
-          ${isSidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
+          absolute lg:relative z-40 h-full bg-slate-900 border-r border-slate-800 transition-all duration-300 flex flex-col shrink-0
+          ${isSidebarOpen ? 'translate-x-0 w-80 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
+          ${isDesktopCollapsed ? 'lg:w-0 lg:border-r-0 overflow-hidden' : 'lg:w-80'}
         `}>
-          {/* Search Box */}
-          <div className="p-4 border-b border-slate-800 bg-slate-900 sticky top-0 z-10">
-             <div className="relative">
+          {/* Search Box & Controls */}
+          <div className="p-4 border-b border-slate-800 bg-slate-900 sticky top-0 z-10 flex gap-2">
+             <div className="relative flex-1">
                 <Search className="absolute left-3 top-2.5 text-slate-500" size={14} />
                 <input 
                   type="text" 
-                  placeholder="搜索模块 / 知识点 (e.g. Log, ISO)" 
+                  placeholder="搜索模块..." 
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg py-2 pl-9 pr-4 text-xs focus:ring-1 focus:ring-cyan-500 outline-none text-slate-200 placeholder-slate-600"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                 />
              </div>
+             {/* Desktop Collapse Button */}
+             <button 
+                onClick={() => setIsDesktopCollapsed(true)}
+                className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors border border-slate-700"
+                title="Collapse Sidebar"
+             >
+                <PanelLeftClose size={16} />
+             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto no-scrollbar p-3 space-y-1">
+          <div className="flex-1 overflow-y-auto no-scrollbar p-3 space-y-1 w-80">
             
             {/* Search Results Mode */}
             {searchQuery.length > 1 ? (
@@ -429,8 +455,8 @@ const NavGroup: React.FC<{
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-slate-300 transition-colors"
       >
-        <span>{title}</span>
-        {isOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+        <span className="truncate">{title}</span>
+        {isOpen ? <ChevronDown size={12} className="shrink-0" /> : <ChevronRight size={12} className="shrink-0" />}
       </button>
       
       <div className={`space-y-1 overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
@@ -447,9 +473,10 @@ const NavButton: React.FC<{ active: boolean; onClick: () => void; icon: React.Re
       ${active ? 'bg-cyan-900/30 text-cyan-100 shadow-sm border border-cyan-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-transparent'}
     `}
     style={{width: 'calc(100% - 8px)'}}
+    title={label}
   >
-    <div className={`${active ? 'text-cyan-400' : 'text-slate-500 group-hover:text-slate-300'}`}>{icon}</div>
-    <div className="flex flex-col leading-tight overflow-hidden z-10">
+    <div className={`${active ? 'text-cyan-400' : 'text-slate-500 group-hover:text-slate-300'} shrink-0`}>{icon}</div>
+    <div className="flex flex-col leading-tight overflow-hidden z-10 min-w-0">
       <span className="font-bold text-xs truncate">{label}</span>
       {subLabel && <span className="text-[9px] opacity-60 font-normal truncate mt-0.5">{subLabel}</span>}
     </div>
