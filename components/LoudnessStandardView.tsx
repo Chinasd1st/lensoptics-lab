@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { BarChart3, Globe, Activity, Info, Settings, Workflow, Sigma, CheckCircle, FileAudio } from 'lucide-react';
+import { BarChart3, Globe, Activity, Info, Settings, Workflow, Sigma, CheckCircle, FileAudio, Eye, Mic } from 'lucide-react';
 import { UnitsModule } from './loudness/UnitsModule';
 import { StandardsModule } from './loudness/StandardsModule';
 import { AlgorithmLabModule } from './loudness/AlgorithmLabModule';
@@ -10,8 +10,10 @@ import { CheatSheetModule } from './loudness/CheatSheetModule';
 import { MathTheoryModule } from './loudness/MathTheoryModule';
 import { QualityIndicatorsModule } from './loudness/QualityIndicatorsModule';
 import { LoudnessAnalyzerModule } from './loudness/LoudnessAnalyzerModule';
+import { InsightGuideModule } from './loudness/InsightGuideModule';
+import { ProGGuideModule } from './loudness/ProGGuideModule';
 
-type Tab = 'UNITS' | 'STANDARDS' | 'LAB' | 'FLOW' | 'MATH' | 'WORKFLOW' | 'QUALITY' | 'CHEAT_SHEET' | 'ANALYZER';
+type Tab = 'UNITS' | 'STANDARDS' | 'LAB' | 'FLOW' | 'MATH' | 'WORKFLOW' | 'QUALITY' | 'CHEAT_SHEET' | 'ANALYZER' | 'INSIGHT_GUIDE' | 'PROG_GUIDE';
 
 interface LoudnessStandardViewProps {
   initialTab?: string;
@@ -21,7 +23,7 @@ export const LoudnessStandardView: React.FC<LoudnessStandardViewProps> = ({ init
   const [activeTab, setActiveTab] = useState<Tab>('UNITS');
 
   useEffect(() => {
-     if (initialTab && ['UNITS', 'STANDARDS', 'LAB', 'FLOW', 'MATH', 'WORKFLOW', 'QUALITY', 'CHEAT_SHEET', 'ANALYZER'].includes(initialTab)) {
+     if (initialTab && ['UNITS', 'STANDARDS', 'LAB', 'FLOW', 'MATH', 'WORKFLOW', 'QUALITY', 'CHEAT_SHEET', 'ANALYZER', 'INSIGHT_GUIDE', 'PROG_GUIDE'].includes(initialTab)) {
         setActiveTab(initialTab as Tab);
      }
   }, [initialTab]);
@@ -32,6 +34,8 @@ export const LoudnessStandardView: React.FC<LoudnessStandardViewProps> = ({ init
         {/* Tab Navigation */}
         <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
            <TabButton active={activeTab === 'ANALYZER'} onClick={() => setActiveTab('ANALYZER')} icon={<FileAudio size={16}/>} label="在线分析工具 (Tool)" />
+           <TabButton active={activeTab === 'INSIGHT_GUIDE'} onClick={() => setActiveTab('INSIGHT_GUIDE')} icon={<Eye size={16}/>} label="读图指南 (Insight)" />
+           <TabButton active={activeTab === 'PROG_GUIDE'} onClick={() => setActiveTab('PROG_GUIDE')} icon={<Mic size={16}/>} label="噪声门指南 (Pro-G)" />
            <TabButton active={activeTab === 'UNITS'} onClick={() => setActiveTab('UNITS')} icon={<BarChart3 size={16}/>} label="核心概念" />
            <TabButton active={activeTab === 'MATH'} onClick={() => setActiveTab('MATH')} icon={<Sigma size={16}/>} label="算法原理" />
            <TabButton active={activeTab === 'LAB'} onClick={() => setActiveTab('LAB')} icon={<Activity size={16}/>} label="实验室" />
@@ -45,6 +49,8 @@ export const LoudnessStandardView: React.FC<LoudnessStandardViewProps> = ({ init
         {/* Content Area */}
         <div className="flex-1 relative overflow-y-auto bg-slate-950 p-6 lg:p-8">
            {activeTab === 'ANALYZER' && <LoudnessAnalyzerModule />}
+           {activeTab === 'INSIGHT_GUIDE' && <InsightGuideModule />}
+           {activeTab === 'PROG_GUIDE' && <ProGGuideModule />}
            {activeTab === 'UNITS' && <UnitsModule />}
            {activeTab === 'STANDARDS' && <StandardsModule />}
            {activeTab === 'LAB' && <AlgorithmLabModule />}

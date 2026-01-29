@@ -1,7 +1,7 @@
 
 import React, { useState, Suspense, useMemo, useRef, useEffect } from 'react';
 import { ModuleType } from './types';
-import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu, Calculator, GraduationCap, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Camera, Ruler, Aperture, Zap, Microscope, Cpu, Layers, Film, ScanLine, Video, Disc, Settings2, Palette, Workflow, Eye, Newspaper, Search, ArrowRight, Book, Volume2, Tv, Loader2, AlertTriangle, CheckCircle, MousePointer2, ChevronDown, ChevronRight, Menu, Calculator, GraduationCap, PanelLeftClose, PanelLeftOpen, MonitorPlay } from 'lucide-react';
 import Fuse from 'fuse.js';
 import { FULL_SEARCH_INDEX, SearchItem } from './utils/searchIndex';
 
@@ -30,14 +30,35 @@ const LoadingFallback = () => (
    </div>
 );
 
+const MobileGuidance = () => {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) return null;
+  return (
+    <div className="lg:hidden fixed inset-0 z-[60] bg-black/90 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
+       <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl shadow-2xl max-w-sm text-center">
+          <MonitorPlay size={48} className="mx-auto text-cyan-400 mb-4" />
+          <h3 className="text-xl font-bold text-white mb-2">建议使用大屏访问</h3>
+          <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+             为了获得最佳的交互体验和视觉效果，建议您使用 PC 或平板电脑访问本实验室。
+             <br/><br/>
+             手机端可能无法完整显示复杂的仪表盘、图表和模拟器。
+          </p>
+          <button onClick={() => setDismissed(true)} className="w-full py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition-colors shadow-lg shadow-cyan-900/50">
+             继续尝试 (Continue)
+          </button>
+       </div>
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [activeModule, setActiveModule] = useState<ModuleType>(ModuleType.GEAR_SHOWCASE);
   const [activeTabOverride, setActiveTabOverride] = useState<string | undefined>(undefined);
   
   // Navigation State
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile toggle
-  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false); // Desktop collapse
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  const [isDesktopCollapsed, setIsDesktopCollapsed] = useState(false); 
   
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -48,16 +69,16 @@ const App: React.FC = () => {
       { name: 'keywords', weight: 0.3 },
       { name: 'desc', weight: 0.2 }
     ],
-    threshold: 0.4, // Fuzzy threshold (0.0 = perfect match, 1.0 = match anything)
+    threshold: 0.4, 
     includeScore: true
   }), []);
 
   const handleModuleChange = (m: ModuleType, tab?: string) => {
     setActiveModule(m);
-    setActiveTabOverride(tab); // Set the target tab
-    setIsSidebarOpen(false); // Close sidebar on mobile
-    setSearchQuery(''); // Clear search on select
-    setShowIntro(false); // Ensure we leave intro
+    setActiveTabOverride(tab); 
+    setIsSidebarOpen(false); 
+    setSearchQuery(''); 
+    setShowIntro(false); 
   };
 
   const renderModule = () => {
@@ -95,6 +116,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-slate-950 text-slate-200 font-sans overflow-hidden">
+      <MobileGuidance />
       {/* Header */}
       <header className="h-14 border-b border-slate-800 flex items-center justify-between px-4 lg:px-6 bg-slate-900 shrink-0 z-50 shadow-xl relative">
         <div className="flex items-center gap-3 text-cyan-400 cursor-pointer" onClick={() => setShowIntro(true)}>
@@ -121,7 +143,7 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Desktop Sidebar Trigger (Invisible Zone) */}
+        {/* Desktop Sidebar Trigger */}
         {isDesktopCollapsed && (
            <div 
               className="hidden lg:flex fixed left-0 top-14 bottom-0 w-4 z-50 hover:w-8 transition-all group items-center justify-center cursor-pointer"
@@ -152,7 +174,6 @@ const App: React.FC = () => {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
              </div>
-             {/* Desktop Collapse Button */}
              <button 
                 onClick={() => setIsDesktopCollapsed(true)}
                 className="hidden lg:flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors border border-slate-700"
@@ -163,8 +184,7 @@ const App: React.FC = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto no-scrollbar p-3 space-y-1 w-80">
-            
-            {/* Search Results Mode */}
+            {/* ... (Navigation content kept same) ... */}
             {searchQuery.length > 1 ? (
                <div className="space-y-2 animate-in fade-in slide-in-from-top-2 p-1">
                   <div className="text-[10px] font-bold text-cyan-500 uppercase tracking-widest mb-2 px-2">
@@ -193,7 +213,6 @@ const App: React.FC = () => {
                   )}
                </div>
             ) : (
-               /* Standard Accordion Navigation Mode */
                <>
                   <div className="mb-4">
                      <div className="px-3 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Featured</div>
@@ -270,8 +289,6 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
    const heroRef = useRef<HTMLDivElement>(null);
    const isScrollingRef = useRef(false);
 
-   // Nonlinear Easing Function: Ease Out Expo
-   // Starts fast, ends very slowly. "Future Tech" feel.
    const easeOutExpo = (x: number): number => {
       return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
    };
@@ -283,7 +300,7 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
       const targetPos = contentRef.current.offsetTop;
       const startPos = container.scrollTop;
       const distance = targetPos - startPos;
-      const duration = 800; // Reduced from 1200ms for snappier feel
+      const duration = 800;
       let startTime: number | null = null;
 
       isScrollingRef.current = true;
@@ -309,13 +326,11 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
       requestAnimationFrame(animation);
    };
 
-   // Listen for wheel events on the Hero section to trigger the smooth scroll
    useEffect(() => {
       const hero = heroRef.current;
       if (!hero) return;
 
       const handleWheel = (e: WheelEvent) => {
-         // Only trigger if scrolling down and not already scrolling
          if (e.deltaY > 0 && !isScrollingRef.current) {
             e.preventDefault();
             scrollToContent();
@@ -358,7 +373,6 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
                </div>
             </div>
 
-            {/* Scroll Indicator - Clickable & Animated */}
             <button 
                onClick={scrollToContent}
                className="absolute bottom-8 left-0 right-0 flex justify-center animate-bounce text-slate-500 hover:text-cyan-400 transition-colors cursor-pointer z-20 group"
@@ -370,10 +384,7 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
             </button>
          </div>
 
-         {/* Disclaimer & Nav Grid */}
          <div ref={contentRef} className="max-w-7xl mx-auto p-8 lg:p-12 space-y-12 min-h-screen">
-            
-            {/* Disclaimer */}
             <div className="bg-yellow-900/10 border border-yellow-600/20 rounded-xl p-6 flex gap-4 items-start animate-in fade-in duration-700 delay-300">
                <div className="p-2 bg-yellow-900/30 rounded-lg shrink-0">
                   <AlertTriangle className="text-yellow-500" size={24} />
@@ -389,7 +400,6 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void }> = ({ onEnter })
                </div>
             </div>
 
-            {/* Modules Grid */}
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500">
                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
                   <Search size={24} className="text-slate-500"/> 模块索引
@@ -442,7 +452,6 @@ const NavGroup: React.FC<{
 }> = ({ title, children, defaultOpen = false, activeModule, triggers = [] }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   
-  // Auto-expand if active module is within this group
   useEffect(() => {
     if (activeModule && triggers.includes(activeModule)) {
       setIsOpen(true);
