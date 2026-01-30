@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
-import { Workflow, Filter, Layers, ArrowDown, ArrowRight } from 'lucide-react';
+import { Workflow, Filter, Layers, ArrowDown, ArrowRight, MoveRight } from 'lucide-react';
 
 export const AlgorithmFlowModule: React.FC = () => {
    const [view, setView] = useState<'CHAIN' | 'GATING'>('CHAIN');
 
    return (
       <div className="max-w-6xl mx-auto h-full flex flex-col">
-         <div className="flex gap-4 mb-6">
+         {/* Defensive Mobile View: Stack buttons on small screens */}
+         <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <button onClick={() => setView('CHAIN')} className={`flex-1 p-4 rounded-xl border text-left transition-all ${view === 'CHAIN' ? 'bg-blue-900/20 border-blue-500 ring-1 ring-blue-500/50' : 'bg-slate-900 border-slate-700 hover:border-slate-600'}`}>
                <div className="flex items-center gap-2 mb-2">
                   <Workflow size={20} className={view === 'CHAIN' ? 'text-blue-400' : 'text-slate-500'} />
@@ -25,8 +26,23 @@ export const AlgorithmFlowModule: React.FC = () => {
             </button>
          </div>
 
-         <div className="flex-1 bg-slate-900 rounded-2xl border border-slate-800 p-8 relative overflow-x-auto">
-            {view === 'CHAIN' ? <SignalChainDiagram /> : <GatingLogicDiagram />}
+         {/* Defensive Scroll Container */}
+         <div className="flex-1 bg-slate-900 rounded-2xl border border-slate-800 p-4 lg:p-8 relative overflow-hidden flex flex-col">
+            <div className="absolute top-4 right-4 text-[10px] text-slate-600 font-mono text-right z-10 bg-slate-900/80 backdrop-blur-sm px-2 rounded">
+               ITU-R BS.1770-4
+            </div>
+            
+            {/* Scroll Area with Shadow Hints */}
+            <div className="flex-1 overflow-x-auto custom-scrollbar pb-4 -mx-4 px-4 lg:mx-0 lg:px-0">
+               <div className="min-w-max h-full flex flex-col justify-center">
+                  {view === 'CHAIN' ? <SignalChainDiagram /> : <GatingLogicDiagram />}
+               </div>
+            </div>
+            
+            {/* Mobile Scroll Hint */}
+            <div className="lg:hidden text-center mt-2 text-[10px] text-slate-500 flex items-center justify-center gap-1 animate-pulse">
+               <MoveRight size={10} /> 滑动查看完整流程
+            </div>
          </div>
       </div>
    );
@@ -34,11 +50,7 @@ export const AlgorithmFlowModule: React.FC = () => {
 
 const SignalChainDiagram: React.FC = () => {
    return (
-      <div className="min-w-[800px] flex flex-col items-center justify-center h-full gap-8">
-         <div className="absolute top-4 right-4 text-[10px] text-slate-600 font-mono text-right">
-            Based on ITU-R BS.1770-2<br/>Figure 1
-         </div>
-
+      <div className="flex flex-col items-center justify-center gap-8 py-8">
          {/* Main Flow Container */}
          <div className="flex gap-4 items-center">
             
@@ -56,7 +68,7 @@ const SignalChainDiagram: React.FC = () => {
 
             {/* Stage 2: K-Filter (Grouped) */}
             <div className="flex flex-col gap-2 relative p-4 border-2 border-dashed border-cyan-500/30 rounded-xl bg-cyan-900/5">
-               <div className="absolute -top-3 left-4 bg-slate-900 px-2 text-[10px] text-cyan-500 font-bold">K-Weighting (预滤波)</div>
+               <div className="absolute -top-3 left-4 bg-slate-900 px-2 text-[10px] text-cyan-500 font-bold whitespace-nowrap">K-Weighting (预滤波)</div>
                {['L', 'R', 'C', 'Ls', 'Rs'].map((ch, i) => (
                   <div key={i} className="flex items-center gap-2">
                      <div className="w-24 h-10 bg-cyan-900/40 border border-cyan-600 rounded flex flex-col items-center justify-center text-[9px] text-cyan-200 shadow-sm">
@@ -122,7 +134,7 @@ const SignalChainDiagram: React.FC = () => {
 
          </div>
          
-         <div className="text-[10px] text-slate-500 bg-slate-900/50 p-2 rounded border border-slate-800 text-center max-w-2xl">
+         <div className="text-[10px] text-slate-500 bg-slate-900/50 p-2 rounded border border-slate-800 text-center max-w-2xl mt-8">
             * LFE (低频效果声道) 不参与响度计算。环绕声道 (Ls, Rs) 需要增加 1.5dB (~1.41倍) 的权重以模拟包围感对响度感知的影响。
          </div>
       </div>
@@ -131,9 +143,9 @@ const SignalChainDiagram: React.FC = () => {
 
 const GatingLogicDiagram: React.FC = () => {
    return (
-      <div className="flex gap-12 justify-center h-full">
+      <div className="flex gap-12 justify-center py-8 px-4">
          {/* Left: Concept Visualization */}
-         <div className="w-64 flex flex-col justify-center">
+         <div className="w-64 flex flex-col justify-center shrink-0">
             <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2"><Layers size={16} className="text-purple-400"/> 滑动窗口 (Windowing)</h4>
             <div className="relative h-48 border-l border-slate-700 ml-4">
                {/* Time Axis */}
@@ -141,13 +153,13 @@ const GatingLogicDiagram: React.FC = () => {
                <div className="absolute -left-1 bottom-0 w-2 h-2 bg-slate-500 rounded-full"></div>
                
                {/* Blocks */}
-               <div className="absolute top-0 left-4 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200">
+               <div className="absolute top-0 left-4 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200 shadow-lg">
                   Block N (400ms)
                </div>
-               <div className="absolute top-4 left-8 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200 opacity-80">
+               <div className="absolute top-4 left-8 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200 opacity-80 shadow-lg">
                   Block N+1
                </div>
-               <div className="absolute top-8 left-12 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200 opacity-60">
+               <div className="absolute top-8 left-12 w-40 h-12 bg-purple-900/40 border border-purple-500 rounded flex items-center justify-center text-[10px] text-purple-200 opacity-60 shadow-lg">
                   Block N+2
                </div>
                
@@ -157,10 +169,10 @@ const GatingLogicDiagram: React.FC = () => {
             </div>
          </div>
 
-         <div className="w-px bg-slate-800"></div>
+         <div className="w-px bg-slate-800 shrink-0"></div>
 
          {/* Right: Logic Flowchart */}
-         <div className="flex-1 flex flex-col items-center max-w-lg">
+         <div className="flex-1 flex flex-col items-center max-w-lg min-w-[200px]">
             <div className="text-[10px] text-slate-500 mb-4 font-mono">FLOWCHART: 2-STAGE GATING</div>
             
             {/* Step 1 */}

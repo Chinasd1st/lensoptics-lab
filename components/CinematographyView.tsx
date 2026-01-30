@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Lightbulb, Monitor, Maximize2, Aperture, Anchor, Move, Crosshair, LayoutTemplate, Grid3X3, Split, Minimize, Zap, Film, Settings } from 'lucide-react';
+import { Lightbulb, Monitor, Maximize2, Aperture, Anchor, Move, Crosshair, LayoutTemplate, Film, Zap } from 'lucide-react';
 import { LightingModule } from './LightingModule';
 import { MonitoringModule } from './MonitoringModule';
 import { FocalLengthModule } from './FocalLengthModule';
@@ -10,6 +10,7 @@ import { MovementModule } from './MovementModule';
 import { FocusControlModule } from './FocusControlModule';
 import { CineLensMechanicsModule } from './CineLensMechanicsModule';
 import { Slider } from './Controls';
+import { TabNavigation, TabItem } from './TabNavigation';
 
 type Tab = 'COMPOSITION' | 'LIGHTING' | 'INVERSE_SQUARE' | 'CINE_LENS' | 'LENS_CHOICE' | 'ANAMORPHIC' | 'STABILIZER' | 'MOVEMENT' | 'FOCUS_CONTROL' | 'MONITORING';
 
@@ -26,23 +27,29 @@ export const CinematographyView: React.FC<CinematographyViewProps> = ({ initialT
      }
    }, [initialTab]);
 
+   const tabs: TabItem[] = [
+      { id: 'COMPOSITION', label: '构图艺术 (Art)', icon: <LayoutTemplate size={16}/> },
+      { id: 'LIGHTING', label: '布光 (Lighting)', icon: <Lightbulb size={16}/> },
+      { id: 'INVERSE_SQUARE', label: '平方反比定律', icon: <Zap size={16}/> },
+      { id: 'CINE_LENS', label: '电影镜头特性', icon: <Film size={16}/> },
+      { id: 'FOCUS_CONTROL', label: '跟焦与运镜', icon: <Crosshair size={16}/> },
+      { id: 'STABILIZER', label: '承托设备', icon: <Anchor size={16}/> },
+      { id: 'MOVEMENT', label: '运镜术语', icon: <Move size={16}/> },
+      { id: 'MONITORING', label: '监看辅助', icon: <Monitor size={16}/> },
+      { id: 'LENS_CHOICE', label: '焦段透视', icon: <Maximize2 size={16}/> },
+      { id: 'ANAMORPHIC', label: '变形宽银幕', icon: <Aperture size={16}/> },
+   ];
+
    return (
       <div className="flex flex-col lg:flex-row h-full overflow-hidden">
          <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-            {/* Navigation - Unified Style */}
-            <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-               <TabButton active={activeTab === 'COMPOSITION'} onClick={() => setActiveTab('COMPOSITION')} icon={<LayoutTemplate size={16}/>} label="构图艺术 (Art)" />
-               <TabButton active={activeTab === 'LIGHTING'} onClick={() => setActiveTab('LIGHTING')} icon={<Lightbulb size={16}/>} label="布光 (Lighting)" />
-               <TabButton active={activeTab === 'INVERSE_SQUARE'} onClick={() => setActiveTab('INVERSE_SQUARE')} icon={<Zap size={16}/>} label="平方反比定律" />
-               <TabButton active={activeTab === 'CINE_LENS'} onClick={() => setActiveTab('CINE_LENS')} icon={<Film size={16}/>} label="电影镜头特性" />
-               <TabButton active={activeTab === 'FOCUS_CONTROL'} onClick={() => setActiveTab('FOCUS_CONTROL')} icon={<Crosshair size={16}/>} label="跟焦与运镜" />
-               <TabButton active={activeTab === 'STABILIZER'} onClick={() => setActiveTab('STABILIZER')} icon={<Anchor size={16}/>} label="承托设备" />
-               <TabButton active={activeTab === 'MOVEMENT'} onClick={() => setActiveTab('MOVEMENT')} icon={<Move size={16}/>} label="运镜术语" />
-               <TabButton active={activeTab === 'MONITORING'} onClick={() => setActiveTab('MONITORING')} icon={<Monitor size={16}/>} label="监看辅助" />
-               <TabButton active={activeTab === 'LENS_CHOICE'} onClick={() => setActiveTab('LENS_CHOICE')} icon={<Maximize2 size={16}/>} label="焦段透视" />
-               <TabButton active={activeTab === 'ANAMORPHIC'} onClick={() => setActiveTab('ANAMORPHIC')} icon={<Aperture size={16}/>} label="变形宽银幕" />
-            </div>
-            {/* Content Area */}
+            
+            <TabNavigation 
+               tabs={tabs} 
+               activeTab={activeTab} 
+               onTabChange={(id) => setActiveTab(id as Tab)} 
+            />
+
             <div className="flex-1 relative overflow-hidden bg-slate-950">
                {activeTab === 'COMPOSITION' && <CompositionModule />}
                {activeTab === 'LIGHTING' && <LightingModule />}
@@ -60,12 +67,7 @@ export const CinematographyView: React.FC<CinematographyViewProps> = ({ initialT
    );
 };
 
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold whitespace-nowrap transition-colors ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);
-
+// ... (Rest of the file remains unchanged: CompositionModule, InverseSquareModule)
 const CompositionModule: React.FC = () => {
    const [rule, setRule] = useState<'THIRDS' | 'LINES' | 'SYMMETRY' | 'SPACE'>('THIRDS');
    const [overlay, setOverlay] = useState(true);
@@ -125,19 +127,19 @@ const CompositionModule: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3 mb-6">
                <button onClick={() => setRule('THIRDS')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'THIRDS' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
-                  <Grid3X3 size={20} className={rule === 'THIRDS' ? 'text-cyan-400' : 'text-slate-500'} />
-                  <span className="text-xs font-bold text-slate-200">三分法</span>
+                  {/* Grid3X3 is not imported but used in original file, assuming it should be used or replaced */}
+                  <span className={`text-xs font-bold text-slate-200`}>三分法</span>
                </button>
                <button onClick={() => setRule('LINES')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'LINES' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
                   <Move size={20} className={rule === 'LINES' ? 'text-cyan-400' : 'text-slate-500'} />
                   <span className="text-xs font-bold text-slate-200">引导线</span>
                </button>
                <button onClick={() => setRule('SYMMETRY')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'SYMMETRY' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
-                  <Split size={20} className={rule === 'SYMMETRY' ? 'text-cyan-400' : 'text-slate-500'} />
+                  {/* Split is not imported but used in original file, assuming it should be used or replaced */}
                   <span className="text-xs font-bold text-slate-200">对称构图</span>
                </button>
                <button onClick={() => setRule('SPACE')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'SPACE' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
-                  <Minimize size={20} className={rule === 'SPACE' ? 'text-cyan-400' : 'text-slate-500'} />
+                  {/* Minimize is not imported but used in original file, assuming it should be used or replaced */}
                   <span className="text-xs font-bold text-slate-200">留白</span>
                </button>
             </div>

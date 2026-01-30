@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MotorType } from '../types';
 import { Select, Slider } from './Controls';
 import { Cpu, Zap, Activity, Vibrate, Scaling, Move, BicepsFlexed, Hand, Scan, Focus, LineChart, AlignVerticalSpaceAround, Ruler } from 'lucide-react';
+import { TabNavigation, TabItem } from './TabNavigation';
 
 type Tab = 'FOCUS' | 'ALGORITHM' | 'STABILIZATION' | 'FLANGE';
 
@@ -20,16 +21,23 @@ export const MechanicsView: React.FC<MechanicsViewProps> = ({ initialTab }) => {
       }
    }, [initialTab]);
 
+   const tabs: TabItem[] = [
+      { id: 'FOCUS', label: '对焦马达硬件', icon: <Zap size={16}/> },
+      { id: 'ALGORITHM', label: '对焦算法 (PDAF/CDAF)', icon: <Scan size={16}/> },
+      { id: 'STABILIZATION', label: '防抖系统', icon: <Vibrate size={16}/> },
+      { id: 'FLANGE', label: '法兰距与卡口', icon: <Ruler size={16}/> },
+   ];
+
    return (
     <div className="flex flex-col lg:flex-row h-full">
       <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-        {/* Tab Bar - Unified Style */}
-        <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-           <TabButton active={activeTab === 'FOCUS'} onClick={() => setActiveTab('FOCUS')} icon={<Zap size={16}/>} label="对焦马达硬件" />
-           <TabButton active={activeTab === 'ALGORITHM'} onClick={() => setActiveTab('ALGORITHM')} icon={<Scan size={16}/>} label="对焦算法 (PDAF/CDAF)" />
-           <TabButton active={activeTab === 'STABILIZATION'} onClick={() => setActiveTab('STABILIZATION')} icon={<Vibrate size={16}/>} label="防抖系统" />
-           <TabButton active={activeTab === 'FLANGE'} onClick={() => setActiveTab('FLANGE')} icon={<Ruler size={16}/>} label="法兰距与卡口" />
-        </div>
+        
+        <TabNavigation 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onTabChange={(id) => setActiveTab(id as Tab)} 
+        />
+
         <div className="flex-1 relative overflow-hidden">
            {activeTab === 'FOCUS' && <FocusMotorModule />}
            {activeTab === 'ALGORITHM' && <FocusAlgoModule />}
@@ -41,12 +49,7 @@ export const MechanicsView: React.FC<MechanicsViewProps> = ({ initialTab }) => {
    );
 };
 
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);
-
+// ... (Rest of the file remains unchanged: FocusMotorModule, FocusAlgoModule, StabilizationModule, FlangeDistanceModule)
 // --- 1. Focus Motor Module (Existing) ---
 const FocusMotorModule: React.FC = () => {
    const [motorType, setMotorType] = useState<MotorType>(MotorType.STM);

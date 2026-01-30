@@ -1,9 +1,10 @@
 
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, calculateSphericalAberration } from '../utils/optics';
 import { Toggle, Slider } from './Controls';
-import { Aperture, Sparkles, AlertTriangle, Hammer, Film, Camera as CameraIcon, Info, LineChart, BookOpen, SunDim } from 'lucide-react';
+import { Aperture, Sparkles, AlertTriangle, Film, Camera as CameraIcon, LineChart, BookOpen, SunDim } from 'lucide-react';
 import { AsphericalView } from './AsphericalView';
+import { TabNavigation, TabItem } from './TabNavigation';
 
 type Tab = 'ASPHERICAL' | 'COATING' | 'ABERRATIONS' | 'CINE_VS_PHOTO' | 'MTF_LAB' | 'DIFFRACTION';
 
@@ -20,18 +21,24 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
      }
   }, [initialTab]);
 
+  const tabs: TabItem[] = [
+    { id: 'MTF_LAB', label: 'MTF 曲线实验室', icon: <LineChart size={16}/> },
+    { id: 'ASPHERICAL', label: '非球面与球差', icon: <Aperture size={16}/> },
+    { id: 'DIFFRACTION', label: '衍射极限', icon: <SunDim size={16}/> },
+    { id: 'CINE_VS_PHOTO', label: '电影镜 vs 摄影镜', icon: <Film size={16}/> },
+    { id: 'COATING', label: '镀膜技术', icon: <Sparkles size={16}/> },
+    { id: 'ABERRATIONS', label: '边缘像差', icon: <AlertTriangle size={16}/> },
+  ];
+
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-hidden">
       <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-        {/* Tab Bar - Unified Style */}
-        <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-           <TabButton active={activeTab === 'MTF_LAB'} onClick={() => setActiveTab('MTF_LAB')} icon={<LineChart size={16}/>} label="MTF 曲线实验室" />
-           <TabButton active={activeTab === 'ASPHERICAL'} onClick={() => setActiveTab('ASPHERICAL')} icon={<Aperture size={16}/>} label="非球面与球差" />
-           <TabButton active={activeTab === 'DIFFRACTION'} onClick={() => setActiveTab('DIFFRACTION')} icon={<SunDim size={16}/>} label="衍射极限 (Diffraction)" />
-           <TabButton active={activeTab === 'CINE_VS_PHOTO'} onClick={() => setActiveTab('CINE_VS_PHOTO')} icon={<Film size={16}/>} label="电影镜 vs 摄影镜" />
-           <TabButton active={activeTab === 'COATING'} onClick={() => setActiveTab('COATING')} icon={<Sparkles size={16}/>} label="镀膜技术" />
-           <TabButton active={activeTab === 'ABERRATIONS'} onClick={() => setActiveTab('ABERRATIONS')} icon={<AlertTriangle size={16}/>} label="边缘像差" />
-        </div>
+        
+        <TabNavigation 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onTabChange={(id) => setActiveTab(id as Tab)} 
+        />
 
         <div className="flex-1 relative overflow-hidden bg-slate-950">
            {activeTab === 'CINE_VS_PHOTO' && <CineVsPhotoModule />}
@@ -46,12 +53,7 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
   );
 };
 
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);
-
+// ... (Rest of the file remains unchanged: DiffractionModule, MTFModule, CineVsPhotoModule, InfoItem, CoatingModule, AberrationsModule)
 // --- Diffraction Module (New) ---
 const DiffractionModule: React.FC = () => {
    const [fStop, setFStop] = useState(8);

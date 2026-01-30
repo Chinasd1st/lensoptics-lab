@@ -9,6 +9,9 @@ export const InsightGuideModule: React.FC = () => {
    const [showRealImage, setShowRealImage] = useState(false);
    const [imgError, setImgError] = useState(false);
 
+   // 使用 Vite 推荐的方式加载静态资源，避免路径错误
+   const insightImgUrl = new URL('../../img/loudness/1_insight2.png', import.meta.url).href;
+
    const definitions: Record<ParamKey, { title: string; subtitle: string; desc: string; tip: string; color: string }> = {
       INTEGRATED: {
          title: "Integrated Loudness",
@@ -82,9 +85,8 @@ export const InsightGuideModule: React.FC = () => {
             {showRealImage ? (
                <div className="w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-300">
                   {!imgError ? (
-                     // Using relative path 'img/...' assumes the img folder is served from the same root as index.html
                      <img 
-                        src="img/loudness/1_insight2.png" 
+                        src={insightImgUrl} 
                         alt="iZotope Insight 2 Screenshot" 
                         className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-slate-700"
                         onError={() => setImgError(true)}
@@ -95,12 +97,11 @@ export const InsightGuideModule: React.FC = () => {
                         <p className="font-bold text-red-400 mb-2">Image Not Found (404)</p>
                         <div className="text-xs space-y-1 bg-black/40 p-4 rounded border border-slate-800 text-left font-mono text-slate-400">
                            <p>Expected path:</p>
-                           <p className="text-white">/img/loudness/1_insight2.png</p>
+                           <p className="text-white">../../img/loudness/1_insight2.png</p>
                            <p className="mt-2 text-[10px] text-slate-500">Troubleshooting:</p>
                            <ul className="list-disc pl-4 space-y-1">
-                              <li>Ensure <code>img</code> folder is in the project root (next to index.html).</li>
-                              <li>Check file name case (1_insight2.png).</li>
-                              <li>Check if your server is serving static files correctly.</li>
+                              <li>Ensure <code>img</code> folder is in the project root.</li>
+                              <li>Check if the file exists.</li>
                            </ul>
                         </div>
                      </div>

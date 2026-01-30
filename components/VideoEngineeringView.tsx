@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Slider, Select } from './Controls';
 import { MonitorPlay, FileVideo, Film, Layers, HardDrive, Cpu, Scissors } from 'lucide-react';
+import { TabNavigation, TabItem } from './TabNavigation';
 
 type Tab = 'SHUTTER_ANGLE' | 'CODECS' | 'FORMATS';
 
@@ -18,14 +19,22 @@ export const VideoEngineeringView: React.FC<VideoEngineeringViewProps> = ({ init
      }
   }, [initialTab]);
 
+  const tabs: TabItem[] = [
+    { id: 'CODECS', label: '视频压缩架构 (GOP)', icon: <FileVideo size={16}/> },
+    { id: 'FORMATS', label: '常用编码 (ProRes/H.265)', icon: <Film size={16}/> },
+    { id: 'SHUTTER_ANGLE', label: '电影快门角度', icon: <MonitorPlay size={16}/> },
+  ];
+
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-hidden">
       <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-        <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-           <TabButton active={activeTab === 'CODECS'} onClick={() => setActiveTab('CODECS')} icon={<FileVideo size={16}/>} label="视频压缩架构 (GOP)" />
-           <TabButton active={activeTab === 'FORMATS'} onClick={() => setActiveTab('FORMATS')} icon={<Film size={16}/>} label="常用编码 (ProRes/H.265)" />
-           <TabButton active={activeTab === 'SHUTTER_ANGLE'} onClick={() => setActiveTab('SHUTTER_ANGLE')} icon={<MonitorPlay size={16}/>} label="电影快门角度" />
-        </div>
+        
+        <TabNavigation 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onTabChange={(id) => setActiveTab(id as Tab)} 
+        />
+
         <div className="flex-1 relative overflow-hidden bg-slate-950">
            {activeTab === 'CODECS' && <CodecModule />}
            {activeTab === 'FORMATS' && <FormatsModule />}
@@ -36,12 +45,7 @@ export const VideoEngineeringView: React.FC<VideoEngineeringViewProps> = ({ init
   );
 };
 
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold transition-colors whitespace-nowrap shrink-0 ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);
-
+// ... (Rest of the file remains unchanged: FormatsModule, CodecModule, ShutterAngleModule)
 const FormatsModule: React.FC = () => {
    const [format, setFormat] = useState<'PRORES' | 'H265' | 'H264'>('PRORES');
 

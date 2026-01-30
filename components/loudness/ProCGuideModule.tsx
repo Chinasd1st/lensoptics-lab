@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Info, Activity, Box, Mic, Settings2, Image as ImageIcon, AlertTriangle, Upload, Play, Pause, X } from 'lucide-react';
+import { Info, Activity, Box, Mic, Settings2, Image as ImageIcon, AlertTriangle, Upload, Play, Pause } from 'lucide-react';
 
-type ParamKey = 'VISUALIZER' | 'THRESHOLD' | 'RANGE' | 'ATTACK' | 'RELEASE' | 'HOLD';
+type ParamKey = 'VISUALIZER' | 'THRESHOLD' | 'RATIO' | 'ATTACK' | 'RELEASE' | 'MAKEUP' | 'KNEE';
 
-// High-performance Ring Buffer
+// Reusing RingBuffer Logic
 class RingBuffer {
    buffer: Float32Array;
    head: number;
@@ -36,20 +36,21 @@ class RingBuffer {
    }
 }
 
-export const ProGGuideModule: React.FC = () => {
+export const ProCGuideModule: React.FC = () => {
    const [activeParam, setActiveParam] = useState<ParamKey>('VISUALIZER');
    const [showRealImage, setShowRealImage] = useState(false);
    const [imgError, setImgError] = useState(false);
 
    // Real Image URL
-   const progImgUrl = new URL('../../img/loudness/2_prog.png', import.meta.url).href;
+   const procImgUrl = new URL('../../img/loudness/3_proc.png', import.meta.url).href;
    
    // UI State
-   const [threshold, setThreshold] = useState(-30);
-   const [range, setRange] = useState(-60);
-   const [attack, setAttack] = useState(5);
-   const [release, setRelease] = useState(300);
-   const [hold, setHold] = useState(50);
+   const [threshold, setThreshold] = useState(-20);
+   const [ratio, setRatio] = useState(4); // 4:1
+   const [attack, setAttack] = useState(15);
+   const [release, setRelease] = useState(150);
+   const [makeup, setMakeup] = useState(0);
+   const [knee, setKnee] = useState(0); // 0dB soft knee
    const [signalType, setSignalType] = useState<'DRUMS' | 'VOCAL'>('DRUMS');
 
    // Audio State
@@ -63,9 +64,9 @@ export const ProGGuideModule: React.FC = () => {
    const audioBufferRef = useRef<AudioBuffer | null>(null);
    const startTimeRef = useRef<number>(0);
 
-   // Refs for Render Loop (Avoid React State in loop)
-   const paramsRef = useRef({ threshold, range, attack, release, hold, signalType });
-   useEffect(() => { paramsRef.current = { threshold, range, attack, release, hold, signalType }; }, [threshold, range, attack, release, hold, signalType]);
+   // Refs for Render Loop
+   const paramsRef = useRef({ threshold, ratio, attack, release, makeup, knee, signalType });
+   useEffect(() => { paramsRef.current = { threshold, ratio, attack, release, makeup, knee, signalType }; }, [threshold, ratio, attack, release, makeup, knee, signalType]);
 
    const canvasRef = useRef<HTMLCanvasElement>(null);
    const wrapperRef = useRef<HTMLDivElement>(null);
@@ -77,58 +78,60 @@ export const ProGGuideModule: React.FC = () => {
       inputRb: new RingBuffer(BUFFER_SIZE),
       outputRb: new RingBuffer(BUFFER_SIZE),
       grRb: new RingBuffer(BUFFER_SIZE),
-      
-      // Gate internal state
-      gateState: 'CLOSED' as 'OPEN' | 'HOLD' | 'RELEASE' | 'CLOSED',
-      currentGain: -60, // dB
-      holdCounterTime: 0,
-      
+      currentGR: 0, // Current Gain Reduction in dB (should be <= 0)
       lastTime: 0,
       totalTime: 0
    });
 
    const definitions: Record<ParamKey, { title: string; subtitle: string; desc: string; tip: string; color: string }> = {
       VISUALIZER: {
-         title: "Real-time Display",
-         subtitle: "可视化面板",
-         desc: "深色实心波形为输入信号(Input)，绿色线条为输出信号(Output)。顶部的红色曲线代表增益衰减(Gain Reduction)。",
-         tip: "红线向下掉落表示门正在关闭（压低底噪）；红线回到顶部表示门完全打开（信号通过）。",
+         title: "Compressor View",
+         subtitle: "压缩可视化",
+         desc: "深色波形为 Input，绿色细线为 Output。红色区域向下延伸代表压缩量 (Gain Reduction)。",
+         tip: "观察红线的跳动节奏。如果红线一直沉底不回弹，说明压缩过度或 Release 太慢；如果红线只削掉一点点峰值，说明控制得当。",
          color: "text-blue-300"
       },
       THRESHOLD: {
          title: "Threshold",
-         subtitle: "阈值 / 门限",
-         desc: "噪声门工作的“及格线”。信号必须超过此线才能把门“撞开”。",
-         tip: "调节技巧：找到底噪的最高点，将阈值设在底噪之上约 3-6dB 处。设太高会吃掉有用信号，设太低关不住噪音。",
+         subtitle: "阈值 / 起跑线",
+         desc: "压缩器开始工作的电平点。只有超过这个音量的声音才会被“压”下来。",
+         tip: "调节技巧：慢慢拉低阈值，直到 Gain Reduction 表头开始跳动。人声一般压 3-6dB，鼓组可以压更多。",
          color: "text-cyan-400"
       },
-      RANGE: {
-         title: "Range / Floor",
-         subtitle: "衰减深度",
-         desc: "门关上时，要把声音压低多少？-80dB 是完全静音（硬闸门），-10dB 只是让背景音变轻（软扩展）。",
-         tip: "人声处理建议设为 -15dB ~ -25dB，保留一点环境声会听起来更自然，不会有那种真空般的窒息感。",
+      RATIO: {
+         title: "Ratio",
+         subtitle: "压缩比",
+         desc: "超标部分要被压多少？4:1 表示超标 4dB 只输出 1dB。∞:1 就是 Limiter (限制器)。",
+         tip: "人声/吉他常用 2:1 ~ 4:1 (温和)；鼓组/贝斯常用 4:1 ~ 8:1 (有力)；限制峰值用 10:1 以上。",
          color: "text-indigo-400"
       },
       ATTACK: {
          title: "Attack",
-         subtitle: "启动时间 (开门)",
-         desc: "当信号超过阈值，门完全打开需要多久？",
-         tip: "打击乐和人声字头需要极快 Attack (<10ms)，否则瞬态会被切掉，声音变软。环境音效可以稍慢。",
+         subtitle: "启动时间",
+         desc: "发现超标后，多快开始压缩？快 Attack 会切掉瞬态（声音变远/变软），慢 Attack 保留瞬态（更有冲击力）。",
+         tip: "想让鼓声更猛？调慢 Attack (30ms+)。想让声音更稳更靠后？调快 Attack (<10ms)。",
          color: "text-emerald-400"
       },
       RELEASE: {
          title: "Release",
-         subtitle: "释放时间 (关门)",
-         desc: "信号低于阈值后，门完全关闭需要多久？",
-         tip: "最关键参数。太快会造成声音“抽搐”(Chatter)，太慢会将尾音后的底噪放进来。通常在 100ms - 500ms。",
+         subtitle: "释放时间",
+         desc: "信号回到阈值下后，多快停止压缩？",
+         tip: "根据音乐 BPM 调整。太快会由失真(Distortion)，太慢会产生“抽吸感”(Pumping)——即下一个音头被上一个音的压缩给吞掉了。",
          color: "text-yellow-400"
       },
-      HOLD: {
-         title: "Hold",
-         subtitle: "保持时间",
-         desc: "信号跌落阈值后，强行保持开门状态的时间。",
-         tip: "防抽搐神器。对于军鼓或句间呼吸，加 50-100ms Hold 可以防止门误判关闭，保证尾音完整。",
+      MAKEUP: {
+         title: "Makeup / Gain",
+         subtitle: "补偿增益",
+         desc: "压缩会让整体音量变小，需要在这里补回来。",
+         tip: "口诀：压多少，补多少。如果 GR 表最大跳到 -6dB，这里就提升 +6dB，让响度更有竞争力。",
          color: "text-orange-400"
+      },
+      KNEE: {
+         title: "Knee",
+         subtitle: "拐点软硬",
+         desc: "Soft Knee 会在阈值附近提前缓慢开始压缩，过渡更自然。Hard Knee 则是严格执行。",
+         tip: "人声/总线压缩建议 Soft Knee (12dB+)，鼓组/打击乐建议 Hard Knee (0dB)。",
+         color: "text-purple-400"
       }
    };
 
@@ -146,7 +149,6 @@ export const ProGGuideModule: React.FC = () => {
       const file = e.target.files?.[0];
       if (!file) return;
       
-      // Stop previous
       stopAudio();
       
       try {
@@ -161,7 +163,7 @@ export const ProGGuideModule: React.FC = () => {
          dsp.current.grRb.clear();
       } catch (err) {
          console.error('Error loading audio:', err);
-         alert('无法加载音频文件，请重试');
+         alert('无法加载音频文件');
       }
    };
 
@@ -172,7 +174,6 @@ export const ProGGuideModule: React.FC = () => {
          stopAudio();
       } else {
          if (!audioBufferRef.current) return;
-         
          if (ctx.state === 'suspended') ctx.resume();
 
          const source = ctx.createBufferSource();
@@ -180,7 +181,6 @@ export const ProGGuideModule: React.FC = () => {
          source.loop = true;
 
          // DSP Processor
-         // Buffer size 2048 gives decent latency/performance balance
          const processor = ctx.createScriptProcessor(2048, 1, 1);
          
          processor.onaudioprocess = (e) => {
@@ -190,68 +190,45 @@ export const ProGGuideModule: React.FC = () => {
             const state = dsp.current;
             const sampleRate = ctx.sampleRate;
             
-            // Per-sample Processing
+            // Compressor DSP Logic per sample
             for (let i = 0; i < inputData.length; i++) {
                const sample = inputData[i];
-               // Simple Envelope Follower (Peak)
                const absSample = Math.abs(sample);
                const inputDb = absSample > 0.000001 ? 20 * Math.log10(absSample) : -90;
 
-               // Gate Logic
-               const hysteresis = 2; 
-               const openThresh = p.threshold;
-               const closeThresh = p.threshold - hysteresis;
-
-               // State Machine
-               if (inputDb > openThresh) {
-                  state.gateState = 'OPEN';
-                  state.holdCounterTime = p.hold / 1000;
-               } else if (inputDb < closeThresh && state.gateState === 'OPEN') {
-                  state.gateState = 'HOLD';
-               }
-
-               if (state.gateState === 'HOLD') {
-                  state.holdCounterTime -= 1/sampleRate;
-                  if (state.holdCounterTime <= 0) {
-                     state.gateState = 'RELEASE';
-                  }
-               }
-
-               let targetGainDb = 0; // 0dB reduction (Unity gain)
-               if (state.gateState === 'RELEASE' || state.gateState === 'CLOSED') {
-                  targetGainDb = p.range; // e.g. -60dB reduction
+               // Gain Computer
+               let targetGR = 0;
+               const overshoot = inputDb - p.threshold;
+               
+               if (overshoot > 0) {
+                  // Basic Hard Knee
+                  targetGR = -overshoot * (1 - 1 / p.ratio);
                }
 
                const attT = Math.max(0.001, p.attack / 1000);
                const relT = Math.max(0.001, p.release / 1000);
-               
-               // Alpha coefficients for 1-pole filter
                const attCoeff = 1 - Math.exp(-1 / (sampleRate * attT));
                const relCoeff = 1 - Math.exp(-1 / (sampleRate * relT));
 
-               // Smooth Gain Transition
-               if (targetGainDb < state.currentGain) {
-                  // Closing (Release phase usually, but visually gain goes down to range)
-                  state.currentGain += (targetGainDb - state.currentGain) * relCoeff;
+               if (targetGR < state.currentGR) {
+                  // Attack Phase (Gain Reduction Increasing, becoming more negative)
+                  state.currentGR += (targetGR - state.currentGR) * attCoeff;
                } else {
-                  // Opening (Attack phase)
-                  state.currentGain += (targetGainDb - state.currentGain) * attCoeff;
+                  // Release Phase
+                  state.currentGR += (targetGR - state.currentGR) * relCoeff;
                }
 
-               // Clamp
-               if (state.currentGain < p.range) state.currentGain = p.range;
-               if (state.currentGain > 0) state.currentGain = 0;
-
-               // Apply Gain
-               const gainLinear = Math.pow(10, state.currentGain / 20);
+               // Apply
+               const totalGainDb = state.currentGR + p.makeup;
+               const gainLinear = Math.pow(10, totalGainDb / 20);
                outputData[i] = sample * gainLinear;
 
-               // Downsample for Visualization
-               // i % 600 reduces update rate to approx 73 updates/sec (44100/600), slowing down scrolling
+               // Viz Downsample
+               // Slow down the scroll speed by increasing modulus (e.g. 600)
                if (i % 600 === 0) {
                   state.inputRb.push(inputDb);
                   state.outputRb.push(20 * Math.log10(Math.abs(outputData[i]) + 0.000001));
-                  state.grRb.push(state.currentGain);
+                  state.grRb.push(state.currentGR);
                }
             }
          };
@@ -278,7 +255,6 @@ export const ProGGuideModule: React.FC = () => {
       setIsPlaying(false);
    };
 
-   // Cleanup
    useEffect(() => {
       return () => {
          stopAudio();
@@ -286,8 +262,7 @@ export const ProGGuideModule: React.FC = () => {
       };
    }, []);
 
-
-   // --- Signal Generator (Synth Mode) ---
+   // --- Signal Generator (Reused) ---
    const getSample = (tSec: number, type: 'DRUMS' | 'VOCAL') => {
       let noise = -60 + (Math.random() * 6);
       let signal = -90;
@@ -315,7 +290,7 @@ export const ProGGuideModule: React.FC = () => {
       return Math.max(noise, signal);
    };
 
-   // --- Main Render Loop ---
+   // --- Main Loop ---
    useEffect(() => {
       if (showRealImage) return;
 
@@ -341,7 +316,7 @@ export const ProGGuideModule: React.FC = () => {
          const h = canvas.height;
          const dpr = window.devicePixelRatio || 1;
 
-         // Only generate synthetic data if NOT in file mode OR file not playing
+         // Only run synth logic if in synth mode
          if (audioMode === 'SYNTH') {
              if (state.lastTime === 0) state.lastTime = timestamp;
              let dt = (timestamp - state.lastTime) / 1000;
@@ -349,31 +324,15 @@ export const ProGGuideModule: React.FC = () => {
              state.lastTime = timestamp;
              state.totalTime += dt;
 
-             // Process Synth
+             // 1. Process Audio Sample
              const inputDb = getSample(state.totalTime, p.signalType);
              
-             // Same Gate Logic as Audio Processor (Duplicated for Synth Visualization speed)
-             const hysteresis = 2; 
-             const openThresh = p.threshold;
-             const closeThresh = p.threshold - hysteresis;
-
-             if (inputDb > openThresh) {
-                state.gateState = 'OPEN';
-                state.holdCounterTime = p.hold / 1000;
-             } else if (inputDb < closeThresh && state.gateState === 'OPEN') {
-                state.gateState = 'HOLD';
-             }
-
-             if (state.gateState === 'HOLD') {
-                state.holdCounterTime -= dt;
-                if (state.holdCounterTime <= 0) {
-                   state.gateState = 'RELEASE';
-                }
-             }
-
-             let targetGain = 0;
-             if (state.gateState === 'RELEASE' || state.gateState === 'CLOSED') {
-                targetGain = p.range;
+             // 2. Compressor Logic (Duplicated for visualizer speed)
+             let targetGR = 0;
+             const overshoot = inputDb - p.threshold;
+             
+             if (overshoot > 0) {
+                targetGR = -overshoot * (1 - 1 / p.ratio);
              }
 
              const attT = Math.max(0.001, p.attack / 1000);
@@ -381,25 +340,23 @@ export const ProGGuideModule: React.FC = () => {
              const attCoeff = 1 - Math.exp(-dt / attT);
              const relCoeff = 1 - Math.exp(-dt / relT);
 
-             if (targetGain < state.currentGain) {
-                state.currentGain += (targetGain - state.currentGain) * relCoeff;
+             if (targetGR < state.currentGR) {
+                state.currentGR += (targetGR - state.currentGR) * attCoeff;
              } else {
-                state.currentGain += (targetGain - state.currentGain) * attCoeff;
+                state.currentGR += (targetGR - state.currentGR) * relCoeff;
              }
 
-             if (state.currentGain < p.range) state.currentGain = p.range;
-             if (state.currentGain > 0) state.currentGain = 0;
+             const outputDb = inputDb + state.currentGR + p.makeup;
 
-             const outputDb = inputDb + state.currentGain;
-
+             // 3. Store Data
              state.inputRb.push(inputDb);
              state.outputRb.push(outputDb);
-             state.grRb.push(state.currentGain);
+             state.grRb.push(state.currentGR); 
          }
 
-         // 4. Render (Always Draw)
-         ctx.setTransform(1, 0, 0, 1, 0, 0);
-         ctx.fillStyle = '#0f172a';
+         // 4. Render
+         ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset
+         ctx.fillStyle = '#0f172a'; // Slate 900
          ctx.fillRect(0, 0, w, h);
          
          ctx.scale(dpr, dpr);
@@ -428,7 +385,7 @@ export const ProGGuideModule: React.FC = () => {
          const len = inputData.length;
          const stepX = logicalW / len;
 
-         // Input (Draw first)
+         // Input (Grey)
          ctx.fillStyle = '#1e293b';
          ctx.beginPath();
          ctx.moveTo(0, logicalH);
@@ -436,7 +393,7 @@ export const ProGGuideModule: React.FC = () => {
          ctx.lineTo(logicalW, logicalH);
          ctx.fill();
 
-         // Threshold (Draw AFTER Input to be visible on top)
+         // Threshold Line (Draw AFTER input fill to be visible)
          const thY = dbToY(p.threshold);
          ctx.strokeStyle = '#22d3ee';
          ctx.lineWidth = 1.5;
@@ -449,7 +406,7 @@ export const ProGGuideModule: React.FC = () => {
          ctx.fillStyle = '#22d3ee';
          ctx.fillText('THR', logicalW - 25, thY - 4);
 
-         // Output
+         // Output (Green Line)
          ctx.strokeStyle = '#4ade80';
          ctx.lineWidth = 2;
          ctx.beginPath();
@@ -460,18 +417,18 @@ export const ProGGuideModule: React.FC = () => {
          }
          ctx.stroke();
 
-         // GR
-         const topLimit = logicalH * 0.1;
-         ctx.strokeStyle = '#ef4444';
-         ctx.lineWidth = 2;
+         // GR (Red Overlay)
+         const topLimit = logicalH * 0.1; // 0dB line
+         ctx.fillStyle = 'rgba(239, 68, 68, 0.3)'; // Red transparent
          ctx.beginPath();
+         ctx.moveTo(0, topLimit);
          for(let i=0; i<len; i++) {
-            const gr = grData[i];
-            const y = topLimit + Math.abs(gr) * ((logicalH * 0.8) / 90);
-            const x = i * stepX;
-            if(i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            const gr = grData[i]; 
+            const grHeight = Math.abs(gr) * ((logicalH * 0.8) / 90);
+            ctx.lineTo(i * stepX, topLimit + grHeight);
          }
-         ctx.stroke();
+         ctx.lineTo(logicalW, topLimit);
+         ctx.fill();
 
          // Progress Bar (Only for File Playback)
          if (audioMode === 'FILE' && isPlaying && audioBufferRef.current) {
@@ -502,10 +459,9 @@ export const ProGGuideModule: React.FC = () => {
 
    return (
       <div className="h-full flex flex-col lg:flex-row gap-6 p-4">
-         {/* Left: Interactive Visualizer or Real Image */}
+         {/* Left */}
          <div className="flex-1 flex flex-col bg-slate-950 rounded-2xl border border-slate-800 p-6 select-none relative overflow-hidden">
             
-            {/* View Toggle Button */}
             <div className="absolute top-4 right-4 z-20 flex gap-2">
                <button 
                   onClick={() => setShowRealImage(!showRealImage)}
@@ -520,8 +476,8 @@ export const ProGGuideModule: React.FC = () => {
                <div className="w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-300">
                   {!imgError ? (
                      <img 
-                        src={progImgUrl} 
-                        alt="FabFilter Pro-G Screenshot" 
+                        src={procImgUrl} 
+                        alt="FabFilter Pro-C 2 Screenshot" 
                         className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-slate-700"
                         onError={() => setImgError(true)}
                      />
@@ -531,7 +487,7 @@ export const ProGGuideModule: React.FC = () => {
                         <p className="font-bold text-red-400 mb-2">Image Not Found (404)</p>
                         <div className="text-xs space-y-1 bg-black/40 p-4 rounded border border-slate-800 text-left font-mono text-slate-400">
                            <p>Expected path:</p>
-                           <p className="text-white">../../img/loudness/2_prog.png</p>
+                           <p className="text-white">../../img/loudness/3_proc.png</p>
                         </div>
                      </div>
                   )}
@@ -541,7 +497,7 @@ export const ProGGuideModule: React.FC = () => {
                   {/* Added padding-right to avoid overlap with absolute button */}
                   <div className="flex flex-wrap items-center justify-between mb-4 gap-4 pr-36">
                      <div className="flex items-center gap-4">
-                        <div className="text-[10px] text-slate-500 font-mono font-bold tracking-wider uppercase">Pro-G Simulator (Gate)</div>
+                        <div className="text-[10px] text-slate-500 font-mono font-bold tracking-wider uppercase">Pro-C 2 Simulator (Compressor)</div>
                      </div>
                      
                      <div className="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-lg p-1">
@@ -591,11 +547,12 @@ export const ProGGuideModule: React.FC = () => {
 
                   <div className="mt-6 h-32 bg-[#1a1a1a] rounded-xl border border-[#333] px-6 py-4 flex items-center justify-between gap-2 lg:gap-6">
                      <ProKnob label="Threshold" value={threshold} min={-60} max={0} step={0.5} unit="dB" onChange={setThreshold} color="#22d3ee" onFocus={() => setActiveParam('THRESHOLD')} />
-                     <ProKnob label="Range" value={range} min={-80} max={0} step={1} unit="dB" onChange={setRange} color="#818cf8" onFocus={() => setActiveParam('RANGE')} />
+                     <ProKnob label="Ratio" value={ratio} min={1} max={10} step={0.1} unit=":1" onChange={setRatio} color="#818cf8" onFocus={() => setActiveParam('RATIO')} />
                      <div className="w-px h-12 bg-[#333]"></div>
                      <ProKnob label="Attack" value={attack} min={0} max={100} step={1} unit="ms" onChange={setAttack} color="#34d399" onFocus={() => setActiveParam('ATTACK')} />
                      <ProKnob label="Release" value={release} min={10} max={1000} step={10} unit="ms" onChange={setRelease} color="#facc15" onFocus={() => setActiveParam('RELEASE')} />
-                     <ProKnob label="Hold" value={hold} min={0} max={500} step={10} unit="ms" onChange={setHold} color="#fb923c" onFocus={() => setActiveParam('HOLD')} />
+                     <div className="w-px h-12 bg-[#333]"></div>
+                     <ProKnob label="Makeup" value={makeup} min={0} max={24} step={0.5} unit="dB" onChange={setMakeup} color="#fb923c" onFocus={() => setActiveParam('MAKEUP')} />
                   </div>
                </>
             )}
@@ -630,7 +587,7 @@ export const ProGGuideModule: React.FC = () => {
    );
 };
 
-// --- Improved Pro Audio Knob (SVG) ---
+// Reusing ProKnob UI Component
 interface ProKnobProps {
    label: string;
    value: number;
@@ -648,7 +605,6 @@ const ProKnob: React.FC<ProKnobProps> = ({ label, value, min, max, step, unit, c
    const startYRef = useRef(0);
    const startValRef = useRef(0);
 
-   // Mouse interactions
    const handleMouseDown = (e: React.MouseEvent) => {
       e.preventDefault();
       setIsDragging(true);
@@ -663,13 +619,11 @@ const ProKnob: React.FC<ProKnobProps> = ({ label, value, min, max, step, unit, c
    const handleMouseMove = useCallback((e: MouseEvent) => {
       const deltaY = startYRef.current - e.clientY;
       const range = max - min;
-      const pixelRange = 200; // Sensitivity: 200px drag = full range
+      const pixelRange = 200;
       const speed = e.shiftKey ? 0.1 : 1.0;
       const deltaVal = (deltaY / pixelRange) * range * speed;
       let newVal = startValRef.current + deltaVal;
-      if (step > 0) {
-         newVal = Math.round(newVal / step) * step;
-      }
+      if (step > 0) newVal = Math.round(newVal / step) * step;
       newVal = Math.max(min, Math.min(max, newVal));
       onChange(Number(newVal.toFixed(step < 1 ? 2 : 0)));
    }, [min, max, step, onChange]);
@@ -694,8 +648,9 @@ const ProKnob: React.FC<ProKnobProps> = ({ label, value, min, max, step, unit, c
 
    const resetValue = () => {
       let def = min + (max-min)/2;
-      if (label === 'Threshold') def = -30;
-      if (label === 'Range') def = -60;
+      if (label === 'Threshold') def = -20;
+      if (label === 'Ratio') def = 4;
+      if (label === 'Makeup') def = 0;
       onChange(def);
    };
 

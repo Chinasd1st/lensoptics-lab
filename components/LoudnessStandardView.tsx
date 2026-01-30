@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { BarChart3, Globe, Activity, Info, Settings, Workflow, Sigma, CheckCircle, FileAudio, Eye, Mic } from 'lucide-react';
+import { BarChart3, Globe, Activity, Info, Settings, Workflow, Sigma, CheckCircle, FileAudio, Eye, Mic, ArrowDownToLine } from 'lucide-react';
 import { UnitsModule } from './loudness/UnitsModule';
 import { StandardsModule } from './loudness/StandardsModule';
 import { AlgorithmLabModule } from './loudness/AlgorithmLabModule';
@@ -12,8 +12,10 @@ import { QualityIndicatorsModule } from './loudness/QualityIndicatorsModule';
 import { LoudnessAnalyzerModule } from './loudness/LoudnessAnalyzerModule';
 import { InsightGuideModule } from './loudness/InsightGuideModule';
 import { ProGGuideModule } from './loudness/ProGGuideModule';
+import { ProCGuideModule } from './loudness/ProCGuideModule';
+import { TabNavigation, TabItem } from './TabNavigation';
 
-type Tab = 'UNITS' | 'STANDARDS' | 'LAB' | 'FLOW' | 'MATH' | 'WORKFLOW' | 'QUALITY' | 'CHEAT_SHEET' | 'ANALYZER' | 'INSIGHT_GUIDE' | 'PROG_GUIDE';
+type Tab = 'UNITS' | 'STANDARDS' | 'LAB' | 'FLOW' | 'MATH' | 'WORKFLOW' | 'QUALITY' | 'CHEAT_SHEET' | 'ANALYZER' | 'INSIGHT_GUIDE' | 'PROG_GUIDE' | 'PROC_GUIDE';
 
 interface LoudnessStandardViewProps {
   initialTab?: string;
@@ -23,34 +25,42 @@ export const LoudnessStandardView: React.FC<LoudnessStandardViewProps> = ({ init
   const [activeTab, setActiveTab] = useState<Tab>('UNITS');
 
   useEffect(() => {
-     if (initialTab && ['UNITS', 'STANDARDS', 'LAB', 'FLOW', 'MATH', 'WORKFLOW', 'QUALITY', 'CHEAT_SHEET', 'ANALYZER', 'INSIGHT_GUIDE', 'PROG_GUIDE'].includes(initialTab)) {
+     if (initialTab && ['UNITS', 'STANDARDS', 'LAB', 'FLOW', 'MATH', 'WORKFLOW', 'QUALITY', 'CHEAT_SHEET', 'ANALYZER', 'INSIGHT_GUIDE', 'PROG_GUIDE', 'PROC_GUIDE'].includes(initialTab)) {
         setActiveTab(initialTab as Tab);
      }
   }, [initialTab]);
 
+  const tabs: TabItem[] = [
+    { id: 'ANALYZER', label: '在线分析工具 (Tool)', icon: <FileAudio size={16}/> },
+    { id: 'INSIGHT_GUIDE', label: '读图指南 (Insight)', icon: <Eye size={16}/> },
+    { id: 'PROG_GUIDE', label: '噪声门 (Pro-G)', icon: <Mic size={16}/> },
+    { id: 'PROC_GUIDE', label: '压缩器 (Pro-C)', icon: <ArrowDownToLine size={16}/> },
+    { id: 'UNITS', label: '核心概念', icon: <BarChart3 size={16}/> },
+    { id: 'MATH', label: '算法原理', icon: <Sigma size={16}/> },
+    { id: 'LAB', label: '实验室', icon: <Activity size={16}/> },
+    { id: 'FLOW', label: '流程图', icon: <Workflow size={16}/> },
+    { id: 'STANDARDS', label: '交付标准', icon: <Globe size={16}/> },
+    { id: 'WORKFLOW', label: '混音工作流', icon: <Settings size={16}/> },
+    { id: 'QUALITY', label: '质量指标', icon: <CheckCircle size={16}/> },
+    { id: 'CHEAT_SHEET', label: '速查表', icon: <Info size={16}/> },
+  ];
+
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-hidden">
       <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-        {/* Tab Navigation */}
-        <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-           <TabButton active={activeTab === 'ANALYZER'} onClick={() => setActiveTab('ANALYZER')} icon={<FileAudio size={16}/>} label="在线分析工具 (Tool)" />
-           <TabButton active={activeTab === 'INSIGHT_GUIDE'} onClick={() => setActiveTab('INSIGHT_GUIDE')} icon={<Eye size={16}/>} label="读图指南 (Insight)" />
-           <TabButton active={activeTab === 'PROG_GUIDE'} onClick={() => setActiveTab('PROG_GUIDE')} icon={<Mic size={16}/>} label="噪声门指南 (Pro-G)" />
-           <TabButton active={activeTab === 'UNITS'} onClick={() => setActiveTab('UNITS')} icon={<BarChart3 size={16}/>} label="核心概念" />
-           <TabButton active={activeTab === 'MATH'} onClick={() => setActiveTab('MATH')} icon={<Sigma size={16}/>} label="算法原理" />
-           <TabButton active={activeTab === 'LAB'} onClick={() => setActiveTab('LAB')} icon={<Activity size={16}/>} label="实验室" />
-           <TabButton active={activeTab === 'FLOW'} onClick={() => setActiveTab('FLOW')} icon={<Workflow size={16}/>} label="流程图" />
-           <TabButton active={activeTab === 'STANDARDS'} onClick={() => setActiveTab('STANDARDS')} icon={<Globe size={16}/>} label="交付标准" />
-           <TabButton active={activeTab === 'WORKFLOW'} onClick={() => setActiveTab('WORKFLOW')} icon={<Settings size={16}/>} label="混音工作流" />
-           <TabButton active={activeTab === 'QUALITY'} onClick={() => setActiveTab('QUALITY')} icon={<CheckCircle size={16}/>} label="质量指标" />
-           <TabButton active={activeTab === 'CHEAT_SHEET'} onClick={() => setActiveTab('CHEAT_SHEET')} icon={<Info size={16}/>} label="速查表" />
-        </div>
+        
+        <TabNavigation 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onTabChange={(id) => setActiveTab(id as Tab)} 
+        />
         
         {/* Content Area */}
         <div className="flex-1 relative overflow-y-auto bg-slate-950 p-6 lg:p-8">
            {activeTab === 'ANALYZER' && <LoudnessAnalyzerModule />}
            {activeTab === 'INSIGHT_GUIDE' && <InsightGuideModule />}
            {activeTab === 'PROG_GUIDE' && <ProGGuideModule />}
+           {activeTab === 'PROC_GUIDE' && <ProCGuideModule />}
            {activeTab === 'UNITS' && <UnitsModule />}
            {activeTab === 'STANDARDS' && <StandardsModule />}
            {activeTab === 'LAB' && <AlgorithmLabModule />}
@@ -64,9 +74,3 @@ export const LoudnessStandardView: React.FC<LoudnessStandardViewProps> = ({ init
     </div>
   );
 };
-
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold whitespace-nowrap transition-colors ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);

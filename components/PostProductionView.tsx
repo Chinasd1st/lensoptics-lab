@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Palette, Grid, Activity, RefreshCw, ExternalLink, MousePointer2, Lock, Eye, EyeOff, ChevronsRight, Box, Maximize, Play, Info, AlertTriangle } from 'lucide-react';
+import { TabNavigation, TabItem } from './TabNavigation';
 
 type Tab = 'GRADING' | 'NODES' | 'SCOPES';
 
@@ -17,14 +18,22 @@ export const PostProductionView: React.FC<PostProductionViewProps> = ({ initialT
       }
    }, [initialTab]);
 
+   const tabs: TabItem[] = [
+      { id: 'GRADING', label: '一级校色 (Primary Grading)', icon: <Palette size={16}/> },
+      { id: 'NODES', label: '节点图 (Node Graph)', icon: <Grid size={16}/> },
+      { id: 'SCOPES', label: '示波器 (Scopes)', icon: <Activity size={16}/> },
+   ];
+
    return (
       <div className="flex flex-col lg:flex-row h-full overflow-hidden select-none">
          <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
-            <div className="flex border-b border-slate-800 bg-slate-900 overflow-x-auto no-scrollbar shrink-0">
-               <TabButton active={activeTab === 'GRADING'} onClick={() => setActiveTab('GRADING')} icon={<Palette size={16}/>} label="一级校色 (Primary Grading)" />
-               <TabButton active={activeTab === 'NODES'} onClick={() => setActiveTab('NODES')} icon={<Grid size={16}/>} label="节点图 (Node Graph)" />
-               <TabButton active={activeTab === 'SCOPES'} onClick={() => setActiveTab('SCOPES')} icon={<Activity size={16}/>} label="示波器 (Scopes)" />
-            </div>
+            
+            <TabNavigation 
+               tabs={tabs} 
+               activeTab={activeTab} 
+               onTabChange={(id) => setActiveTab(id as Tab)} 
+            />
+
             <div className="flex-1 relative overflow-hidden">
                {activeTab === 'GRADING' && <GradingModule />}
                {activeTab === 'NODES' && <NodesModule />}
@@ -35,13 +44,7 @@ export const PostProductionView: React.FC<PostProductionViewProps> = ({ initialT
    );
 };
 
-const TabButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string }> = ({ active, onClick, icon, label }) => (
-  <button onClick={onClick} className={`flex items-center gap-2 px-5 py-4 text-xs font-bold transition-all whitespace-nowrap shrink-0 ${active ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-400 shadow-inner' : 'text-slate-500 hover:text-slate-300'}`}>
-    {icon} {label}
-  </button>
-);
-
-// --- Grading Module State Types ---
+// ... (Rest of the file remains unchanged: GradingModule, NodesModule, ScopesModule, WheelState, initialLift, initialGamma, initialGain, initialOffset, ScrubbableNumber, InteractiveWheel, Node, Arrow, ScopeBox)
 interface WheelState {
    m: number; // Master (Luma)
    x: number; // Color X (-1 to 1)
