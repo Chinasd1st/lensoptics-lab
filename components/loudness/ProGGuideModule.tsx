@@ -181,21 +181,39 @@ export const ProGGuideModule: React.FC = () => {
 
          // DSP Processor
          // Buffer size 2048 gives decent latency/performance balance
-         const processor = ctx.createScriptProcessor(2048, 1, 1);
+         const numChannels = source.buffer.numberOfChannels;
+         // Create script processor with same channel count as source (or 2 for stereo max here)
+         const procChannels = Math.min(2, numChannels); 
+         const processor = ctx.createScriptProcessor(2048, procChannels, procChannels);
          
          processor.onaudioprocess = (e) => {
-            const inputData = e.inputBuffer.getChannelData(0);
-            const outputData = e.outputBuffer.getChannelData(0);
+            const inputBuffer = e.inputBuffer;
+            const outputBuffer = e.outputBuffer;
+            const numCh = inputBuffer.numberOfChannels;
+            
             const p = paramsRef.current;
             const state = dsp.current;
             const sampleRate = ctx.sampleRate;
+            const bufferLen = inputBuffer.length;
+
+            // Get channel data pointers
+            const inputChannels = [];
+            const outputChannels = [];
+            for(let c=0; c<numCh; c++) {
+               inputChannels.push(inputBuffer.getChannelData(c));
+               outputChannels.push(outputBuffer.getChannelData(c));
+            }
             
             // Per-sample Processing
-            for (let i = 0; i < inputData.length; i++) {
-               const sample = inputData[i];
-               // Simple Envelope Follower (Peak)
-               const absSample = Math.abs(sample);
-               const inputDb = absSample > 0.000001 ? 20 * Math.log10(absSample) : -90;
+            for (let i = 0; i < bufferLen; i++) {
+               // 1. Sidechain Detection (Max of channels)
+               let maxAbsSample = 0;
+               for (let c=0; c<numCh; c++) {
+                  const val = Math.abs(inputChannels[c][i]);
+                  if (val > maxAbsSample) maxAbsSample = val;
+               }
+               
+               const inputDb = maxAbsSample > 0.000001 ? 20 * Math.log10(maxAbsSample) : -90;
 
                // Gate Logic
                const hysteresis = 2; 
@@ -231,10 +249,10 @@ export const ProGGuideModule: React.FC = () => {
 
                // Smooth Gain Transition
                if (targetGainDb < state.currentGain) {
-                  // Closing (Release phase usually, but visually gain goes down to range)
+                  // Closing
                   state.currentGain += (targetGainDb - state.currentGain) * relCoeff;
                } else {
-                  // Opening (Attack phase)
+                  // Opening
                   state.currentGain += (targetGainDb - state.currentGain) * attCoeff;
                }
 
@@ -242,15 +260,17 @@ export const ProGGuideModule: React.FC = () => {
                if (state.currentGain < p.range) state.currentGain = p.range;
                if (state.currentGain > 0) state.currentGain = 0;
 
-               // Apply Gain
+               // Apply Gain to ALL channels
                const gainLinear = Math.pow(10, state.currentGain / 20);
-               outputData[i] = sample * gainLinear;
+               
+               for (let c=0; c<numCh; c++) {
+                  outputChannels[c][i] = inputChannels[c][i] * gainLinear;
+               }
 
-               // Downsample for Visualization
-               // i % 600 reduces update rate to approx 73 updates/sec (44100/600), slowing down scrolling
+               // Downsample for Visualization (Visualizing mono sum/max)
                if (i % 600 === 0) {
                   state.inputRb.push(inputDb);
-                  state.outputRb.push(20 * Math.log10(Math.abs(outputData[i]) + 0.000001));
+                  state.outputRb.push(20 * Math.log10(maxAbsSample * gainLinear + 0.000001));
                   state.grRb.push(state.currentGain);
                }
             }

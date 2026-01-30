@@ -53,7 +53,6 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
   );
 };
 
-// ... (Rest of the file remains unchanged: DiffractionModule, MTFModule, CineVsPhotoModule, InfoItem, CoatingModule, AberrationsModule)
 // --- Diffraction Module (New) ---
 const DiffractionModule: React.FC = () => {
    const [fStop, setFStop] = useState(8);
@@ -144,7 +143,7 @@ const DiffractionModule: React.FC = () => {
    );
 };
 
-// --- MTF Module ---
+// --- MTF Module (UPDATED FOR THEME) ---
 const MTFModule: React.FC = () => {
    const [aperture, setAperture] = useState(2.8);
    const [correction, setCorrection] = useState(false);
@@ -206,20 +205,20 @@ const MTFModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex flex-col p-6 overflow-hidden">
+         <div className="flex-1 bg-white dark:bg-slate-900 flex flex-col p-6 overflow-hidden transition-colors duration-300">
             {/* Chart Container */}
-            <div className="relative flex-1 bg-white rounded-lg p-6 shadow-xl flex flex-col select-none">
+            <div className="relative flex-1 bg-white dark:bg-slate-800 rounded-lg p-6 shadow-xl flex flex-col select-none border border-slate-200 dark:border-slate-700 transition-colors duration-300">
                <div className="flex justify-between items-start mb-4">
                   <div>
-                     <h2 className="text-2xl font-black text-slate-800">MTF Chart</h2>
-                     <p className="text-xs text-slate-500 font-mono">Modulation Transfer Function @ f/{aperture}</p>
+                     <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">MTF Chart</h2>
+                     <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">Modulation Transfer Function @ f/{aperture}</p>
                   </div>
                   {/* Values Readout */}
                   {hoverX !== null ? (
-                     <div className="bg-slate-100 p-2 rounded border border-slate-200 text-[10px] font-mono w-40 shadow-inner">
-                        <div className="font-bold text-slate-600 border-b border-slate-300 mb-1 pb-1">POS: {hoverX.toFixed(1)}mm</div>
-                        <div className="flex justify-between text-emerald-600"><span>10-S: {(getMTFValue(hoverX, 10, 'S')*100).toFixed(0)}</span><span>10-M: {(getMTFValue(hoverX, 10, 'M')*100).toFixed(0)}</span></div>
-                        <div className="flex justify-between text-purple-600"><span>30-S: {(getMTFValue(hoverX, 30, 'S')*100).toFixed(0)}</span><span>30-M: {(getMTFValue(hoverX, 30, 'M')*100).toFixed(0)}</span></div>
+                     <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-700 text-[10px] font-mono w-40 shadow-inner">
+                        <div className="font-bold text-slate-600 dark:text-slate-300 border-b border-slate-300 dark:border-slate-700 mb-1 pb-1">POS: {hoverX.toFixed(1)}mm</div>
+                        <div className="flex justify-between text-emerald-600 dark:text-emerald-400"><span>10-S: {(getMTFValue(hoverX, 10, 'S')*100).toFixed(0)}</span><span>10-M: {(getMTFValue(hoverX, 10, 'M')*100).toFixed(0)}</span></div>
+                        <div className="flex justify-between text-purple-600 dark:text-purple-400"><span>30-S: {(getMTFValue(hoverX, 30, 'S')*100).toFixed(0)}</span><span>30-M: {(getMTFValue(hoverX, 30, 'M')*100).toFixed(0)}</span></div>
                      </div>
                   ) : (
                      <div className="text-[10px] text-slate-400 italic mt-2">Hover chart to inspect</div>
@@ -227,28 +226,28 @@ const MTFModule: React.FC = () => {
                </div>
 
                {/* Legend Bar */}
-               <div className="flex gap-4 mb-4 text-[10px] font-bold bg-slate-50 p-2 rounded-md border border-slate-100">
-                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-emerald-600"></div> <span className="text-slate-600">10 lp/mm (反差)</span></div>
-                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-purple-600"></div> <span className="text-slate-600">30 lp/mm (分辨率)</span></div>
-                  <div className="w-px h-4 bg-slate-300 mx-2"></div>
-                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-slate-400"></span> <span className="text-slate-600">实线: 径向 (S)</span></div>
-                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-dashed border-slate-400"></span> <span className="text-slate-600">虚线: 切向 (M)</span></div>
+               <div className="flex gap-4 mb-4 text-[10px] font-bold bg-slate-50 dark:bg-slate-900/50 p-2 rounded-md border border-slate-100 dark:border-slate-700 transition-colors">
+                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-emerald-600 dark:bg-emerald-500"></div> <span className="text-slate-600 dark:text-slate-400">10 lp/mm (反差)</span></div>
+                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-purple-600 dark:bg-purple-500"></div> <span className="text-slate-600 dark:text-slate-400">30 lp/mm (分辨率)</span></div>
+                  <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-2"></div>
+                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-slate-400 dark:border-slate-500"></span> <span className="text-slate-600 dark:text-slate-400">实线: 径向 (S)</span></div>
+                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-dashed border-slate-400 dark:border-slate-500"></span> <span className="text-slate-600 dark:text-slate-400">虚线: 切向 (M)</span></div>
                </div>
 
                {/* SVG Graph */}
-               <div className="relative flex-1 border-l border-b border-slate-300 cursor-crosshair group" onMouseMove={handleMouseMove} onMouseLeave={() => setHoverX(null)}>
+               <div className="relative flex-1 border-l border-b border-slate-300 dark:border-slate-600 cursor-crosshair group transition-colors" onMouseMove={handleMouseMove} onMouseLeave={() => setHoverX(null)}>
                   {/* Y-Axis Labels */}
                   <div className="absolute inset-0 flex flex-col justify-between pointer-events-none -left-8 h-full py-[0px]">
                      {[100, 80, 60, 40, 20, 0].map((v, i) => (
-                        <span key={v} className="text-[9px] text-slate-400 text-right w-6" style={{top: `${i*20}%`, position: 'absolute'}}>{v}</span>
+                        <span key={v} className="text-[9px] text-slate-400 dark:text-slate-500 text-right w-6" style={{top: `${i*20}%`, position: 'absolute'}}>{v}</span>
                      ))}
                   </div>
 
                   {/* X-Axis Grid & Labels */}
                   <div className="absolute inset-0 flex justify-between pointer-events-none pl-[2px]">
                      {[0, 5, 10, 15, 21.6].map(v => (
-                        <div key={v} className="h-full border-r border-slate-100 relative" style={{left: `calc(${(v/21.6)*100}% - 1px)`, position: 'absolute'}}>
-                           <span className="absolute -bottom-6 -left-2 text-[10px] text-slate-400">{v}</span>
+                        <div key={v} className="h-full border-r border-slate-100 dark:border-slate-700 relative" style={{left: `calc(${(v/21.6)*100}% - 1px)`, position: 'absolute'}}>
+                           <span className="absolute -bottom-6 -left-2 text-[10px] text-slate-400 dark:text-slate-500">{v}</span>
                         </div>
                      ))}
                   </div>
@@ -256,25 +255,25 @@ const MTFModule: React.FC = () => {
                   {/* Horizontal Grid */}
                   <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                      {[0, 20, 40, 60, 80].map(v => (
-                        <div key={v} className="w-full border-t border-slate-100 h-0" style={{top: `${v}%`, position: 'absolute'}}></div>
+                        <div key={v} className="w-full border-t border-slate-100 dark:border-slate-700 h-0" style={{top: `${v}%`, position: 'absolute'}}></div>
                      ))}
                   </div>
 
                   <svg ref={svgRef} className="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 600 300">
-                     {/* 10 lp/mm Lines (Contrast) */}
-                     <path d={pS10} fill="none" stroke="#059669" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
-                     <path d={pM10} fill="none" stroke="#059669" strokeWidth="2.5" strokeDasharray="6,4" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
+                     {/* 10 lp/mm Lines (Contrast) - emerald */}
+                     <path d={pS10} fill="none" className="stroke-emerald-600 dark:stroke-emerald-500" strokeWidth="2.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
+                     <path d={pM10} fill="none" className="stroke-emerald-600 dark:stroke-emerald-500" strokeWidth="2.5" strokeDasharray="6,4" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
 
-                     {/* 30 lp/mm Lines (Resolution) */}
-                     <path d={pS30} fill="none" stroke="#7c3aed" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
-                     <path d={pM30} fill="none" stroke="#7c3aed" strokeWidth="1.5" strokeDasharray="3,3" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
+                     {/* 30 lp/mm Lines (Resolution) - purple */}
+                     <path d={pS30} fill="none" className="stroke-purple-600 dark:stroke-purple-500" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
+                     <path d={pM30} fill="none" className="stroke-purple-600 dark:stroke-purple-500" strokeWidth="1.5" strokeDasharray="3,3" vectorEffect="non-scaling-stroke" strokeLinecap="round" />
 
                      {/* Hover Indicator */}
                      {hoverX !== null && (
                         <g>
                            <line x1={(hoverX/21.6)*600} y1="0" x2={(hoverX/21.6)*600} y2="300" stroke="#f43f5e" strokeWidth="1" strokeDasharray="2" vectorEffect="non-scaling-stroke"/>
-                           <circle cx={(hoverX/21.6)*600} cy={(1 - getMTFValue(hoverX, 10, 'S')) * 300} r="3" fill="#059669" />
-                           <circle cx={(hoverX/21.6)*600} cy={(1 - getMTFValue(hoverX, 10, 'M')) * 300} r="3" fill="white" stroke="#059669" strokeWidth="2" />
+                           <circle cx={(hoverX/21.6)*600} cy={(1 - getMTFValue(hoverX, 10, 'S')) * 300} r="3" className="fill-emerald-600 dark:fill-emerald-500" />
+                           <circle cx={(hoverX/21.6)*600} cy={(1 - getMTFValue(hoverX, 10, 'M')) * 300} r="3" fill="white" className="stroke-emerald-600 dark:stroke-emerald-500" strokeWidth="2" />
                         </g>
                      )}
                   </svg>

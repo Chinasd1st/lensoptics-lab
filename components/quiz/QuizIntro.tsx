@@ -1,23 +1,39 @@
 
-import React, { useState } from 'react';
-import { Brain, Settings2, Play, Shuffle, Download, Database } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Brain, Settings2, Play, Shuffle, Download, Database, FilePlus, Upload } from 'lucide-react';
+import { QUIZ_DATABASE, QuizQuestion } from '../../utils/quizData';
 
 interface QuizIntroProps {
   totalQuestions: number;
   onStart: (count: number, distribution: { easy: number, medium: number, hard: number }) => void;
+  onImport: (questions: QuizQuestion[]) => void;
   onOpenEditor: () => void;
   onDownloadCsv: () => void;
+  onOpenBuilder: () => void;
 }
 
-export const QuizIntro: React.FC<QuizIntroProps> = ({ totalQuestions, onStart, onOpenEditor, onDownloadCsv }) => {
+export const QuizIntro: React.FC<QuizIntroProps> = ({ totalQuestions, onStart, onImport, onOpenEditor, onDownloadCsv, onOpenBuilder }) => {
   const [selectedQuestionCount, setSelectedQuestionCount] = useState<number>(10);
   const [customCountInput, setCustomCountInput] = useState<string>('10');
   const [diffDist, setDiffDist] = useState({ easy: 30, medium: 50, hard: 20 });
+  
+  // Hidden builder trigger state
+  const [secretCount, setSecretCount] = useState(0);
+  const [showBuilder, setShowBuilder] = useState(false);
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePresetSelect = (count: number) => {
      const validCount = Math.min(count, totalQuestions);
      setSelectedQuestionCount(validCount);
      setCustomCountInput(validCount.toString());
+     
+     // Secret Trigger Logic: 5 consecutive clicks reveals Builder
+     setSecretCount(prev => {
+        const next = prev + 1;
+        if (next >= 5) setShowBuilder(true);
+        return next;
+     });
   };
 
   const handleCustomInputChange = (val: string) => {
@@ -40,16 +56,79 @@ export const QuizIntro: React.FC<QuizIntroProps> = ({ totalQuestions, onStart, o
      setDiffDist(prev => ({ ...prev, [type]: val }));
   };
 
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (!json.questionIds || !Array.isArray(json.questionIds)) {
+          alert("无效的试卷配置文件 (Missing questionIds)");
+          return;
+        }
+        const loadedQuestions: QuizQuestion[] = [];
+        let missingCount = 0;
+        json.questionIds.forEach((id: number) => {
+          const originalQuestion = QUIZ_DATABASE.find(q => q.id === id);
+          if (originalQuestion) {
+            loadedQuestions.push(originalQuestion);
+          } else {
+            missingCount++;
+          }
+        });
+        
+        if (loadedQuestions.length === 0) {
+           alert("导入失败：未找到有效题目。");
+           return;
+        }
+        
+        if (missingCount > 0) alert(`导入成功，但有 ${missingCount} 道题目在当前版本题库中未找到，已自动忽略。`);
+        
+        // Start game with imported questions
+        onImport(loadedQuestions);
+        
+      } catch (err) {
+        console.error(err);
+        alert("JSON 解析失败，请检查文件格式。");
+      } finally {
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="max-w-3xl w-full text-center space-y-8 animate-in fade-in zoom-in duration-500 relative">
       {/* Header Buttons */}
       <div className="absolute top-0 right-0 flex gap-2">
+         {/* Hidden Import Input */}
+         <input type="file" ref={fileInputRef} onChange={handleImportJSON} accept=".json" className="hidden" />
+         
+         <button 
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold transition-all border border-slate-700"
+            title="导入 JSON 试卷"
+         >
+            <Upload size={14} /> Import JSON
+         </button>
+
+         {showBuilder && (
+            <button 
+               onClick={onOpenBuilder}
+               className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-400 hover:text-emerald-300 rounded-lg text-xs font-bold transition-all border border-slate-700 animate-in fade-in"
+               title="手动组卷"
+            >
+               <FilePlus size={14} /> Builder
+            </button>
+         )}
+         
          <button 
             onClick={onDownloadCsv}
             className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg text-xs font-bold transition-all border border-slate-700"
             title="导出题库 CSV"
          >
-            <Download size={14} /> Export
+            <Download size={14} /> Export CSV
          </button>
          <button 
             onClick={onOpenEditor}

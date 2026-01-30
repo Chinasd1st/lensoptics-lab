@@ -5,6 +5,7 @@ import { QuizIntro } from './quiz/QuizIntro';
 import { QuizGame } from './quiz/QuizGame';
 import { QuizSummary } from './quiz/QuizSummary';
 import { QuizEditor } from './quiz/QuizEditor';
+import { QuizBuilder } from './quiz/QuizBuilder';
 
 // Helper: Shuffle Array
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -17,7 +18,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export const KnowledgeQuizView: React.FC = () => {
-  const [gameState, setGameState] = useState<'INTRO' | 'PLAYING' | 'SUMMARY'>('INTRO');
+  const [gameState, setGameState] = useState<'INTRO' | 'PLAYING' | 'SUMMARY' | 'BUILDER'>('INTRO');
   const [showEditor, setShowEditor] = useState(false);
   
   // Session State
@@ -91,6 +92,14 @@ export const KnowledgeQuizView: React.FC = () => {
     setGameState('PLAYING');
   };
 
+  const handleImportGame = (importedQuestions: QuizQuestion[]) => {
+    setQuestions(importedQuestions);
+    setScore(0);
+    setCorrectCount(0);
+    setGameHistory([]);
+    setGameState('PLAYING');
+  };
+
   const handleGameFinish = (finalScore: number, history: ('CORRECT' | 'PARTIAL' | 'WRONG')[]) => {
      setScore(finalScore);
      setCorrectCount(history.filter(h => h === 'CORRECT').length);
@@ -128,6 +137,10 @@ export const KnowledgeQuizView: React.FC = () => {
      document.body.removeChild(link);
   };
 
+  if (gameState === 'BUILDER') {
+     return <QuizBuilder onBack={() => setGameState('INTRO')} />;
+  }
+
   return (
     <div className="h-full bg-slate-950 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
       
@@ -137,8 +150,10 @@ export const KnowledgeQuizView: React.FC = () => {
          <QuizIntro 
             totalQuestions={TOTAL_AVAILABLE} 
             onStart={handleStartGame}
+            onImport={handleImportGame}
             onOpenEditor={() => setShowEditor(true)}
             onDownloadCsv={handleDownloadCSV}
+            onOpenBuilder={() => setGameState('BUILDER')}
          />
       )}
 
