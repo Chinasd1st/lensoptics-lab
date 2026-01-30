@@ -1,11 +1,25 @@
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>相机镜头成像原理 · 互动演示</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              slate: {
+                850: '#151f32',
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <!-- Load KaTeX JS defer so it is available on window -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vniwctZTjgofDs" crossorigin="anonymous"></script>
@@ -17,14 +31,21 @@
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #1e293b; 
+        background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #475569; 
+        background: #94a3b8; 
         border-radius: 4px;
+        opacity: 0.5;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #64748b; 
+      .dark ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
       }
     </style>
 
@@ -34,17 +55,26 @@
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "fuse.js": "https://esm.sh/fuse.js@^7.1.0",
     "wavesurfer.js": "https://esm.sh/wavesurfer.js@7.8.1",
     "wavesurfer.js/dist/plugins/spectrogram.esm.js": "https://esm.sh/wavesurfer.js@7.8.1/dist/plugins/spectrogram.esm.js",
-    "wavesurfer.js/dist/plugins/timeline.esm.js": "https://esm.sh/wavesurfer.js@7.8.1/dist/plugins/timeline.esm.js"
+    "wavesurfer.js/dist/plugins/timeline.esm.js": "https://esm.sh/wavesurfer.js@7.8.1/dist/plugins/timeline.esm.js",
+    "wavesurfer.js/": "https://esm.sh/wavesurfer.js@^7.12.1/",
+    "peaks.js": "https://esm.sh/peaks.js@^4.0.0",
+    "three": "https://esm.sh/three@0.160.0",
+    "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.15.14?external=react,react-dom,three",
+    "@react-three/drei": "https://esm.sh/@react-three/drei@9.99.0?external=react,react-dom,three,@react-three/fiber",
+    "@dnd-kit/core": "https://esm.sh/@dnd-kit/core@6.3.1?external=react,react-dom",
+    "@dnd-kit/sortable": "https://esm.sh/@dnd-kit/sortable@10.0.0?external=react,react-dom,@dnd-kit/core,@dnd-kit/utilities",
+    "@dnd-kit/utilities": "https://esm.sh/@dnd-kit/utilities@3.2.2?external=react,react-dom"
   }
 }
 </script>
-  <script type="module" crossorigin src="/lensoptics-lab/assets/index-CTtSJEL_.js"></script>
+  <script type="module" crossorigin src="/lensoptics-lab/assets/index-Bo9Uqymi.js"></script>
 </head>
-  <body class="bg-slate-900 text-slate-200 antialiased overflow-hidden">
+  <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 antialiased overflow-hidden transition-colors duration-300">
     <div id="root"></div>
   </body>
 </html>
