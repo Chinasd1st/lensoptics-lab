@@ -454,8 +454,17 @@ const IntroView: React.FC<{ onEnter: (m?: ModuleType) => void, isDark: boolean, 
                </div>
             </div>
 
-            <div className="text-center pt-12 text-slate-500 dark:text-slate-600 text-xs font-mono">
-               &copy; 2025 CineTech Architecture Lab. Designed for Educational Use.
+            <div className="text-center pt-12 text-slate-500 dark:text-slate-600 text-xs font-mono space-y-2">
+               <div>&copy; 2025 CineTech Architecture Lab. Designed for Educational Use.</div>
+               <div className="flex justify-center items-center gap-4 opacity-60 hover:opacity-100 transition-opacity">
+                  <span className="flex items-center gap-1">
+                     本页总阅读量 <span id="busuanzi_value_page_pv" className="font-bold text-slate-700 dark:text-slate-400">...</span> 次
+                  </span>
+                  <span className="w-px h-3 bg-slate-400 dark:bg-slate-700"></span>
+                  <span className="flex items-center gap-1">
+                     本页总访客数 <span id="busuanzi_value_site_uv" className="font-bold text-slate-700 dark:text-slate-400">...</span> 人
+                  </span>
+               </div>
             </div>
          </div>
       </div>
