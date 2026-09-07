@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Palette, Grid, Activity, RefreshCw, ExternalLink, MousePointer2, Lock, Eye, EyeOff, ChevronsRight, Box, Maximize, Play, Info, AlertTriangle } from 'lucide-react';
 import { TabNavigation, TabItem } from './TabNavigation';
@@ -26,7 +26,7 @@ export const PostProductionView: React.FC<PostProductionViewProps> = ({ initialT
 
    return (
       <div className="flex flex-col lg:flex-row h-full overflow-hidden select-none">
-         <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
             
             <TabNavigation 
                tabs={tabs} 
@@ -128,15 +128,15 @@ const GradingModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
          {/* Monitor Area */}
-         <div className="flex-1 bg-[#050505] flex flex-col items-center justify-center relative p-4 lg:p-8 overflow-hidden">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 flex flex-col items-center justify-center relative p-4 lg:p-8 overflow-hidden">
             
             {/* Simulation Disclaimer Banner */}
-            <div className="absolute top-0 left-0 w-full bg-slate-900/90 border-b border-slate-700 text-[10px] text-slate-400 py-1 px-4 flex items-center justify-center gap-2 z-20">
+            <div className="absolute top-0 left-0 w-full bg-zinc-900/90 border-b border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 py-1 px-4 flex items-center justify-center gap-2 z-20">
                <AlertTriangle size={10} className="text-yellow-500" />
                <span>Web 模拟环境仅供参考。DaVinci Resolve 使用 32-bit 浮点运算与 Log 色彩空间，本演示基于浏览器 8-bit sRGB 滤镜近似模拟。</span>
             </div>
 
-            <div className="w-full max-w-5xl aspect-video relative rounded-lg overflow-hidden border border-[#333] shadow-2xl bg-[#0a0a0a] mt-4">
+            <div className="w-full max-w-5xl aspect-video relative rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-lg bg-zinc-50 dark:bg-zinc-950 mt-4">
                
                <svg className="absolute w-0 h-0">
                   <defs>
@@ -171,72 +171,72 @@ const GradingModule: React.FC = () => {
 
                {/* Overlay Info */}
                <div className="absolute top-4 left-4 flex gap-2">
-                  <div className={`px-2 py-1 rounded text-[10px] font-bold border ${lutEnabled ? 'bg-orange-900/80 border-orange-500 text-white' : 'bg-black/60 border-slate-600 text-slate-400'}`}>
+                  <div className={`px-2 py-1 rounded text-xs font-bold border ${lutEnabled ? 'bg-primary-100 border-primary-400 text-primary-900 dark:bg-primary-900/80 dark:border-primary-500 dark:text-white' : 'bg-zinc-950/60 border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400'}`}>
                      LUT: {lutEnabled ? 'REC.709 (ON)' : 'S-LOG3 (OFF)'}
                   </div>
-                  {bypass && <div className="px-2 py-1 rounded text-[10px] font-bold bg-red-600 text-white border border-red-400 animate-pulse">BYPASS</div>}
+                  {bypass && <div className="px-2 py-1 rounded text-xs font-bold bg-red-600 text-zinc-900 dark:text-white border border-red-400 animate-pulse">BYPASS</div>}
                </div>
             </div>
          </div>
 
          {/* DaVinci Style Controls */}
-         <div className="w-full lg:w-[480px] bg-[#1a1a1a] border-l border-[#2a2a2a] flex flex-col overflow-y-auto select-none shadow-xl z-10">
+         <div className="w-full lg:w-[480px] bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col overflow-y-auto select-none shadow-md z-10">
             
             {/* Header / Tools */}
-            <div className="p-4 border-b border-[#333] flex justify-between items-center bg-[#222]">
+            <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-zinc-100 dark:bg-zinc-800">
                <div className="flex flex-col">
-                  <h3 className="text-sm font-bold text-[#ccc] uppercase tracking-wider flex items-center gap-2">
-                     <Palette size={14} className="text-orange-500"/>
+                  <h3 className="text-sm font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider flex items-center gap-2">
+                     <Palette size={14} className="text-primary-500"/>
                      Color Wheels
                   </h3>
-                  <a href="https://www.blackmagicdesign.com/cn/products/davinciresolve" target="_blank" rel="noreferrer" className="text-[9px] text-[#666] hover:text-orange-500 flex items-center gap-1 transition-colors mt-1">
+                  <a href="https://www.blackmagicdesign.com/cn/products/davinciresolve" target="_blank" rel="noreferrer" className="text-[11px] text-zinc-500 dark:text-zinc-400 hover:text-primary-500 flex items-center gap-1 transition-colors mt-1">
                      Powered by Blackmagic Design <ExternalLink size={8}/>
                   </a>
                </div>
                <div className="flex gap-2">
-                  <button onClick={() => setBypass(!bypass)} className={`p-2 rounded transition-all ${bypass ? 'text-red-500 bg-[#333]' : 'text-[#666] hover:text-white hover:bg-[#333]'}`} title="Bypass Grade">
+                  <button onClick={() => setBypass(!bypass)} className={`p-2 rounded transition-colors ${bypass ? 'text-red-500 bg-zinc-700' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-700'}`} title="Bypass Grade">
                      {bypass ? <EyeOff size={16}/> : <Eye size={16}/>}
                   </button>
-                  <button onClick={() => setLutEnabled(!lutEnabled)} className={`px-3 py-1 rounded text-[10px] font-bold transition-all border ${lutEnabled ? 'bg-orange-600 border-orange-500 text-white' : 'bg-[#2a2a2a] border-[#333] text-[#888]'}`}>
+                  <button onClick={() => setLutEnabled(!lutEnabled)} className={`px-3 py-1 rounded text-xs font-bold transition-colors border ${lutEnabled ? 'bg-primary-600 border-primary-500 text-white' : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'}`}>
                      LUT
                   </button>
-                  <button onClick={resetAll} className="p-2 text-[#888] hover:text-white hover:bg-[#333] rounded transition-all" title="Reset All">
+                  <button onClick={resetAll} className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-700 rounded transition-all" title="Reset All">
                      <RefreshCw size={14}/>
                   </button>
                </div>
             </div>
 
             {/* Top Bar: Numeric Controls */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4 p-6 border-b border-[#333] bg-[#1f1f1f]">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 p-6 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900">
                <ScrubbableNumber label="反差 / Contrast" value={contrast} min={0} max={2.0} step={0.01} onChange={setContrast} />
                <ScrubbableNumber label="中心点 / Pivot" value={pivot} min={0} max={1} step={0.01} onChange={setPivot} />
                <ScrubbableNumber label="饱和度 / Sat" value={sat} min={0} max={100} step={0.5} onChange={setSat} />
                <ScrubbableNumber label="色相 / Hue" value={hue} min={0} max={100} step={0.5} onChange={setHue} />
-               <div className="col-span-2 h-px bg-[#333] my-1"></div>
-               <ScrubbableNumber label="色温 / Temp" value={temp} min={-4000} max={4000} step={10} onChange={setTemp} color={temp > 0 ? 'text-orange-400' : temp < 0 ? 'text-blue-400' : 'text-[#ccc]'} suffix=""/>
-               <ScrubbableNumber label="色调 / Tint" value={tint} min={-100} max={100} step={1} onChange={setTint} color={tint > 0 ? 'text-fuchsia-400' : tint < 0 ? 'text-green-400' : 'text-[#ccc]'} suffix=""/>
+               <div className="col-span-2 h-px bg-zinc-100 dark:bg-zinc-700 my-1"></div>
+               <ScrubbableNumber label="色温 / Temp" value={temp} min={-4000} max={4000} step={10} onChange={setTemp} color={temp > 0 ? 'text-primary-400' : temp < 0 ? 'text-primary-400' : 'text-zinc-300'} suffix=""/>
+               <ScrubbableNumber label="色调 / Tint" value={tint} min={-100} max={100} step={1} onChange={setTint} color={tint > 0 ? 'text-primary-400' : tint < 0 ? 'text-green-400' : 'text-zinc-300'} suffix=""/>
                <ScrubbableNumber label="中调细节 / MD" value={md} min={0} max={100} step={1} onChange={setMd} disabled suffix=""/>
                <ScrubbableNumber label="YRGB 混合 / Mix" value={100} min={0} max={100} step={1} onChange={()=>{}} disabled suffix=""/>
             </div>
 
             {/* Color Wheels Section */}
-            <div className="flex justify-between px-2 py-8 bg-[#1a1a1a]">
+            <div className="flex justify-between px-2 py-8 bg-zinc-100 dark:bg-zinc-900">
                <InteractiveWheel label="暗部 / Lift" type="LIFT" state={lift} onChange={setLift} />
                <InteractiveWheel label="中调 / Gamma" type="GAMMA" state={gamma} onChange={setGamma} />
                <InteractiveWheel label="亮部 / Gain" type="GAIN" state={gain} onChange={setGain} />
                <InteractiveWheel label="全局 / Offset" type="OFFSET" state={offset} onChange={setOffset} />
             </div>
 
-            <div className="px-6 py-4 bg-[#111] mt-auto border-t border-[#333]">
-               <div className="text-[10px] text-[#666] mb-2 font-bold uppercase flex items-center gap-2">
+            <div className="px-6 py-4 bg-zinc-50 dark:bg-zinc-900 mt-auto border-t border-zinc-200 dark:border-zinc-800">
+               <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mb-2 font-bold uppercase flex items-center gap-2">
                   <MousePointer2 size={12}/> 操作指南
                </div>
-               <p className="text-[10px] text-[#888] leading-relaxed">
-                  <span className="text-[#ccc] font-bold">拖拽数值:</span> 按住数字区域左右拖动可精细调整。
+               <p className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  <span className="text-zinc-700 dark:text-zinc-300 font-bold">拖拽数值:</span> 按住数字区域左右拖动可精细调整。
                   <br/>
-                  <span className="text-[#ccc] font-bold">双击复位:</span> 双击色轮标题或数值可快速重置。
+                  <span className="text-zinc-700 dark:text-zinc-300 font-bold">双击复位:</span> 双击色轮标题或数值可快速重置。
                   <br/>
-                  <span className="text-[#ccc] font-bold">色轮逻辑:</span> 拖动色轮中心调整色彩平衡 (RGB Balance)，拖动下方滑块调整明度 (Y)。
+                  <span className="text-zinc-700 dark:text-zinc-300 font-bold">色轮逻辑:</span> 拖动色轮中心调整色彩平衡 (RGB Balance)，拖动下方滑块调整明度 (Y)。
                </p>
             </div>
          </div>
@@ -256,7 +256,7 @@ const ScrubbableNumber: React.FC<{
    disabled?: boolean; 
    color?: string;
    suffix?: string;
-}> = ({ label, value, min, max, step, onChange, disabled, color = 'text-[#ccc]', suffix }) => {
+}> = ({ label, value, min, max, step, onChange, disabled, color = 'text-zinc-300', suffix }) => {
    const [isDragging, setIsDragging] = useState(false);
    const startXRef = useRef(0);
    const startValRef = useRef(0);
@@ -301,17 +301,17 @@ const ScrubbableNumber: React.FC<{
    return (
       <div className={`flex flex-col gap-1.5 ${disabled ? 'opacity-30' : ''}`}>
          <span 
-            className="text-[10px] text-[#888] font-bold cursor-pointer hover:text-white transition-colors select-none truncate"
+            className="text-[10px] text-zinc-600 dark:text-zinc-400 font-bold cursor-pointer hover:text-zinc-900 dark:hover:text-white transition-colors select-none truncate"
             onDoubleClick={handleReset}
             title="Double click to reset"
          >
             {label}
          </span>
          <div 
-            className={`flex items-center bg-[#2a2a2a] rounded overflow-hidden border border-transparent hover:border-[#444] group cursor-ew-resize ${isDragging ? 'border-[#666]' : ''}`}
+            className={`flex items-center bg-zinc-50 dark:bg-zinc-800 rounded overflow-hidden border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600 group cursor-ew-resize ${isDragging ? 'border-zinc-600' : ''}`}
             onMouseDown={handleMouseDown}
          >
-            <div className={`flex-1 text-xs font-mono text-right pr-2 py-1 ${color} group-hover:text-white transition-colors`}>
+            <div className={`flex-1 text-xs font-mono text-right pr-2 py-1 ${color} group-hover:text-zinc-900 dark:hover:text-white transition-colors`}>
                {value.toFixed(step < 1 ? 2 : 0)}{suffix}
             </div>
          </div>
@@ -373,7 +373,7 @@ const InteractiveWheel: React.FC<{
    return (
       <div className="flex flex-col items-center gap-3 w-1/4 select-none">
          <div 
-            className="text-[10px] text-[#888] font-bold tracking-wider cursor-pointer hover:text-white transition-colors uppercase truncate w-full text-center"
+            className="text-[10px] text-zinc-600 dark:text-zinc-400 font-bold tracking-wider cursor-pointer hover:text-zinc-900 dark:hover:text-white transition-colors uppercase truncate w-full text-center"
             onDoubleClick={() => onChange({ m: defaultM, x: 0, y: 0 })}
             title="Double click to reset wheel"
          >
@@ -383,7 +383,7 @@ const InteractiveWheel: React.FC<{
          {/* The Wheel */}
          <div 
             ref={wheelRef}
-            className="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full border-4 border-[#333] shadow-[inset_0_0_10px_black] flex items-center justify-center bg-[#111] cursor-crosshair group overflow-hidden"
+            className="relative w-16 h-16 lg:w-20 lg:h-20 rounded-full border-4 border-zinc-200 dark:border-zinc-800 shadow-[inset_0_0_10px_black] flex items-center justify-center bg-zinc-50 dark:bg-zinc-900 cursor-crosshair group overflow-hidden"
             onMouseDown={handlePuckDown}
             onDoubleClick={resetColor}
          >
@@ -394,13 +394,13 @@ const InteractiveWheel: React.FC<{
             <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(0,0,0,1)_0%,rgba(0,0,0,0)_70%)] opacity-80"></div>
             
             {/* Grid Lines */}
-            <div className="absolute inset-0 border border-[#ffffff20] rounded-full scale-50 pointer-events-none"></div>
-            <div className="absolute w-full h-[1px] bg-[#ffffff20] pointer-events-none"></div>
-            <div className="absolute h-full w-[1px] bg-[#ffffff20] pointer-events-none"></div>
+            <div className="absolute inset-0 border border-white/20 rounded-full scale-50 pointer-events-none"></div>
+            <div className="absolute w-full h-[1px] bg-zinc-50/20 pointer-events-none"></div>
+            <div className="absolute h-full w-[1px] bg-zinc-50/20 pointer-events-none"></div>
 
             {/* Puck */}
             <div 
-               className={`w-3 h-3 bg-[#ccc] rounded-full shadow-[0_0_5px_black] border border-white z-10 transition-transform duration-75 ${isDraggingPuck ? 'scale-125 bg-white' : ''}`}
+               className={`w-3 h-3 bg-zinc-300 rounded-full shadow-[0_0_5px_black] border border-white z-10 transition-transform duration-75 ${isDraggingPuck ? 'scale-125 bg-white' : ''}`}
                style={{ 
                   transform: `translate(${state.x * 35}px, ${state.y * 35}px)` 
                }}
@@ -417,10 +417,10 @@ const InteractiveWheel: React.FC<{
                value={state.m} 
                onDoubleClick={resetLuma}
                onChange={(e) => onChange({ ...state, m: Number(e.target.value) })}
-               className="w-full h-1 bg-[#333] rounded-full appearance-none accent-[#888] group-hover:accent-white cursor-pointer"
+               className="w-full h-1 bg-zinc-100 dark:bg-zinc-700 rounded-full appearance-none accent-[#888] group-hover:accent-white cursor-pointer"
             />
             <div 
-               className="text-[9px] text-[#555] font-mono cursor-pointer hover:text-white transition-colors"
+               className="text-[11px] text-zinc-600 dark:text-zinc-400 font-mono cursor-pointer hover:text-zinc-900 dark:hover:text-white transition-colors"
                onDoubleClick={resetLuma}
             >
                {state.m.toFixed(2)}
@@ -433,38 +433,38 @@ const InteractiveWheel: React.FC<{
 const NodesModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-[#1a1a1a] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-6 relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'radial-gradient(#fff 1px, transparent 0)', backgroundSize: '40px 40px'}}></div>
 
             {/* Node Flow Visualization */}
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 z-10 scale-90 lg:scale-100">
-               <div className="text-[#666] text-xs font-mono absolute top-10 left-10">SOURCE [Log]</div>
+               <div className="text-zinc-500 dark:text-zinc-400 text-xs font-mono absolute top-10 left-10">SOURCE [Log]</div>
                
                <Node icon={<Box size={24}/>} title="基础曝光 (Exp)" color="border-emerald-500" badge="01"/>
                <Arrow />
                <div className="flex flex-col gap-6 relative">
-                  <div className="absolute -left-8 top-1/2 w-8 h-[2px] bg-[#444]"></div>
+                  <div className="absolute -left-8 top-1/2 w-8 h-[2px] bg-zinc-600"></div>
                   <Node icon={<Palette size={24}/>} title="白平衡 (WB)" color="border-cyan-500" badge="02"/>
                   <Node icon={<Maximize size={24}/>} title="对比度 (Con)" color="border-cyan-500" badge="03"/>
-                  <div className="absolute -right-8 top-1/2 w-8 h-[2px] bg-[#444]"></div>
+                  <div className="absolute -right-8 top-1/2 w-8 h-[2px] bg-zinc-600"></div>
                </div>
                <Arrow />
-               <Node icon={<Play size={24}/>} title="风格化 (Look)" color="border-purple-500" badge="04"/>
+               <Node icon={<Play size={24}/>} title="风格化 (Look)" color="border-primary-500" badge="04"/>
                
-               <div className="text-[#666] text-xs font-mono absolute bottom-10 right-10">OUTPUT [Rec.709]</div>
+               <div className="text-zinc-500 dark:text-zinc-400 text-xs font-mono absolute bottom-10 right-10">OUTPUT [Rec.709]</div>
             </div>
 
-            <div className="mt-12 p-4 bg-[#222] border border-[#333] rounded-lg max-w-lg text-center shadow-lg">
-               <h4 className="text-sm font-bold text-white mb-2">串行节点 (Serial Nodes)</h4>
-               <p className="text-xs text-[#888] leading-relaxed">
+            <div className="mt-12 p-4 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg max-w-lg text-center shadow-lg">
+               <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">串行节点 (Serial Nodes)</h4>
+               <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   DaVinci 的核心是节点流。信号从左至右流动。
                   <br/>
                   <span className="text-emerald-400">Node 01:</span> 处理 Log 素材的曝光校正。
                   <br/>
                   <span className="text-cyan-400">Node 02/03:</span> 并行处理色彩平衡和反差，互不干扰。
                   <br/>
-                  <span className="text-purple-400">Node 04:</span> 最后套用 LUT 或胶片模拟，统一输出。
+                  <span className="text-primary-400">Node 04:</span> 最后套用 LUT 或胶片模拟，统一输出。
                </p>
             </div>
          </div>
@@ -475,7 +475,7 @@ const NodesModule: React.FC = () => {
 const ScopesModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-[#0a0a0a] flex items-center justify-center p-6">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full max-w-4xl">
                <ScopeBox title="波形图 (Waveform)">
                   <svg className="w-full h-40" viewBox="0 0 200 100">
@@ -487,27 +487,27 @@ const ScopesModule: React.FC = () => {
                      <polyline points="0,50 20,40 40,60 60,30 80,70 100,20 120,50 140,10 160,80 180,40 200,50" fill="none" stroke="#22d3ee" strokeWidth="1" strokeOpacity="0.5" />
                      <polyline points="0,48 30,35 60,55 90,25 120,65 150,15 180,45 200,48" fill="none" stroke="#22d3ee" strokeWidth="2" strokeOpacity="0.8" />
                   </svg>
-                  <div className="text-[9px] text-[#666] mt-2">X轴：画面水平位置 | Y轴：亮度 (0-100 IRE)</div>
+                  <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-2">X轴：画面水平位置 | Y轴：亮度 (0-100 IRE)</div>
                </ScopeBox>
                <ScopeBox title="分量图 (RGB Parade)">
                   <div className="flex gap-1 h-40">
-                     <div className="flex-1 border-r border-[#333] relative overflow-hidden bg-black">
+                     <div className="flex-1 border-r border-zinc-200 dark:border-zinc-800 relative overflow-hidden bg-black">
                         <div className="absolute inset-x-0 bottom-10 h-20 bg-red-500/40 blur-[1px]"></div>
                         <div className="absolute inset-x-2 bottom-12 h-16 bg-red-500/60 blur-[2px]"></div>
-                        <span className="absolute top-1 left-1 text-[8px] text-red-500 font-bold">R</span>
+                        <span className="absolute top-1 left-1 text-[11px] text-red-600 dark:text-red-500 font-bold">R</span>
                      </div>
-                     <div className="flex-1 border-r border-[#333] relative overflow-hidden bg-black">
+                     <div className="flex-1 border-r border-zinc-200 dark:border-zinc-800 relative overflow-hidden bg-black">
                         <div className="absolute inset-x-0 bottom-8 h-20 bg-green-500/40 blur-[1px]"></div>
                         <div className="absolute inset-x-4 bottom-10 h-16 bg-green-500/60 blur-[2px]"></div>
-                        <span className="absolute top-1 left-1 text-[8px] text-green-500 font-bold">G</span>
+                        <span className="absolute top-1 left-1 text-[11px] text-green-500 font-bold">G</span>
                      </div>
                      <div className="flex-1 relative overflow-hidden bg-black">
-                        <div className="absolute inset-x-0 bottom-12 h-20 bg-blue-500/40 blur-[1px]"></div>
-                        <div className="absolute inset-x-1 bottom-14 h-16 bg-blue-500/60 blur-[2px]"></div>
-                        <span className="absolute top-1 left-1 text-[8px] text-blue-500 font-bold">B</span>
+                        <div className="absolute inset-x-0 bottom-12 h-20 bg-primary-500/40 blur-[1px]"></div>
+                        <div className="absolute inset-x-1 bottom-14 h-16 bg-primary-500/60 blur-[2px]"></div>
+                        <span className="absolute top-1 left-1 text-[11px] text-primary-500 font-bold">B</span>
                      </div>
                   </div>
-                  <div className="text-[9px] text-[#666] mt-2">独立显示 RGB 三通道亮度，用于白平衡校准。</div>
+                  <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-2">独立显示 RGB 三通道亮度，用于白平衡校准。</div>
                </ScopeBox>
             </div>
          </div>
@@ -516,30 +516,30 @@ const ScopesModule: React.FC = () => {
 };
 
 const Node: React.FC<{ icon: React.ReactNode; title: string; color: string; badge?: string }> = ({ icon, title, color, badge }) => (
-   <div className={`w-32 h-20 bg-[#222] rounded-lg border-2 flex flex-col items-center justify-center gap-1 shadow-2xl relative ${color} transition-transform hover:scale-105`}>
-      <div className="text-white/40">{icon}</div>
-      <div className="text-[10px] font-bold text-white uppercase">{title}</div>
+   <div className={`w-32 h-20 bg-zinc-50 dark:bg-zinc-800 rounded-lg border-2 flex flex-col items-center justify-center gap-1 shadow-lg relative ${color} transition-transform hover:scale-105`}>
+      <div className="text-zinc-900 dark:text-zinc-100/40 dark:text-white/40">{icon}</div>
+      <div className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase">{title}</div>
       {/* Node connectors */}
-      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-[#444] border border-[#666] rounded-full"></div>
+      <div className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-zinc-600 border border-zinc-300 dark:border-zinc-600 rounded-full"></div>
       <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-600 border border-cyan-400 rounded-full"></div>
-      {badge && <div className="absolute -top-2 -left-2 bg-[#333] text-[9px] text-[#888] px-1.5 rounded border border-[#444] font-mono">{badge}</div>}
+      {badge && <div className="absolute -top-2 -left-2 bg-zinc-100 dark:bg-zinc-700 text-[11px] text-zinc-600 dark:text-zinc-400 px-1.5 rounded border border-zinc-300 dark:border-zinc-600 font-mono">{badge}</div>}
    </div>
 );
 
 const Arrow = () => (
    <div className="hidden lg:flex w-16 items-center">
-      <div className="h-[2px] bg-[#444] flex-1"></div>
-      <ChevronsRight size={16} className="text-[#666]"/>
+      <div className="h-[2px] bg-zinc-600 flex-1"></div>
+      <ChevronsRight size={16} className="text-zinc-500 dark:text-zinc-400"/>
    </div>
 );
 
 const ScopeBox: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-   <div className="bg-[#111] rounded-lg p-4 border border-[#333]">
-      <div className="text-[10px] font-bold text-[#888] mb-4 flex justify-between">
+   <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4 border border-zinc-200 dark:border-zinc-800">
+      <div className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 mb-4 flex justify-between">
          <span>{title}</span>
          <span className="text-cyan-600 font-mono">LIVE</span>
       </div>
-      <div className="border-t border-[#222] pt-4 flex flex-col items-center justify-center">
+      <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 flex flex-col items-center justify-center">
          {children}
       </div>
    </div>

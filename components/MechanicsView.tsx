@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef } from 'react';
 import { MotorType } from '../types';
 import { Select, Slider } from './Controls';
@@ -22,15 +22,15 @@ export const MechanicsView: React.FC<MechanicsViewProps> = ({ initialTab }) => {
    }, [initialTab]);
 
    const tabs: TabItem[] = [
-      { id: 'FOCUS', label: '对焦马达硬件', icon: <Zap size={16}/> },
-      { id: 'ALGORITHM', label: '对焦算法 (PDAF/CDAF)', icon: <Scan size={16}/> },
-      { id: 'STABILIZATION', label: '防抖系统', icon: <Vibrate size={16}/> },
-      { id: 'FLANGE', label: '法兰距与卡口', icon: <Ruler size={16}/> },
+      { id: 'FOCUS', label: '对焦算法实验室', icon: <Zap size={16}/> },
+      { id: 'ALGORITHM', label: '对焦算法实验 (PDAF/CDAF)', icon: <Scan size={16}/> },
+      { id: 'STABILIZATION', label: '稳定系统', icon: <Vibrate size={16}/> },
+      { id: 'FLANGE', label: '法兰距测量', icon: <Ruler size={16}/> },
    ];
 
    return (
     <div className="flex flex-col lg:flex-row h-full">
-      <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
         
         <TabNavigation 
           tabs={tabs} 
@@ -59,9 +59,9 @@ const FocusMotorModule: React.FC = () => {
 
    const getMotorStats = (type: MotorType) => {
       switch (type) {
-         case MotorType.STM: return { speed: 0.5, noise: '中', smoothness: '高', step: true };
-         case MotorType.USM: return { speed: 2.0, noise: '低', smoothness: '中', step: false };
-         case MotorType.LINEAR: return { speed: 5.0, noise: '静音', smoothness: '极高', step: false };
+   case MotorType.STM: return { speed: 0.5, noise: '低', smoothness: '一般', step: true };
+   case MotorType.USM: return { speed: 2.0, noise: '低', smoothness: '平滑', step: false };
+   case MotorType.LINEAR: return { speed: 5.0, noise: '极低', smoothness: '极平滑', step: false };
       }
    };
 
@@ -89,42 +89,42 @@ const FocusMotorModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 relative flex items-center justify-center">
-            <div className="relative w-[600px] h-[400px] bg-slate-800 rounded-xl overflow-hidden shadow-2xl border border-slate-600">
-               <div className="absolute top-4 left-4 text-white z-10">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 relative flex items-center justify-center">
+            <div className="relative w-[600px] h-[400px] bg-zinc-50 dark:bg-zinc-800 rounded-xl overflow-hidden shadow-lg border border-zinc-600">
+               <div className="absolute top-4 left-4 text-zinc-900 dark:text-white z-10">
                   <h2 className="text-2xl font-bold flex items-center gap-2">
-                     {motorType === MotorType.STM && <Cpu className="text-blue-400" />}
+                     {motorType === MotorType.STM && <Cpu className="text-primary-400" />}
                      {motorType === MotorType.USM && <Activity className="text-yellow-400" />}
-                     {motorType === MotorType.LINEAR && <Zap className="text-purple-400" />}
+                     {motorType === MotorType.LINEAR && <Zap className="text-primary-400" />}
                      {motorType}
                   </h2>
                </div>
                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="absolute w-24 h-48 bg-cyan-900/50 border-2 border-cyan-500 rounded-lg flex items-center justify-center backdrop-blur-sm transition-transform will-change-transform z-20"
+                  <div className="absolute w-24 h-48 bg-zinc-300/60 border-2 border-zinc-400 dark:bg-zinc-800/80 dark:border-zinc-600 rounded-lg flex items-center justify-center backdrop-blur-sm transition-transform will-change-transform z-20"
                        style={{ transform: `translateX(${(currentFocus - 50) * 4}px)` }}>
-                     <div className="text-cyan-200 font-mono text-xs">Lens Group</div>
+                     <div className="text-zinc-900 dark:text-zinc-100 font-mono text-xs">Lens Group</div>
                   </div>
                   {/* Motor Graphics */}
-                  {motorType === MotorType.STM && <div className="absolute w-[400px] h-4 bg-slate-600 rounded" style={{backgroundImage: 'linear-gradient(90deg, transparent 50%, #94a3b8 50%)', backgroundSize: '20px 100%', animation: currentFocus !== targetFocus ? 'screw-spin 0.5s linear infinite' : 'none'}}></div>}
+                  {motorType === MotorType.STM && <div className="absolute w-[400px] h-4 bg-zinc-400 dark:bg-zinc-600 rounded" style={{backgroundImage: 'linear-gradient(90deg, transparent 50%, #94a3b8 50%)', backgroundSize: '20px 100%', animation: currentFocus !== targetFocus ? 'screw-spin 0.5s linear infinite' : 'none'}}></div>}
                   {motorType === MotorType.USM && <div className="absolute w-64 h-64 rounded-full border-[12px] border-yellow-700/50 flex items-center justify-center"><div className={`w-full h-full rounded-full border-[4px] border-dashed border-yellow-500/80 absolute ${currentFocus !== targetFocus ? 'animate-spin' : ''}`}></div></div>}
-                  {motorType === MotorType.LINEAR && <div className="absolute top-20 w-[400px] h-4 bg-purple-900/50 rounded flex justify-between px-2"></div>}
+                  {motorType === MotorType.LINEAR && <div className="absolute top-20 w-[400px] h-4 bg-primary-200 dark:bg-primary-900/50 rounded flex justify-between px-2"></div>}
                </div>
             </div>
          </div>
-         <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6">对焦驱动硬件</h3>
-            <Select label="马达类型" value={motorType} options={[{ label: 'STM 步进', value: MotorType.STM }, { label: 'USM 超声波', value: MotorType.USM }, { label: 'Linear 线性', value: MotorType.LINEAR }]} onChange={(v) => setMotorType(v as MotorType)} />
-            <Slider label="目标位置" value={targetFocus} min={0} max={100} onChange={setTargetFocus} />
-            <div className="bg-slate-900 p-4 rounded text-xs space-y-2 mt-4">
-               <div className="flex justify-between"><span>速度</span><span className="text-white">{stats.speed > 2 ? '极快 (指哪打哪)' : '普通'}</span></div>
-               <div className="flex justify-between"><span>噪音</span><span className="text-white">{stats.noise}</span></div>
-               <div className="flex justify-between"><span>平滑度</span><span className="text-white">{stats.smoothness}</span></div>
+         <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-800 p-6 flex flex-col">
+      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">对焦算法实验室</h3>
+      <Select label="选择马达类型" value={motorType} options={[{ label: 'STM 步进式', value: MotorType.STM }, { label: 'USM 超声波', value: MotorType.USM }, { label: 'Linear 线性', value: MotorType.LINEAR }]} onChange={(v) => setMotorType(v as MotorType)} />
+      <Slider label="目标对焦位置" value={targetFocus} min={0} max={100} onChange={setTargetFocus} />
+            <div className="bg-zinc-100 dark:bg-zinc-900 p-4 rounded text-xs space-y-2 mt-4">
+      <div className="flex justify-between"><span>速度</span><span className="text-zinc-900 dark:text-white">{stats.speed > 2 ? '平滑快速 (线性/超声)' : '平滑一般'}</span></div>
+      <div className="flex justify-between"><span>噪声</span><span className="text-zinc-900 dark:text-white">{stats.noise}</span></div>
+      <div className="flex justify-between"><span>平滑度</span><span className="text-zinc-900 dark:text-white">{stats.smoothness}</span></div>
             </div>
             {motorType === MotorType.LINEAR && (
-               <div className="mt-4 p-3 bg-slate-700/50 rounded border border-purple-500/30 text-[10px] text-slate-300 italic">
-                  * 索尼的实时追踪对焦配合线性马达，被戏称为"追得比债主还紧"。
+               <div className="mt-4 p-3 bg-zinc-100 dark:bg-zinc-700/50 rounded border border-zinc-200 dark:border-primary-500/30 text-xs text-zinc-700 dark:text-zinc-300 italic">
+                  三种马达各有取舍：STM 步进马达安静但速度较慢；USM 超声波马达速度较快且安静；线性马达速度最快、平滑度最高，但成本与体积最大。
                </div>
-            )}
+             )}
          </div>
          <style>{`@keyframes screw-spin { from { background-position: 0 0; } to { background-position: 20px 0; } }`}</style>
       </div>
@@ -200,26 +200,26 @@ const FocusAlgoModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex flex-col items-center justify-center p-8 relative">
-            <div className="relative w-full max-w-3xl aspect-[16/9] bg-black border border-slate-700 rounded-xl overflow-hidden shadow-2xl flex">
-               <div className="w-1/2 h-full border-r border-slate-800 relative overflow-hidden group">
-                  <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?q=80&w=600" className="w-full h-full object-cover transition-all duration-75 origin-center scale-110" style={{ filter: `blur(${blurAmount}px)` }} />
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-8 relative">
+            <div className="relative w-full max-w-3xl aspect-[16/9] bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-lg flex">
+               <div className="w-1/2 h-full border-r border-zinc-200 dark:border-zinc-800 relative overflow-hidden group">
+                  <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?q=80&w=600" className="w-full h-full object-cover transition-colors duration-75 origin-center scale-110" style={{ filter: `blur(${blurAmount}px)` }} />
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
-                     <span className="text-[10px] font-mono text-white bg-black/50 px-1 rounded">AF-S</span>
-                     {locked && <span className="text-[10px] font-mono text-white bg-green-600 px-1 rounded animate-pulse">LOCKED</span>}
+                     <span className="text-[10px] font-mono text-zinc-900 dark:text-white bg-zinc-950/50 px-1 rounded">AF-S</span>
+                     {locked && <span className="text-[10px] font-mono text-zinc-900 dark:text-white bg-green-600 px-1 rounded animate-pulse">LOCKED</span>}
                   </div>
-                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 transition-all duration-200 ${locked ? 'border-green-500 scale-100' : 'border-white/80 scale-110'}`}>
+                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 transition-colors duration-200 ${locked ? 'border-green-500 scale-100' : 'border-white/80 scale-110'}`}>
                      <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-inherit"></div>
                      <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-inherit"></div>
                      <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-inherit"></div>
                      <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-inherit"></div>
                   </div>
                </div>
-               <div className="w-1/2 h-full bg-slate-900 p-4 relative flex flex-col">
+               <div className="w-1/2 h-full bg-zinc-50 dark:bg-zinc-900 p-4 relative flex flex-col">
                   {algo === 'CDAF' ? (
                      <>
-                        <div className="flex items-center gap-2 mb-4"><LineChart size={16} className="text-orange-400"/><span className="text-xs font-bold text-orange-400">Contrast Analysis (CDAF)</span></div>
-                        <div className="flex-1 bg-black/50 border border-slate-700 relative rounded overflow-hidden">
+                        <div className="flex items-center gap-2 mb-4"><LineChart size={16} className="text-primary-400"/><span className="text-xs font-bold text-primary-600 dark:text-primary-400">Contrast Analysis (CDAF)</span></div>
+                        <div className="flex-1 bg-zinc-100 dark:bg-zinc-950/50 border border-zinc-200 dark:border-zinc-800 relative rounded overflow-hidden">
                            <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: 0.2}}></div>
                            <div className="absolute inset-0 flex items-end px-2 pb-2">
                               <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
@@ -228,19 +228,19 @@ const FocusAlgoModule: React.FC = () => {
                                  {contrastHistory.length > 0 && <circle cx={(contrastHistory.length / 120) * 100} cy={100 - contrast} r="3" fill="white" />}
                               </svg>
                            </div>
-                           <div className="absolute top-2 right-2 text-xl font-black text-slate-600 font-mono">{Math.round(contrast)}</div>
+                           <div className="absolute top-2 right-2 text-xl font-black text-zinc-600 dark:text-zinc-400 font-mono">{Math.round(contrast)}</div>
                         </div>
-                        <div className="mt-2 text-[10px] text-slate-500 leading-tight">系统必须推过峰值 (Overshoot) 才能确认最大对比度，随后回退。这就造成了可见的“呼吸”现象。</div>
+      <div className="mt-2 text-xs text-zinc-500 dark:text-zinc-400 leading-tight">对焦过冲 (Overshoot)：处理器向目标位置推进时越过目标再回调。轻微的过冲是正常的收敛过程，但过大的过冲会表现为肉眼可见的"拉风箱"式反复摆动。</div>
                      </>
                   ) : (
                      <>
-                        <div className="flex items-center gap-2 mb-4"><AlignVerticalSpaceAround size={16} className="text-emerald-400"/><span className="text-xs font-bold text-emerald-400">Phase Detection (PDAF)</span></div>
+                        <div className="flex items-center gap-2 mb-4"><AlignVerticalSpaceAround size={16} className="text-emerald-400"/><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Phase Detection (PDAF)</span></div>
                         <div className="flex-1 flex flex-col justify-center items-center gap-4 py-4">
                            <div className="relative w-full">
-                              <div className="flex justify-between text-[9px] text-slate-500 mb-1 px-1"><span>Sensor Left</span><span>Phase Δ: <span className="text-white font-mono">{phaseShift.toFixed(1)}</span></span><span>Sensor Right</span></div>
-                              <div className="w-full h-16 bg-slate-950 border border-slate-700 relative overflow-hidden rounded">
+      <div className="flex justify-between text-[11px] text-zinc-500 dark:text-zinc-400 mb-1 px-1"><span>Sensor Left</span><span>Phase <span className="text-zinc-900 dark:text-white font-mono">{phaseShift.toFixed(1)}</span></span><span>Sensor Right</span></div>
+                              <div className="w-full h-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 relative overflow-hidden rounded">
                                  <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-red-500/50 z-10"></div>
-                                 <div className="absolute top-0 left-0 w-full h-1/2 border-b border-slate-800 flex items-center justify-center overflow-hidden">
+                                 <div className="absolute top-0 left-0 w-full h-1/2 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-center overflow-hidden">
                                     <div className="flex gap-4 opacity-70" style={{ transform: `translateX(${phaseShift}px)` }}>{[...Array(10)].map((_,i) => <div key={i} className="w-2 h-8 bg-emerald-500 rounded-full blur-[1px]"></div>)}</div>
                                  </div>
                                  <div className="absolute bottom-0 left-0 w-full h-1/2 flex items-center justify-center overflow-hidden">
@@ -249,31 +249,31 @@ const FocusAlgoModule: React.FC = () => {
                               </div>
                            </div>
                            <div className="text-center w-full">
-                              <div className={`text-sm font-bold transition-colors ${Math.abs(phaseShift) < 2 ? 'text-green-400' : 'text-slate-600'}`}>{Math.abs(phaseShift) < 2 ? 'PHASE ALIGNED' : 'PHASE MISMATCH'}</div>
-                              <div className="w-full h-1 bg-slate-800 mt-2 rounded overflow-hidden"><div className={`h-full transition-all duration-75 ${Math.abs(phaseShift) < 2 ? 'bg-green-500' : 'bg-slate-600'}`} style={{ width: `${Math.max(0, 100 - Math.abs(phaseShift)*3)}%`, margin: '0 auto' }}></div></div>
+                              <div className={`text-sm font-bold transition-colors ${Math.abs(phaseShift) < 2 ? 'text-green-400' : 'text-zinc-600 dark:text-zinc-400'}`}>{Math.abs(phaseShift) < 2 ? 'PHASE ALIGNED' : 'PHASE MISMATCH'}</div>
+                              <div className="w-full h-1 bg-zinc-50 dark:bg-zinc-800 mt-2 rounded overflow-hidden"><div className={`h-full transition-colors duration-75 ${Math.abs(phaseShift) < 2 ? 'bg-green-500' : 'bg-zinc-600'}`} style={{ width: `${Math.max(0, 100 - Math.abs(phaseShift)*3)}%`, margin: '0 auto' }}></div></div>
                            </div>
                         </div>
-                        <div className="mt-auto text-[10px] text-slate-500 leading-tight">通过比较左右相位差，系统直接算出焦点的<strong>方向</strong>和<strong>距离</strong>。一步到位，无需犹豫。</div>
+      <div className="mt-auto text-xs text-zinc-500 dark:text-zinc-400 leading-tight">稳定系统的三种路径：<strong>光学防抖</strong>（OIS）通过镜片位移抵消抖动，<strong>机身防抖</strong>（IBIS）通过传感器位移补偿，电子防抖（EIS）则依靠裁切画面与算法增稳——前两者是物理补偿，EIS 效果最弱但无需额外硬件。</div>
                      </>
                   )}
                </div>
             </div>
          </div>
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><Scan size={20} className="text-cyan-400"/> 对焦算法实验室</h3>
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Scan size={20} className="text-primary-400"/> 对焦算法实验台 (PDAF/CDAF)</h3>
             <div className="flex gap-2 mb-6">
-               <button onClick={() => { setAlgo('CDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-all ${algo === 'CDAF' ? 'bg-orange-900/30 border-orange-500 text-orange-200' : 'border-slate-700 text-slate-500 hover:bg-slate-800'}`}>反差对焦 (CDAF)</button>
-               <button onClick={() => { setAlgo('PDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-all ${algo === 'PDAF' ? 'bg-emerald-900/30 border-emerald-500 text-emerald-200' : 'border-slate-700 text-slate-500 hover:bg-slate-800'}`}>相位对焦 (PDAF)</button>
+      <button onClick={() => { setAlgo('CDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'CDAF' ? 'bg-primary-100 dark:bg-primary-900/30 border-primary-400 dark:border-primary-500 text-primary-700 dark:text-orange-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>对比度检测 (CDAF)</button>
+      <button onClick={() => { setAlgo('PDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'PDAF' ? 'bg-emerald-100 dark:bg-emerald-900/30 border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>相位检测 (PDAF)</button>
             </div>
-            <div className="mb-6 bg-slate-800 p-4 rounded border border-slate-700">
-               <div className="flex justify-between mb-2 text-xs text-slate-400"><span>Manual Override</span><span>{lensPos.toFixed(0)}%</span></div>
-               <input type="range" min="0" max="100" step="0.1" value={lensPos} onChange={(e) => { setLensPos(Number(e.target.value)); setLocked(false); }} className="w-full accent-cyan-500 h-1 bg-slate-600 appearance-none rounded" />
+            <div className="mb-6 bg-zinc-50 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800">
+               <div className="flex justify-between mb-2 text-xs text-zinc-600 dark:text-zinc-400"><span>Manual Override</span><span>{lensPos.toFixed(0)}%</span></div>
+               <input type="range" min="0" max="100" step="0.1" value={lensPos} onChange={(e) => { setLensPos(Number(e.target.value)); setLocked(false); }} className="w-full accent-primary-500 h-1 bg-zinc-600 appearance-none rounded" />
             </div>
-            <button onClick={startFocusing} disabled={isFocusing || locked} className={`w-full py-4 rounded font-bold mb-6 flex items-center justify-center gap-2 shadow-lg transition-all ${locked ? 'bg-green-600 text-white' : isFocusing ? 'bg-slate-700 text-slate-400 cursor-wait' : 'bg-cyan-600 hover:bg-cyan-500 text-white'}`}>
-               {locked ? <><Focus size={16}/> FOCUS LOCKED</> : isFocusing ? 'FOCUSING...' : 'AF-ON (半按快门)'}
+            <button onClick={startFocusing} disabled={isFocusing || locked} className={`w-full py-4 rounded font-bold mb-6 flex items-center justify-center gap-2 shadow-lg transition-colors ${locked ? 'bg-green-600 text-white' : isFocusing ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 cursor-wait' : 'bg-primary-600 hover:bg-primary-500 text-white'}`}>
+      {locked ? <><Focus size={16}/> FOCUS LOCKED</> : isFocusing ? 'FOCUSING...' : 'AF-ON (半按快门)'}
             </button>
-            <div className="bg-slate-800/50 p-4 rounded border border-slate-700 space-y-4">
-               {algo === 'CDAF' ? <div className="text-xs text-slate-300 leading-relaxed"><strong className="text-orange-400 block mb-1 text-sm">Contrast Detection (CDAF)</strong>原理：处理器移动镜片，寻找图像对比度最高的点。<br/><br/><span className="text-slate-500">缺点：它不知道焦点在前还是在后，必须“试错”。到达峰值后，它必须继续往前走一点（确认对比度下降了），然后再退回来。这就是肉眼可见的“拉风箱”。</span></div> : <div className="text-xs text-slate-300 leading-relaxed"><strong className="text-emerald-400 block mb-1 text-sm">Phase Detection (PDAF)</strong>原理：利用传感器上成对的遮蔽像素，模拟人眼视差。<br/><br/><span className="text-slate-500">优点：通过相位偏移量，处理器能瞬间算出焦点偏离了多少、往哪个方向偏。镜片可以直接极速运动到目标位置，无需来回确认。</span></div>}
+            <div className="bg-zinc-800/50 p-4 rounded border border-zinc-200 dark:border-zinc-800 space-y-4">
+      {algo === 'CDAF' ? <div className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed"><strong className="text-primary-400 block mb-1 text-sm">Contrast Detection (CDAF)</strong>原理：处理器移动镜片，寻找图像对比度最高的点。<br/><br/><span className="text-zinc-500 dark:text-zinc-400">缺点：它不知道焦点在前还是在后，必须"试错"。到达峰值后，它必须继续往前走一点（确认对比度下降了），然后再退回来。这就是肉眼可见的"拉风箱"。</span></div> : <div className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed"><strong className="text-emerald-400 block mb-1 text-sm">Phase Detection (PDAF)</strong>原理：利用传感器上成对的遮蔽像素，模拟人眼视差。<br/><br/><span className="text-zinc-500 dark:text-zinc-400">优点：通过相位偏移量，处理器能瞬间算出焦点偏离了多少、往哪个方向偏。镜片可以直接极速运动到目标位置，无需来回确认。</span></div>}
             </div>
          </div>
       </div>
@@ -287,25 +287,25 @@ const StabilizationModule: React.FC = () => {
    
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex items-center justify-center relative overflow-hidden">
-            <div className="relative w-[480px] h-[320px] bg-black border-4 border-slate-700 rounded-lg overflow-hidden shadow-2xl">
-               <div className="absolute top-2 right-2 text-red-500 animate-pulse text-xs font-mono z-20">REC</div>
-               <div className="absolute bottom-2 left-2 text-white text-xs font-mono z-20">STAB: {mode}</div>
-               {mode === 'EIS' && <div className="absolute inset-8 border-2 border-red-500/50 z-10 pointer-events-none"><span className="absolute -top-5 left-0 text-[10px] text-red-500">EIS Crop Area (10-20%)</span></div>}
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center relative overflow-hidden">
+            <div className="relative w-[480px] h-[320px] bg-zinc-50 dark:bg-black border-4 border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-lg">
+               <div className="absolute top-2 right-2 text-red-600 dark:text-red-500 animate-pulse text-xs font-mono z-20">REC</div>
+               <div className="absolute bottom-2 left-2 text-zinc-900 dark:text-white text-xs font-mono z-20">STAB: {mode}</div>
+               {mode === 'EIS' && <div className="absolute inset-8 border-2 border-red-500/50 z-10 pointer-events-none"><span className="absolute -top-5 left-0 text-xs text-red-600 dark:text-red-500">EIS Crop Area (10-20%)</span></div>}
                <div className="absolute inset-[-50px] bg-cover bg-center origin-center" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1000&auto=format&fit=crop)', animation: `shake 0.5s infinite linear`, transform: mode === 'EIS' ? 'scale(1.2)' : 'scale(1)' }}></div>
                <style>{`@keyframes shake { 0% { transform: translate(0,0) rotate(0) ${mode === 'EIS' ? 'scale(1.2)' : ''}; } 25% { transform: translate(${shakeAmount * (mode === 'OFF' ? 10 : 2)}px, ${shakeAmount * (mode === 'OFF' ? 10 : 2)}px) rotate(${mode === 'OFF' ? 1 : 0}deg) ${mode === 'EIS' ? 'scale(1.2)' : ''}; } 50% { transform: translate(-${shakeAmount * (mode === 'OFF' ? 8 : 1)}px, ${shakeAmount * (mode === 'OFF' ? 12 : 2)}px) rotate(-${mode === 'OFF' ? 1 : 0}deg) ${mode === 'EIS' ? 'scale(1.2)' : ''}; } 75% { transform: translate(${shakeAmount * (mode === 'OFF' ? 5 : 1)}px, -${shakeAmount * (mode === 'OFF' ? 5 : 1)}px) rotate(0) ${mode === 'EIS' ? 'scale(1.2)' : ''}; } 100% { transform: translate(0,0) rotate(0) ${mode === 'EIS' ? 'scale(1.2)' : ''}; } }`}</style>
                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50"><div className="w-8 h-8 border border-white"></div><div className="w-1 h-1 bg-white"></div></div>
             </div>
          </div>
-         <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6">机内防抖系统</h3>
+         <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-800 p-6 flex flex-col">
+      <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">稳定系统实验室</h3>
             <div className="space-y-4">
-               <Slider label="手抖幅度" value={shakeAmount} min={0} max={3} step={0.5} onChange={setShakeAmount} />
+      <Slider label="抖动幅度" value={shakeAmount} min={0} max={3} step={0.5} onChange={setShakeAmount} />
                <div className="space-y-2">
-                  <button onClick={() => setMode('OFF')} className={`w-full p-3 rounded border text-left ${mode === 'OFF' ? 'bg-red-900/50 border-red-500' : 'border-slate-700'}`}><div className="font-bold text-sm text-red-400 flex items-center gap-2"><BicepsFlexed size={14}/> 纯铁手 (Human Gimbal)</div><div className="text-[10px] text-slate-400">无补偿。俗称"麒麟臂"模式。适合 BMPCC 用户。</div></button>
-                  <button onClick={() => setMode('OIS')} className={`w-full p-3 rounded border text-left ${mode === 'OIS' ? 'bg-cyan-900/50 border-cyan-500' : 'border-slate-700'}`}><div className="font-bold text-sm text-cyan-400 flex items-center gap-2"><Move size={12}/> OIS (镜片位移)</div><div className="text-[10px] text-slate-400">Lens Shift. 浮动镜组反向补偿。适合长焦。<br/><span className="text-emerald-500">优点：</span>取景器画面稳定。</div></button>
-                  <button onClick={() => setMode('IBIS')} className={`w-full p-3 rounded border text-left ${mode === 'IBIS' ? 'bg-emerald-900/50 border-emerald-500' : 'border-slate-700'}`}><div className="font-bold text-sm text-emerald-400 flex items-center gap-2"><Vibrate size={12}/> IBIS (传感器位移)</div><div className="text-[10px] text-slate-400">Sensor Shift. 传感器物理移动。<br/><span className="text-emerald-500">优点：</span>五轴防抖，随便什么破镜头都能抖。</div></button>
-                  <button onClick={() => setMode('EIS')} className={`w-full p-3 rounded border text-left ${mode === 'EIS' ? 'bg-purple-900/50 border-purple-500' : 'border-slate-700'}`}><div className="font-bold text-sm text-purple-400 flex items-center gap-2"><Scaling size={12}/> EIS (电子防抖)</div><div className="text-[10px] text-slate-400">Electronic. 裁切画面边缘并实时对齐。<br/><span className="text-red-400">缺点：</span>画面被裁切，画质有损失，晚上会有鬼影拖尾。</div></button>
+      <button onClick={() => setMode('OFF')} className={`w-full p-3 rounded border text-left ${mode === 'OFF' ? 'bg-red-100 dark:bg-red-900/50 border-red-400 dark:border-red-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-red-600 dark:text-red-400 flex items-center gap-2"><BicepsFlexed size={14}/> 人体云台 (Human Gimbal)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">人体云台：靠双手和身体抵消抖动，最原始也最灵活。轻量设备（如 BMPCC）尤其适合手持运镜。</div></button>
+      <button onClick={() => setMode('OIS')} className={`w-full p-3 rounded border text-left ${mode === 'OIS' ? 'bg-primary-100 border-primary-400 dark:bg-primary-900/50 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Move size={12}/> OIS (光学防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Lens Shift：镜片组位移抵消抖动。机身内没有移动部件，但补偿范围有限。<br/><span className="text-emerald-500">优点：</span>对长焦有效，不裁切画幅。</div></button>
+      <button onClick={() => setMode('IBIS')} className={`w-full p-3 rounded border text-left ${mode === 'IBIS' ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2"><Vibrate size={12}/> IBIS (机身防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Sensor Shift：传感器位移补偿。与镜头无关，任何镜头都能受益，且可校正旋转轴。<br/><span className="text-emerald-500">优点：</span>通用性强，支持全部镜头。</div></button>
+      <button onClick={() => setMode('EIS')} className={`w-full p-3 rounded border text-left ${mode === 'EIS' ? 'bg-primary-100 dark:bg-primary-900/50 border-primary-400 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Scaling size={12}/> EIS (电子防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Electronic：算法裁切画面 + 陀螺仪数据增稳。无需硬件，但会损失画幅并引入变形。<br/><span className="text-red-400">缺点：</span>裁切画幅，画质损失。</div></button>
                </div>
             </div>
          </div>
@@ -351,17 +351,17 @@ const FlangeDistanceModule: React.FC = () => {
    
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex flex-col items-center justify-center p-8 relative">
-            <div className="w-full max-w-3xl h-64 border-b border-slate-700 relative">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-8 relative">
+            <div className="w-full max-w-3xl h-64 border-b border-zinc-200 dark:border-zinc-800 relative">
                {/* Sensor */}
                <div className="absolute top-10 bottom-0 w-2 bg-emerald-500 right-[100px] z-10">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-emerald-400 font-bold whitespace-nowrap">Sensor Plane</div>
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">Sensor Plane</div>
                </div>
                
                {/* Camera Body Box */}
-               <div className="absolute top-20 bottom-0 right-[100px] bg-slate-800 border-l border-t border-b border-slate-600"
+               <div className="absolute top-20 bottom-0 right-[100px] bg-zinc-50 dark:bg-zinc-800 border-l border-t border-b border-zinc-600"
                     style={{ width: `${currentFlange * 4}px` }}>
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-500 font-mono text-xs text-center">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-500 dark:text-zinc-400 font-mono text-xs text-center">
                      {system === 'SLR' ? 'Mirror Box' : 'Empty Air'}
                      <br/>
                      {currentFlange}mm
@@ -370,27 +370,27 @@ const FlangeDistanceModule: React.FC = () => {
 
                {/* Mount Line */}
                <div className="absolute top-16 bottom-0 w-1 bg-white" style={{ right: `${100 + currentFlange * 4}px` }}>
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-white font-bold whitespace-nowrap">Mount</div>
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-zinc-900 dark:text-white font-bold whitespace-nowrap">Mount</div>
                </div>
 
                {/* Adapter (If needed) */}
                {adapterNeeded && (
-                  <div className="absolute top-24 bottom-24 bg-zinc-700 border border-zinc-500 flex items-center justify-center"
+                  <div className="absolute top-24 bottom-24 bg-zinc-100 dark:bg-zinc-700 border border-zinc-500 flex items-center justify-center"
                        style={{ right: `${100 + currentFlange * 4}px`, width: `${gap * 4}px` }}>
-                     <div className="text-[10px] text-white rotate-90 whitespace-nowrap">Adapter ({gap}mm)</div>
+                     <div className="text-[10px] text-zinc-900 dark:text-white rotate-90 whitespace-nowrap">Adapter ({gap}mm)</div>
                   </div>
                )}
 
                {/* Lens */}
-               <div className="absolute top-10 bottom-10 bg-black border border-slate-500 rounded-l-lg flex items-center justify-center"
+               <div className="absolute top-10 bottom-10 bg-zinc-50 dark:bg-black border border-zinc-500 rounded-l-lg flex items-center justify-center"
                     style={{ right: `${100 + currentFlange * 4 + gap * 4}px`, width: '120px' }}>
-                  <div className="text-xs text-slate-300 text-center">
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300 text-center">
                      {lensType === 'NATIVE' && system === 'MIRRORLESS' ? 'E-Mount Lens' : 'EF-Mount Lens'}
                      <br/>
                      (Design: {lensType === 'NATIVE' && system === 'MIRRORLESS' ? '18mm' : '44mm'})
                   </div>
                   {/* Glass element */}
-                  <div className="absolute w-4 h-32 bg-blue-500/30 rounded-full blur-[2px]"></div>
+                  <div className="absolute w-4 h-32 bg-primary-500/30 rounded-full blur-[2px]"></div>
                </div>
 
                {/* Light Rays */}
@@ -403,51 +403,44 @@ const FlangeDistanceModule: React.FC = () => {
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-               <Ruler size={20} className="text-cyan-400"/> 法兰距 (Flange Distance)
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+      <Ruler size={20} className="text-primary-400"/> 法兰距测量 (Flange Distance)
             </h3>
 
             <div className="space-y-6">
                <div>
-                  <label className="text-xs text-slate-400 mb-2 block">机身类型 (Body System)</label>
+      <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-2 block">选择机身系统 (Body System)</label>
                   <div className="flex gap-2">
-                     <button onClick={() => {setSystem('MIRRORLESS'); setLensType('NATIVE')}} className={`flex-1 p-3 rounded border text-xs font-bold ${system === 'MIRRORLESS' ? 'bg-slate-700 border-cyan-500 text-white' : 'border-slate-700 text-slate-500'}`}>无反 (Sony E)</button>
-                     <button onClick={() => {setSystem('SLR'); setLensType('ADAPTED')}} className={`flex-1 p-3 rounded border text-xs font-bold ${system === 'SLR' ? 'bg-slate-700 border-cyan-500 text-white' : 'border-slate-700 text-slate-500'}`}>单反 (Canon EF)</button>
+      <button onClick={() => {setSystem('MIRRORLESS'); setLensType('NATIVE')}} className={`flex-1 p-3 rounded border text-xs font-bold ${system === 'MIRRORLESS' ? 'bg-primary-100 border-primary-400 text-primary-900 dark:bg-primary-900/40 dark:border-primary-500 dark:text-white' : 'border-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>无反相机 (Sony E)</button>
+      <button onClick={() => {setSystem('SLR'); setLensType('ADAPTED')}} className={`flex-1 p-3 rounded border text-xs font-bold ${system === 'SLR' ? 'bg-primary-100 border-primary-400 text-primary-900 dark:bg-primary-900/40 dark:border-primary-500 dark:text-white' : 'border-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>单反相机 (Canon EF)</button>
                   </div>
                </div>
 
                <div>
-                  <label className="text-xs text-slate-400 mb-2 block">镜头选择 (Lens)</label>
+      <label className="text-xs text-zinc-600 dark:text-zinc-400 mb-2 block">转接镜头 (Lens)</label>
                   <div className="flex gap-2">
                      <button 
                         onClick={() => setLensType('NATIVE')} 
                         disabled={system === 'SLR'} // Can't put E lens on EF body easily in reality without optics
-                        className={`flex-1 p-3 rounded border text-xs font-bold ${lensType === 'NATIVE' ? 'bg-slate-700 border-emerald-500 text-white' : 'border-slate-700 text-slate-500'} ${system === 'SLR' ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        className={`flex-1 p-3 rounded border text-xs font-bold ${lensType === 'NATIVE' ? 'bg-zinc-100 dark:bg-zinc-700 border-emerald-400 dark:border-emerald-500 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'} ${system === 'SLR' ? 'opacity-30 cursor-not-allowed' : ''}`}
                      >
-                        原生短法兰镜头
-                     </button>
+      原生镜头适配器（补齐法兰距）                     </button>
                      <button 
                         onClick={() => setLensType('ADAPTED')} 
-                        className={`flex-1 p-3 rounded border text-xs font-bold ${lensType === 'ADAPTED' ? 'bg-slate-700 border-emerald-500 text-white' : 'border-slate-700 text-slate-500'}`}
+                        className={`flex-1 p-3 rounded border text-xs font-bold ${lensType === 'ADAPTED' ? 'bg-zinc-100 dark:bg-zinc-700 border-emerald-400 dark:border-emerald-500 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}
                      >
-                        单反长法兰镜头
-                     </button>
+      转接环适配器（补齐法兰距）                     </button>
                   </div>
                </div>
 
-               <div className="bg-slate-800 p-4 rounded border border-slate-700 text-[10px] leading-relaxed text-slate-300">
-                  <span className="font-bold text-white block mb-2">万能数码后背原理：</span>
-                  无反相机法兰距极短（如 Sony E 口仅 18mm）。
-                  <br/><br/>
-                  单反镜头设计法兰距较长（如 Canon EF 为 44mm）。
-                  <br/><br/>
-                  两者差值：44 - 18 = 26mm。
-                  <br/>
-                  这就是为什么无反相机可以通过一个 26mm 厚的“空心管子”（转接环）完美转接单反镜头。
-                  <br/><br/>
-                  <span className="text-red-400">反之不行：</span> 单反机身无法直接转接无反镜头，因为镜头插不进机身内部（会打板），或者像场无法覆盖传感器。
-               </div>
+               <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800 text-xs leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <span className="font-bold text-zinc-900 dark:text-white block mb-2">法兰距示意图 (Flange Distance)</span>
+      无反机身（Sony E）法兰距 18mm，镜头可以贴近传感器。                  <br/><br/>
+      单反机身（Canon EF）法兰距 44mm，反光镜箱占用了空间。                  <br/><br/>
+      转接环厚度 = 44 - 18 = 26mm                  <br/>
+      转接环就是一根 26mm 的空心管，把镜头"推远"到无反卡口的正确距离。因此无反机身可以无损使用单反镜头，反过来则因为空间不足而无法安装。                  <br/><br/>
+      <span className="text-red-400">注意：</span> 单反镜头转接后，光学设计保持不变，但无法自动对焦的旧镜头仍需手动对焦；且电子触点协议不同，部分镜头需要转接环带电子芯片才能联动光圈。               </div>
             </div>
          </div>
       </div>

@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Slider } from './Controls';
 import { Maximize2 } from 'lucide-react';
@@ -10,8 +10,8 @@ export const FocalLengthModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-8 relative overflow-hidden">
-             <div className="relative w-full h-full max-w-4xl border border-slate-800 bg-slate-900 overflow-hidden flex items-center justify-center rounded-lg">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-8 relative overflow-hidden">
+             <div className="relative w-full h-full max-w-4xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 overflow-hidden flex items-center justify-center rounded-lg">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-100 ease-out origin-center"
                   style={{ 
@@ -27,29 +27,29 @@ export const FocalLengthModule: React.FC = () => {
                    <div className="w-10 h-40 bg-emerald-900/50 backdrop-blur-sm rounded-full blur-[2px]"></div>
                    <div className="w-10 h-40 bg-emerald-900/50 backdrop-blur-sm rounded-full blur-[2px]"></div>
                 </div>
-                <div className="relative z-10 w-48 h-64 bg-slate-800 rounded-xl shadow-2xl flex flex-col items-center justify-end overflow-hidden border border-slate-700">
+                <div className="relative z-10 w-48 h-64 bg-zinc-50 dark:bg-zinc-800 rounded-xl shadow-lg flex flex-col items-center justify-end overflow-hidden border border-zinc-200 dark:border-zinc-800">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" className="w-full h-full object-cover" />
-                    <div className="absolute top-2 right-2 bg-black/60 text-white text-[10px] px-1 rounded font-mono">SUBJ</div>
+                    <div className="absolute top-2 right-2 bg-zinc-100/60 dark:bg-zinc-950 text-zinc-900 dark:text-white text-xs px-1 rounded font-mono">SUBJ</div>
                 </div>
-                <div className="absolute top-4 left-4 bg-black/60 p-2 rounded text-white font-mono border border-slate-600">
-                   <div className="text-xl font-bold text-cyan-400">{focalLength}mm</div>
-                   <div className="text-xs text-slate-400">FOV: {fov.toFixed(1)}°</div>
+                <div className="absolute top-4 left-4 bg-zinc-100/60 dark:bg-zinc-950 p-2 rounded text-zinc-900 dark:text-white font-mono border border-zinc-600">
+                   <div className="text-xl font-bold text-primary-500 dark:text-cyan-400">{focalLength}mm</div>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400">FOV: {fov.toFixed(1)}°</div>
                 </div>
              </div>
          </div>
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col overflow-y-auto">
-            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
                <Maximize2 size={18} className="text-cyan-400"/> 焦段与空间压缩
             </h3>
             <Slider label="焦距 (Focal Length)" value={focalLength} min={16} max={200} step={1} onChange={setFocalLength} />
             <div className="flex gap-2 mb-6">
-               <button onClick={()=>setFocalLength(24)} className="flex-1 py-2 bg-slate-800 border border-slate-600 rounded text-xs hover:bg-slate-700">24mm</button>
-               <button onClick={()=>setFocalLength(50)} className="flex-1 py-2 bg-slate-800 border border-slate-600 rounded text-xs hover:bg-slate-700">50mm</button>
-               <button onClick={()=>setFocalLength(85)} className="flex-1 py-2 bg-slate-800 border border-slate-600 rounded text-xs hover:bg-slate-700">85mm</button>
+               <button onClick={()=>setFocalLength(24)} className="flex-1 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded text-xs hover:bg-zinc-700">24mm</button>
+               <button onClick={()=>setFocalLength(50)} className="flex-1 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded text-xs hover:bg-zinc-700">50mm</button>
+               <button onClick={()=>setFocalLength(85)} className="flex-1 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded text-xs hover:bg-zinc-700">85mm</button>
             </div>
-            <div className="bg-slate-800 p-4 rounded border border-slate-700">
-               <h4 className="text-xs font-bold text-cyan-400 mb-2">空间压缩 (Compression)</h4>
-               <p className="text-[10px] text-slate-400 leading-relaxed">
+            <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800">
+               <h4 className="text-xs font-bold text-primary-500 dark:text-cyan-400 mb-2">空间压缩 (Compression)</h4>
+               <p className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
                   长焦镜头（如85mm+）会把背景“拉近”，让背景物体看起来比实际更大，与主体的距离更近。
                   <br/>广角镜头（如24mm-）会夸大距离感，让背景显得很远。
                </p>

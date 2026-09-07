@@ -10,7 +10,7 @@ export interface TabItem {
 interface TabNavigationProps {
   tabs: TabItem[];
   activeTab: string;
-  onTabChange: (id: any) => void; // Using any to allow specific string union types
+  onTabChange: (id: string) => void;
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, activeTab, onTabChange }) => {
@@ -18,13 +18,11 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, activeTab, o
   const activeTabRef = useRef<HTMLButtonElement>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Auto-scroll to active tab when it changes
   useEffect(() => {
     if (activeTabRef.current && scrollContainerRef.current) {
        const container = scrollContainerRef.current;
        const tab = activeTabRef.current;
        
-       // Calculate center position
        const tabLeft = tab.offsetLeft;
        const tabWidth = tab.offsetWidth;
        const containerWidth = container.offsetWidth;
@@ -49,10 +47,10 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, activeTab, o
   };
 
   return (
-    <div className="w-full border-b border-slate-800 bg-slate-950 shrink-0 relative z-10 shadow-sm">
+    <div className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 shrink-0 relative z-10 shadow-sm">
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto no-scrollbar items-center px-2 h-14 mask-linear-fade focus:outline-none"
+        className="flex overflow-x-auto no-scrollbar items-center px-2 h-14 focus:outline-none"
         style={{ scrollBehavior: 'smooth' }}
         role="tablist"
         aria-label="Module Navigation"
@@ -71,11 +69,10 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ tabs, activeTab, o
               aria-selected={activeTab === tab.id}
               tabIndex={activeTab === tab.id ? 0 : -1}
               className={`
-                flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-300 border outline-none
-                focus:ring-2 focus:ring-cyan-500/50
+                flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-colors duration-300 border focus:outline-none
                 ${activeTab === tab.id
-                  ? 'bg-cyan-950/50 border-cyan-500/50 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)] scale-105'
-                  : 'bg-transparent border-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-900'}
+? 'bg-primary-100 border-primary-300 text-primary-700 dark:bg-primary-900/50 dark:border-primary-500/50 dark:text-primary-300 shadow-sm scale-105'
+          : 'bg-transparent border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'}
               `}
             >
               {tab.icon}

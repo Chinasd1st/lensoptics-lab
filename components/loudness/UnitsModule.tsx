@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, AlertTriangle, Activity, BarChart3, Target, ArrowUpToLine, MoveVertical } from 'lucide-react';
 
@@ -12,13 +12,13 @@ export const UnitsModule: React.FC = () => {
          <div className="w-full lg:w-[380px] flex flex-col gap-4 shrink-0 lg:h-full overflow-y-auto no-scrollbar">
             
             {/* Visualizer */}
-            <div className="w-full aspect-[16/10] bg-black rounded-2xl border border-slate-800 overflow-hidden relative shadow-2xl shrink-0">
+            <div className="w-full aspect-[16/10] bg-zinc-50 dark:bg-black rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden relative shadow-lg shrink-0">
                <Visualizer mode={activeConcept} />
             </div>
 
             {/* Controls */}
-            <div className="flex flex-col gap-2 bg-slate-900 rounded-xl p-3 border border-slate-800 shrink-0">
-               <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 px-2">Select Concept</div>
+            <div className="flex flex-col gap-2 bg-zinc-50 dark:bg-zinc-900 rounded-xl p-3 border border-zinc-200 dark:border-zinc-800 shrink-0">
+               <div className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-1 px-2">Select Concept</div>
                
                <ConceptButton 
                   isActive={activeConcept === 'LUFS'} 
@@ -47,13 +47,13 @@ export const UnitsModule: React.FC = () => {
             </div>
 
             {/* Quick Tip Box */}
-            <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-800 text-[10px] text-slate-400 leading-relaxed italic mt-auto hidden lg:block">
+            <div className="bg-zinc-800/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed italic mt-auto hidden lg:block">
                "响度不是音量旋钮，而是对声音能量的积分。它更像是在测量‘水流量’而不是‘水位高度’。"
             </div>
          </div>
 
          {/* Right Panel */}
-         <div className="flex-1 h-full min-h-0 overflow-y-auto bg-slate-900/30 rounded-2xl border border-slate-800/50 p-4 lg:p-6 custom-scrollbar">
+          <div className="flex-1 h-full min-h-0 overflow-y-auto bg-zinc-50/50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4 lg:p-6 custom-scrollbar">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 pb-12">
                
                <UnitCard 
@@ -103,7 +103,7 @@ export const UnitsModule: React.FC = () => {
                <UnitCard 
                   title="dB (分贝)" 
                   sub="Decibel"
-                  icon={<BarChart3 size={20} className="text-slate-400"/>}
+                  icon={<BarChart3 size={20} className="text-zinc-600 dark:text-zinc-400"/>}
                   desc="基础物理单位，表示对数比率。本身没有绝对意义，必须指定参考值才有物理意义。"
                   details={[
                      { label: "dBFS", val: "相对于数字满刻度" },
@@ -123,45 +123,45 @@ export const UnitsModule: React.FC = () => {
 const ConceptButton: React.FC<{ isActive: boolean; onClick: () => void; icon: React.ReactNode; label: string; sub: string; color: string }> = ({ isActive, onClick, icon, label, sub, color }) => (
    <button 
       onClick={onClick}
-      className={`flex items-center gap-3 p-3 rounded-lg border transition-all text-left group
-         ${isActive ? `bg-slate-700 border-slate-500 shadow-md ring-1 ring-white/10` : 'bg-transparent border-transparent hover:bg-slate-800/50 hover:border-slate-700'}
+      className={`flex items-center gap-3 p-3 rounded-lg border transition-colors text-left group
+         ${isActive ? `bg-zinc-700 border-zinc-500 shadow-md ring-1 ring-white/10` : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 hover:border-zinc-700'}
       `}
    >
-      <div className={`${isActive ? color : 'text-slate-500 group-hover:text-slate-300'}`}>{icon}</div>
+      <div className={`${isActive ? color : 'text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-700 dark:text-zinc-300'}`}>{icon}</div>
       <div>
-         <div className={`text-sm font-bold ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>{label}</div>
-         <div className="text-[10px] text-slate-500 font-mono">{sub}</div>
+         <div className={`text-sm font-bold ${isActive ? 'text-white' : 'text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-700 dark:text-zinc-200'}`}>{label}</div>
+         <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono">{sub}</div>
       </div>
    </button>
 );
 
 const UnitCard: React.FC<{ title: string; sub: string; icon: React.ReactNode; desc: string; highlight?: string; limitations?: string; details?: {label:string, val:string}[]; source?: string; active: boolean }> = ({ title, sub, icon, desc, highlight, limitations, details, source, active }) => (
-   <div className={`bg-slate-900 border rounded-xl p-5 transition-all flex flex-col shadow-sm
-      ${active ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.1)] ring-1 ring-cyan-500/20' : 'border-slate-800 hover:border-slate-600'}
+   <div className={`bg-white dark:bg-zinc-900 border rounded-xl p-5 transition-colors flex flex-col shadow-sm
+      ${active ? 'border-primary-500/50 shadow-[0_0_15px_oklch(72%_0.15_200_/_0.1)] ring-1 ring-primary-500/20' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-600'}
    `}>
       <div className="flex justify-between items-start mb-3">
          <div>
-            <h3 className={`text-lg font-bold ${active ? 'text-white' : 'text-slate-300'}`}>{title}</h3>
-            <div className="text-[10px] font-mono text-slate-500 uppercase">{sub}</div>
+            <h3 className={`text-lg font-bold ${active ? 'text-white' : 'text-zinc-700 dark:text-zinc-300'}`}>{title}</h3>
+            <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400 uppercase">{sub}</div>
          </div>
-         <div className="p-2 bg-slate-800 rounded-lg shadow-inner">{icon}</div>
+         <div className="p-2 bg-zinc-50 dark:bg-zinc-800 rounded-lg shadow-inner">{icon}</div>
       </div>
-      <p className="text-xs text-slate-400 leading-relaxed mb-4 min-h-[40px]">{desc}</p>
+      <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4 min-h-[40px]">{desc}</p>
       
-      {source && <div className="text-[9px] text-slate-600 font-mono mb-2 text-right">{source}</div>}
+      {source && <div className="text-[11px] text-zinc-600 dark:text-zinc-400 font-mono mb-2 text-right">{source}</div>}
 
       {highlight && (
-         <div className="bg-cyan-900/20 border-l-2 border-cyan-500 px-3 py-2 rounded-r text-[10px] text-cyan-300 mb-3">
+         <div className="bg-cyan-900/20 border-l-2 border-cyan-500 px-3 py-2 rounded-r text-xs text-cyan-300 mb-3">
             {highlight}
          </div>
       )}
       
       {details && (
-         <div className="space-y-1 mt-auto pt-3 border-t border-slate-800/50">
+          <div className="space-y-1 mt-auto pt-3 border-t border-zinc-200 dark:border-zinc-800">
             {details.map((d, i) => (
-               <div key={i} className="flex justify-between text-[10px]">
-                  <span className="text-slate-500">{d.label}</span>
-                  <span className="text-slate-300 font-medium text-right">{d.val}</span>
+               <div key={i} className="flex justify-between text-xs">
+                  <span className="text-zinc-500 dark:text-zinc-400">{d.label}</span>
+                  <span className="text-zinc-700 dark:text-zinc-300 font-medium text-right">{d.val}</span>
                </div>
             ))}
          </div>
@@ -207,7 +207,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
          }
 
          ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
-         ctx.fillStyle = '#000000';
+         ctx.fillStyle = 'oklch(0% 0 0)';
          ctx.fillRect(0, 0, w, h);
          
          ctx.scale(dpr, dpr); // Scale for high DPI
@@ -215,7 +215,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
          const logicalH = h / dpr;
 
          // --- Common Grid ---
-         ctx.strokeStyle = '#334155';
+         ctx.strokeStyle = 'oklch(33% 0.015 286)';
          ctx.lineWidth = 1;
          ctx.setLineDash([4, 4]);
          
@@ -228,13 +228,13 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             ctx.lineTo(logicalW, targetY);
             ctx.stroke();
             
-            ctx.fillStyle = '#22d3ee';
+            ctx.fillStyle = 'oklch(72% 0.15 200)';
             ctx.font = "bold 12px monospace";
             ctx.fillText("TARGET (-14 LUFS)", 10, targetY - 10);
 
             // Draw "Water" Waveform
-            ctx.fillStyle = 'rgba(34, 211, 238, 0.15)';
-            ctx.strokeStyle = '#22d3ee';
+            ctx.fillStyle = 'oklch(72% 0.15 200 / 0.15)';
+            ctx.strokeStyle = 'oklch(72% 0.15 200)';
             ctx.lineWidth = 2;
             ctx.setLineDash([]);
             
@@ -255,7 +255,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             ctx.fill();
             ctx.stroke();
 
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = 'oklch(62% 0.015 286)';
             ctx.font = "12px monospace";
             ctx.textAlign = "center";
             ctx.fillText("比喻: 河流的水位 (平均能量)", logicalW/2, logicalH - 20);
@@ -263,7 +263,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
          }
 
          if (mode === 'DBTP') {
-            ctx.strokeStyle = '#f87171';
+            ctx.strokeStyle = 'oklch(70% 0.19 25)';
             ctx.lineWidth = 2;
             ctx.setLineDash([]);
             ctx.beginPath();
@@ -271,7 +271,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             ctx.lineTo(logicalW, targetY);
             ctx.stroke();
             
-            ctx.fillStyle = '#f87171';
+            ctx.fillStyle = 'oklch(70% 0.19 25)';
             ctx.font = "bold 12px monospace";
             ctx.fillText("CEILING (-1.0 dBTP)", 10, targetY - 10);
 
@@ -279,7 +279,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             const waveSpeed = time * 120;
             
             // Draw analog reconstruction curve (True Peak)
-            ctx.strokeStyle = '#f87171'; 
+            ctx.strokeStyle = 'oklch(70% 0.19 25)'; 
             ctx.lineWidth = 2;
             ctx.beginPath();
             
@@ -311,7 +311,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
                ctx.beginPath();
                ctx.moveTo(x, logicalH);
                ctx.lineTo(x, y);
-               ctx.strokeStyle = '#334155';
+               ctx.strokeStyle = 'oklch(33% 0.015 286)';
                ctx.lineWidth = 1;
                ctx.stroke();
 
@@ -321,7 +321,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
                ctx.fill();
             }
 
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = 'oklch(62% 0.015 286)';
             ctx.font = "12px monospace";
             ctx.textAlign = "center";
             ctx.fillText("比喻: 触碰天花板 (防削波)", logicalW/2, logicalH - 20);
@@ -334,16 +334,16 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             const currentH = logicalH * 0.5 + Math.sin(time * 2.5) * (logicalH * 0.15); 
 
             // Target Bar
-            ctx.fillStyle = '#334155';
+            ctx.fillStyle = 'oklch(33% 0.015 286)';
             ctx.fillRect(logicalW/2 - gap - barW, targetY, barW, logicalH - targetY);
             
-            ctx.fillStyle = '#22d3ee'; 
+            ctx.fillStyle = 'oklch(72% 0.15 200)'; 
             ctx.fillRect(logicalW/2 - gap - barW - 10, targetY, barW + 20, 2);
             ctx.font = "bold 12px monospace";
             ctx.fillText("Target", logicalW/2 - gap - barW, targetY - 10);
 
             // Current Bar
-            ctx.fillStyle = '#eab308';
+            ctx.fillStyle = 'oklch(74% 0.18 85)';
             ctx.fillRect(logicalW/2 + gap, currentH, barW, logicalH - currentH);
             ctx.fillText("Current", logicalW/2 + gap, currentH - 10);
 
@@ -375,7 +375,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
             ctx.textAlign = "left";
             ctx.fillText(`${luDiff > 0 ? '+' : ''}${luDiff} LU`, midX + 10, (targetY + currentH)/2 + 5);
 
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = 'oklch(62% 0.015 286)';
             ctx.font = "12px monospace";
             ctx.textAlign = "center";
             ctx.fillText("比喻: 两个高度的差值 (相对距离)", logicalW/2, logicalH - 20);
@@ -394,7 +394,7 @@ const Visualizer: React.FC<{ mode: 'LUFS' | 'DBTP' | 'LU' }> = ({ mode }) => {
    }, [mode]);
 
    return (
-      <div ref={containerRef} className="w-full h-full bg-black relative">
+      <div ref={containerRef} className="w-full h-full bg-zinc-50 dark:bg-black relative">
          <canvas ref={canvasRef} className="block w-full h-full" />
       </div>
    );

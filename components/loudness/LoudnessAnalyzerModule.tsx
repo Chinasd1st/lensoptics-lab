@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Upload, FileAudio, Play, Pause, Activity, AlertTriangle, CheckCircle, Loader2, X, ZoomIn, ZoomOut, BarChart3, Settings2 } from 'lucide-react';
 import WaveSurfer from 'wavesurfer.js';
@@ -313,7 +313,7 @@ export const LoudnessAnalyzerModule: React.FC = () => {
      if (val > targetLUFS + 3) return 'text-red-500'; 
      if (val > targetLUFS) return 'text-yellow-400'; 
      if (val > targetLUFS - 5) return 'text-emerald-400'; 
-     return 'text-slate-500'; 
+     return 'text-zinc-500 dark:text-zinc-400'; 
   };
 
   useEffect(() => {
@@ -326,9 +326,9 @@ export const LoudnessAnalyzerModule: React.FC = () => {
     const ws = WaveSurfer.create({
       container: waveformRef.current,
       height: 120,
-      waveColor: '#475569',
-      progressColor: '#0ea5e9',
-      cursorColor: '#ef4444',
+      waveColor: 'oklch(44% 0.017 286)',
+      progressColor: 'oklch(64% 0.17 200)',
+      cursorColor: 'oklch(63% 0.21 25)',
       cursorWidth: 2,
       normalize: false, // Disabled as requested
       minPxPerSec: zoomLevel,
@@ -337,7 +337,7 @@ export const LoudnessAnalyzerModule: React.FC = () => {
       plugins: [
          TimelinePlugin.create({
             height: 20,
-            style: { fontSize: '10px', color: '#94a3b8' }
+            style: { fontSize: '10px', color: 'oklch(62% 0.015 286)' }
          })
       ]
     });
@@ -531,10 +531,10 @@ export const LoudnessAnalyzerModule: React.FC = () => {
       
       {/* Header */}
       <div className="text-center mb-8">
-         <h2 className="text-3xl font-bold text-white mb-2 flex items-center justify-center gap-3">
+         <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2 flex items-center justify-center gap-3">
             <Activity className="text-cyan-400" size={32}/> 音频响度分析器 (BS.1770)
          </h2>
-         <p className="text-slate-400 text-sm max-w-xl mx-auto">
+         <p className="text-zinc-600 dark:text-zinc-400 text-sm max-w-xl mx-auto">
             完全在本地浏览器运行。WaveSurfer 波形渲染与分析。
             <br/>支持点击波形跳转查看任意时刻的 Short-term/Momentary 数值。
          </p>
@@ -543,55 +543,55 @@ export const LoudnessAnalyzerModule: React.FC = () => {
       {/* Upload Area */}
       {!result && !isProcessing && (
          <div 
-            className="flex-1 border-2 border-dashed border-slate-700 hover:border-cyan-500 hover:bg-slate-900/50 rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer bg-slate-900/20 group"
+             className="flex-1 border-2 border-dashed border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-500 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex flex-col items-center justify-center transition-colors cursor-pointer bg-zinc-50 dark:bg-zinc-900 group"
             onClick={() => fileInputRef.current?.click()}
          >
             <input type="file" ref={fileInputRef} className="hidden" accept="audio/*,video/*" onChange={handleFile} />
-            <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-xl">
+            <div className="w-20 h-20 bg-zinc-50 dark:bg-zinc-800 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-md">
                <Upload size={32} className="text-cyan-400" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">点击或拖拽文件至此</h3>
-            <p className="text-slate-500 text-sm">支持 WAV, MP3, AAC, FLAC, MP4 (提取音频)</p>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">点击或拖拽文件至此</h3>
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm">支持 WAV, MP3, AAC, FLAC, MP4 (提取音频)</p>
          </div>
       )}
 
       {/* Processing State */}
       {isProcessing && (
-         <div className="flex-1 flex flex-col items-center justify-center bg-slate-900/50 rounded-2xl border border-slate-800">
+         <div className="flex-1 flex flex-col items-center justify-center bg-zinc-100/50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <Loader2 size={48} className="text-cyan-500 animate-spin mb-6" />
-            <h3 className="text-xl font-bold text-white mb-2">正在进行 DSP 计算...</h3>
-            <p className="text-slate-400 font-mono text-sm mb-6">{fileName}</p>
-            <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
-               <div className="h-full bg-cyan-500 transition-all duration-300" style={{ width: `${progress}%` }}></div>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">正在进行 DSP 计算...</h3>
+            <p className="text-zinc-600 dark:text-zinc-400 font-mono text-sm mb-6">{fileName}</p>
+            <div className="w-64 h-2 bg-zinc-50 dark:bg-zinc-800 rounded-full overflow-hidden">
+               <div className="h-full bg-cyan-500 transition-colors duration-300" style={{ width: `${progress}%` }}></div>
             </div>
-            <p className="text-xs text-slate-500 mt-2 font-mono">{progress}%</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2 font-mono">{progress}%</p>
          </div>
       )}
 
       {/* Result Display */}
       {result && (
-         <div className="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 flex flex-col animate-in fade-in slide-in-from-bottom-8">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 lg:p-8 flex flex-col animate-fade-in slide-in-from-bottom-8">
             
             {/* Top Bar with Standard Switching */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-slate-800 pb-4 gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-zinc-200 dark:border-zinc-800 pb-4 gap-4">
                <div>
-                  <div className="text-xs text-slate-500 uppercase tracking-widest mb-1">Source File</div>
-                  <div className="text-white font-mono text-sm truncate max-w-xs lg:max-w-md flex items-center gap-2">
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-1">Source File</div>
+                  <div className="text-zinc-900 dark:text-white font-mono text-sm truncate max-w-xs lg:max-w-md flex items-center gap-2">
                      <FileAudio size={14} className="text-cyan-500"/> {fileName}
                   </div>
                </div>
                
-               <div className="flex items-center gap-3 bg-slate-950 p-1 rounded-lg border border-slate-800">
-                  <span className="text-[10px] font-bold text-slate-500 pl-2 uppercase">Target:</span>
+               <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-950 p-1 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                  <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 pl-2 uppercase">Target:</span>
                   <button 
                      onClick={() => setTargetStandard('WEB')}
-                     className={`px-3 py-1.5 rounded text-xs font-bold transition-all ${targetStandard === 'WEB' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+                     className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${targetStandard === 'WEB' ? 'bg-cyan-600 text-white shadow' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
                   >
                      Web (-14)
                   </button>
                   <button 
                      onClick={() => setTargetStandard('BROADCAST')}
-                     className={`px-3 py-1.5 rounded text-xs font-bold transition-all ${targetStandard === 'BROADCAST' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+                     className={`px-3 py-1.5 rounded text-xs font-bold transition-colors ${targetStandard === 'BROADCAST' ? 'bg-emerald-600 text-white shadow' : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'}`}
                   >
                      TV (-23)
                   </button>
@@ -599,38 +599,38 @@ export const LoudnessAnalyzerModule: React.FC = () => {
 
                <button 
                   onClick={resetAnalyzer}
-                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition-colors flex items-center gap-2"
+                   className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs rounded-lg transition-colors flex items-center gap-2"
                >
                   <X size={14}/> 分析新文件
                </button>
             </div>
 
             {/* WaveSurfer Visualization Area */}
-            <div className={`mb-8 bg-slate-950 rounded-lg border border-slate-800 overflow-hidden relative group transition-shadow duration-300 ${isPlaying ? 'ring-1 ring-cyan-500/50 shadow-[0_0_30px_rgba(6,182,212,0.1)]' : ''}`}>
+            <div className={`mb-8 bg-zinc-50 dark:bg-zinc-950 rounded-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden relative group transition-shadow duration-300 ${isPlaying ? 'ring-1 ring-cyan-500/50 shadow-[0_0_30px_oklch(72%_0.15_200_/_0.1)]' : ''}`}>
                
                {/* Toolbar */}
-               <div className="bg-slate-900 border-b border-slate-800 p-2 flex items-center justify-between">
+               <div className="bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 p-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                      <button 
                         onClick={togglePlay}
                         disabled={!isReady}
-                        className={`flex items-center justify-center w-10 h-8 rounded transition-colors ${isReady ? 'bg-cyan-600 hover:bg-cyan-500 text-white' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+                        className={`flex items-center justify-center w-10 h-8 rounded transition-colors ${isReady ? 'bg-cyan-600 hover:bg-cyan-500 text-white' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 cursor-not-allowed'}`}
                      >
                         {isPlaying ? <Pause size={16} className="fill-white"/> : <Play size={16} className="fill-white"/>}
                      </button>
                      {/* Timecode Display */}
-                     <div className="bg-black border border-slate-700 rounded px-3 py-1 font-mono text-xl text-emerald-400 tracking-wider">
+                     <div className="bg-black border border-zinc-200 dark:border-zinc-800 rounded px-3 py-1 font-mono text-xl text-emerald-600 dark:text-emerald-400 tracking-wider">
                         {formatTimecode(currentTime)}
                      </div>
-                     <span className="text-[10px] text-slate-500 font-mono self-end mb-1">/ {formatTimecode(duration)}</span>
+                     <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono self-end mb-1">/ {formatTimecode(duration)}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] text-slate-500 font-mono mr-2 hidden sm:inline-block">{zoomLevel} px/s</span>
-                     <button onClick={handleZoomOut} className="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-white" title="Zoom Out">
+                     <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono mr-2 hidden sm:inline-block">{zoomLevel} px/s</span>
+                     <button onClick={handleZoomOut} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom Out">
                         <ZoomOut size={16} />
                      </button>
-                     <button onClick={handleZoomIn} className="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-white" title="Zoom In">
+                     <button onClick={handleZoomIn} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom In">
                         <ZoomIn size={16} />
                      </button>
                   </div>
@@ -639,10 +639,10 @@ export const LoudnessAnalyzerModule: React.FC = () => {
                {/* Waveform Container */}
                <div className="relative p-0 flex flex-col">
                   {!isReady && (
-                     <div className="absolute inset-0 bg-slate-950/80 z-20 flex items-center justify-center backdrop-blur-sm h-[140px]">
+                      <div className="absolute inset-0 bg-zinc-50/80 dark:bg-zinc-950 z-20 flex items-center justify-center backdrop-blur-sm h-[140px]">
                         <div className="flex flex-col items-center gap-2">
-                           <Loader2 className="animate-spin text-cyan-500" size={24} />
-                           <span className="text-xs text-slate-400">Rendering Waveform...</span>
+                           <Loader2 className="animate-spin text-primary-500 dark:text-cyan-500" size={24} />
+                           <span className="text-xs text-zinc-600 dark:text-zinc-400">Rendering Waveform...</span>
                         </div>
                      </div>
                   )}
@@ -654,27 +654,27 @@ export const LoudnessAnalyzerModule: React.FC = () => {
             {/* Real-time Metering Dashboard */}
             <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                {/* Momentary Meter */}
-               <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+               <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex items-center justify-between">
                   <div>
-                     <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
+                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
                         <Activity size={12}/> Momentary (400ms)
                      </div>
                      <div className={`text-3xl font-mono font-bold ${getMeterColor(currentM)}`}>
-                        {formatDb(currentM)} <span className="text-sm text-slate-600">LUFS</span>
+                        {formatDb(currentM)} <span className="text-sm text-zinc-600 dark:text-zinc-400">LUFS</span>
                      </div>
                   </div>
                   <div className="relative">
-                     <div className="h-10 w-32 bg-slate-900 rounded-lg overflow-hidden border border-slate-800 relative">
+                     <div className="h-10 w-32 bg-zinc-50 dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 relative">
                         {/* Target Line */}
-                        <div className="absolute top-0 bottom-0 w-0.5 bg-white z-20" style={{ left: `${(targetLUFS + 60) * 1.5}%` }}></div>
+                        <div className="absolute top-0 bottom-0 w-0.5 bg-zinc-50 z-20" style={{ left: `${(targetLUFS + 60) * 1.5}%` }}></div>
                         
-                        <div className="absolute top-0 bottom-0 left-[70%] w-px bg-slate-700/50 z-10"></div>
+                        <div className="absolute top-0 bottom-0 left-[70%] w-px bg-zinc-700/50 z-10"></div>
                         <div 
-                           className={`h-full transition-all duration-100 ease-out ${currentM > targetLUFS ? 'bg-yellow-500' : 'bg-cyan-600'}`}
+                           className={`h-full transition-colors duration-100 ease-out ${currentM > targetLUFS ? 'bg-yellow-500' : 'bg-cyan-600'}`}
                            style={{ width: `${Math.max(0, Math.min(100, (currentM + 60) * 1.5))}%` }}
                         ></div>
                      </div>
-                     <div className="flex justify-between text-[8px] text-slate-600 mt-1 font-mono px-1">
+                     <div className="flex justify-between text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 font-mono px-1">
                         <span>-60</span>
                         <span className={targetStandard==='BROADCAST'?'text-white font-bold':''}>-23</span>
                         <span className={targetStandard==='WEB'?'text-white font-bold':''}>-14</span>
@@ -684,27 +684,27 @@ export const LoudnessAnalyzerModule: React.FC = () => {
                </div>
 
                {/* Short-term Meter */}
-               <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+               <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 flex items-center justify-between">
                   <div>
-                     <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
+                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wider mb-1 flex items-center gap-2">
                         <BarChart3 size={12}/> Short-term (3s)
                      </div>
                      <div className={`text-3xl font-mono font-bold ${getMeterColor(currentS)}`}>
-                        {formatDb(currentS)} <span className="text-sm text-slate-600">LUFS</span>
+                        {formatDb(currentS)} <span className="text-sm text-zinc-600 dark:text-zinc-400">LUFS</span>
                      </div>
                   </div>
                   <div className="relative">
-                     <div className="h-10 w-32 bg-slate-900 rounded-lg overflow-hidden border border-slate-800 relative">
+                     <div className="h-10 w-32 bg-zinc-50 dark:bg-zinc-900 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 relative">
                         {/* Target Line */}
-                        <div className="absolute top-0 bottom-0 w-0.5 bg-white z-20" style={{ left: `${(targetLUFS + 60) * 1.5}%` }}></div>
+                        <div className="absolute top-0 bottom-0 w-0.5 bg-zinc-50 z-20" style={{ left: `${(targetLUFS + 60) * 1.5}%` }}></div>
 
-                        <div className="absolute top-0 bottom-0 left-[70%] w-px bg-slate-700/50 z-10"></div>
+                        <div className="absolute top-0 bottom-0 left-[70%] w-px bg-zinc-700/50 z-10"></div>
                         <div 
-                           className={`h-full transition-all duration-300 ease-out ${currentS > targetLUFS ? 'bg-yellow-500' : 'bg-emerald-500'}`}
+                           className={`h-full transition-colors duration-300 ease-out ${currentS > targetLUFS ? 'bg-yellow-500' : 'bg-emerald-500'}`}
                            style={{ width: `${Math.max(0, Math.min(100, (currentS + 60) * 1.5))}%` }}
                         ></div>
                      </div>
-                     <div className="flex justify-between text-[8px] text-slate-600 mt-1 font-mono px-1">
+                     <div className="flex justify-between text-[11px] text-zinc-600 dark:text-zinc-400 mt-1 font-mono px-1">
                         <span>-60</span>
                         <span>TV</span>
                         <span>Web</span>
@@ -742,11 +742,11 @@ export const LoudnessAnalyzerModule: React.FC = () => {
             </div>
 
             {/* Advice Box */}
-            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
-               <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+            <div className="bg-zinc-800/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
+               <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
                   <Settings2 size={16}/> 达标分析建议 ({targetStandard === 'WEB' ? 'Web' : 'Broadcast'})
                </h4>
-               <div className="space-y-3 text-xs text-slate-300 leading-relaxed">
+               <div className="space-y-3 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
                   {getAdvice(result.integrated, result.truePeak, targetStandard)}
                </div>
             </div>
@@ -754,7 +754,7 @@ export const LoudnessAnalyzerModule: React.FC = () => {
       )}
 
       {error && (
-         <div className="mt-4 p-4 bg-red-900/20 border border-red-500/50 rounded-xl text-red-200 text-sm flex items-center gap-3">
+         <div className="mt-4 p-4 bg-red-900/20 border border-red-500/50 rounded-xl text-red-700 dark:text-red-200 text-sm flex items-center gap-3">
             <AlertTriangle size={20} /> {error}
          </div>
       )}
@@ -772,20 +772,20 @@ const ResultCard: React.FC<{ label: string; value: string; unit: string; desc: s
    };
    
    return (
-      <div className={`bg-slate-800 p-6 rounded-xl border border-slate-700 flex flex-col items-center text-center relative overflow-hidden transition-all ${highlight ? 'ring-1 ring-cyan-500/30 bg-gradient-to-b from-slate-800 to-slate-800/50 shadow-lg' : ''}`}>
+        <div className={`bg-zinc-50 dark:bg-zinc-800 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-center text-center relative overflow-hidden transition-colors ${highlight ? 'ring-1 ring-primary-500/30 shadow-md' : ''}`}>
          {status === 'OK' && <div className="absolute top-0 right-0 p-2"><CheckCircle size={16} className="text-emerald-500"/></div>}
          {status === 'FAIL' && <div className="absolute top-0 right-0 p-2"><AlertTriangle size={16} className="text-red-500"/></div>}
          
-         <div className={`text-xs uppercase tracking-wider font-bold mb-2 ${highlight ? 'text-cyan-200' : 'text-slate-500'}`}>{label}</div>
+         <div className={`text-xs uppercase tracking-wider font-bold mb-2 ${highlight ? 'text-cyan-200' : 'text-zinc-500 dark:text-zinc-400'}`}>{label}</div>
          <div className={`text-4xl font-black font-mono mb-2 ${colors[status]}`}>
-            {value} <span className="text-sm text-slate-500 font-normal">{unit}</span>
+            {value} <span className="text-sm text-zinc-500 dark:text-zinc-400 font-normal">{unit}</span>
          </div>
          {targetVal !== undefined && (
-            <div className="text-[10px] text-slate-500 mb-1 font-mono bg-slate-900/50 px-2 py-0.5 rounded">
+            <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mb-1 font-mono bg-zinc-100/50 dark:bg-zinc-900 px-2 py-0.5 rounded">
                Target: {targetVal} LUFS
             </div>
          )}
-         <div className="text-[10px] text-slate-400">{desc}</div>
+         <div className="text-[10px] text-zinc-600 dark:text-zinc-400">{desc}</div>
       </div>
    );
 };

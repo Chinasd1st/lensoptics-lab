@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Database, XCircle, Check, Copy } from 'lucide-react';
 import { QUIZ_DATABASE, QuizQuestion } from '../../utils/quizData';
@@ -122,27 +122,27 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ onClose }) => {
   };
 
   return (
-     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className="w-full max-w-5xl h-[80vh] bg-slate-900 rounded-2xl border border-slate-700 flex flex-col shadow-2xl animate-in fade-in zoom-in duration-300">
-           <div className="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-800/50 rounded-t-2xl">
+     <div className="fixed inset-0 z-50 bg-zinc-50/80 dark:bg-black backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="w-full max-w-5xl h-[80vh] bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex flex-col shadow-lg animate-fade-in zoom-in duration-300">
+           <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-800 rounded-t-2xl">
               <div className="flex items-center gap-3">
-                 <Database className="text-cyan-400" size={20} />
-                 <h3 className="font-bold text-white">题库数据编辑器 (Database Editor)</h3>
+                 <Database className="text-primary-400" size={20} />
+                 <h3 className="font-bold text-zinc-900 dark:text-white">题库数据编辑器 (Database Editor)</h3>
               </div>
-              <button onClick={onClose} className="p-2 hover:bg-slate-700 rounded-full transition-colors text-slate-400 hover:text-white">
+               <button onClick={onClose} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-full transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-900 dark:text-white">
                  <XCircle size={24} />
               </button>
            </div>
            
            <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
               {/* CSV Input Side */}
-              <div className="flex-1 flex flex-col p-4 border-b lg:border-b-0 lg:border-r border-slate-800">
-                 <div className="mb-2 text-xs font-bold text-slate-400 flex justify-between">
+              <div className="flex-1 flex flex-col p-4 border-b lg:border-b-0 lg:border-r border-zinc-200 dark:border-zinc-800">
+                 <div className="mb-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 flex justify-between">
                     <span>CSV Source (Excel Compatible)</span>
-                    <span className="text-[10px] text-slate-600">Delimiter: Comma | Arrays: Pipe (|)</span>
+                    <span className="text-[10px] text-zinc-600 dark:text-zinc-400">Delimiter: Comma | Arrays: Pipe (|)</span>
                  </div>
                  <textarea 
-                    className="flex-1 bg-slate-950 border border-slate-800 rounded-lg p-4 font-mono text-xs text-slate-300 focus:border-cyan-500 outline-none resize-none"
+                    className="flex-1 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 font-mono text-xs text-zinc-700 dark:text-zinc-300 focus:border-primary-500 outline-none resize-none"
                     value={editorCsv}
                     onChange={(e) => handleCsvChange(e.target.value)}
                     placeholder="Paste CSV here..."
@@ -150,20 +150,20 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ onClose }) => {
               </div>
 
               {/* TS Output Side */}
-              <div className="flex-1 flex flex-col p-4 bg-slate-900/50">
-                 <div className="mb-2 text-xs font-bold text-slate-400 flex justify-between items-center">
+               <div className="flex-1 flex flex-col p-4 bg-zinc-50 dark:bg-zinc-900">
+                 <div className="mb-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 flex justify-between items-center">
                     <span>TypeScript Code (Copy to Source)</span>
-                    {copySuccess && <span className="text-emerald-400 text-[10px] flex items-center gap-1"><Check size={12}/> Copied!</span>}
+                    {copySuccess && <span className="text-emerald-400 text-xs flex items-center gap-1"><Check size={12}/> Copied!</span>}
                  </div>
                  <div className="flex-1 relative">
                     <textarea 
                        readOnly
-                       className="w-full h-full bg-slate-950 border border-slate-800 rounded-lg p-4 font-mono text-xs text-green-400 focus:border-emerald-500 outline-none resize-none"
+                       className="w-full h-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 font-mono text-xs text-green-400 focus:border-emerald-500 outline-none resize-none"
                        value={editorTs}
                     />
                     <button 
                        onClick={copyToClipboard}
-                       className="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-lg flex items-center gap-2 transition-all"
+                       className="absolute bottom-4 right-4 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white px-4 py-2 rounded-lg text-xs font-bold shadow-lg flex items-center gap-2 transition-colors"
                     >
                        <Copy size={14}/> Copy Code
                     </button>

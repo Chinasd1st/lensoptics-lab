@@ -4,51 +4,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>相机镜头成像原理 · 互动演示</title>
+    <title>CineTech Architecture — 影视技术原理互动实验室</title>
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('cinetech-theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', '"Noto Sans SC"', 'system-ui', '-apple-system', 'sans-serif'],
+              mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+            },
             colors: {
-              slate: {
-                850: '#151f32',
-              }
-            }
+              primary: {
+                50: 'oklch(98% 0.012 85)',
+                100: 'oklch(95% 0.03 85)',
+                200: 'oklch(91% 0.06 85)',
+                300: 'oklch(86% 0.10 80)',
+                400: 'oklch(80% 0.14 75)',
+                500: 'oklch(73% 0.16 70)',
+                600: 'oklch(64% 0.15 65)',
+                700: 'oklch(54% 0.12 62)',
+                800: 'oklch(43% 0.09 60)',
+                900: 'oklch(33% 0.07 60)',
+                950: 'oklch(24% 0.05 60)',
+              },
+              zinc: {
+                50: 'oklch(98.5% 0.002 286)',
+                100: 'oklch(96.7% 0.003 286)',
+                200: 'oklch(92.8% 0.006 286)',
+                300: 'oklch(87.2% 0.01 286)',
+                400: 'oklch(70.7% 0.015 286)',
+                500: 'oklch(55.4% 0.018 286)',
+                600: 'oklch(44.2% 0.017 286)',
+                700: 'oklch(37.1% 0.013 286)',
+                800: 'oklch(27.4% 0.006 286)',
+                900: 'oklch(20.9% 0.004 286)',
+                950: 'oklch(14.1% 0.003 286)',
+              },
+              emerald: {
+                400: 'oklch(76% 0.17 155)',
+                500: 'oklch(68% 0.18 155)',
+                600: 'oklch(59% 0.17 155)',
+              },
+              amber: {
+                300: 'oklch(88% 0.15 85)',
+                400: 'oklch(82% 0.16 85)',
+                500: 'oklch(74% 0.18 85)',
+                600: 'oklch(64% 0.18 85)',
+              },
+              red: {
+                400: 'oklch(70% 0.19 25)',
+                500: 'oklch(63% 0.21 25)',
+                600: 'oklch(55% 0.2 25)',
+              },
+              orange: {
+                200: 'oklch(90% 0.08 70)',
+                400: 'oklch(76% 0.18 60)',
+                500: 'oklch(68% 0.19 60)',
+                600: 'oklch(58% 0.18 60)',
+              },
+              yellow: {
+                400: 'oklch(85% 0.17 90)',
+                500: 'oklch(79% 0.18 90)',
+                600: 'oklch(68% 0.17 90)',
+              },
+            },
+            keyframes: {
+              'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } },
+              'slide-in-from-bottom': { from: { opacity: '0', transform: 'translateY(1rem)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+              'slide-in-from-top': { from: { opacity: '0', transform: 'translateY(-0.5rem)' }, to: { opacity: '1', transform: 'translateY(0)' } },
+              'slide-in-from-right': { from: { opacity: '0', transform: 'translateX(1rem)' }, to: { opacity: '1', transform: 'translateX(0)' } },
+              'zoom-in': { from: { opacity: '0', transform: 'scale(0.95)' }, to: { opacity: '1', transform: 'scale(1)' } },
+              'dolly': { '0%,100%': { transform: 'translateX(0)' }, '50%': { transform: 'translateX(-14px)' } },
+              'truck': { '0%,100%': { transform: 'translateX(0)' }, '50%': { transform: 'translateX(14px)' } },
+              'pan': { '0%,100%': { transform: 'rotate(0deg)' }, '50%': { transform: 'rotate(-2deg)' } },
+              'tilt': { '0%,100%': { transform: 'rotate(0deg)' }, '50%': { transform: 'rotate(2deg)' } },
+              'drive': { '0%,100%': { transform: 'translateX(0)' }, '50%': { transform: 'translateX(16px)' } },
+              'spin-slow': { from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } },
+            },
+            animation: {
+              'fade-in': 'fade-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              'slide-in-bottom': 'slide-in-from-bottom 300ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              'slide-in-top': 'slide-in-from-top 200ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              'slide-in-right': 'slide-in-from-right 300ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              'zoom-in': 'zoom-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both',
+              'dolly': 'dolly 6s ease-in-out infinite',
+              'truck': 'truck 6s ease-in-out infinite',
+              'pan': 'pan 8s ease-in-out infinite',
+              'tilt': 'tilt 8s ease-in-out infinite',
+              'drive': 'drive 7s ease-in-out infinite',
+              'spin-slow': 'spin-slow 14s linear infinite',
+            },
           }
         }
       }
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-    <!-- Load KaTeX JS defer so it is available on window -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vniwctZTjgofDs" crossorigin="anonymous"></script>
-    <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/index.css">
-    <style>
-      /* Custom scrollbar for technical look */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #94a3b8; 
-        border-radius: 4px;
-        opacity: 0.5;
-      }
-      .dark ::-webkit-scrollbar-track {
-        background: #1e293b;
-      }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #475569;
-      }
-      .dark ::-webkit-scrollbar-thumb:hover {
-        background: #64748b;
-      }
-    </style>
 <script type="importmap">
 {
   "imports": {
@@ -73,7 +138,8 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 antialiased overflow-hidden transition-colors duration-300">
+  <body>
+    <div class="film-grain" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Slider } from './Controls';
 import { Monitor, AlertTriangle } from 'lucide-react';
@@ -12,8 +12,8 @@ export const MonitoringModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-4 lg:p-8">
-            <div className="relative w-full max-w-3xl aspect-video bg-slate-900 border border-slate-700 overflow-hidden shadow-2xl rounded-lg group">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-4 lg:p-8">
+            <div className="relative w-full max-w-3xl aspect-video bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-lg rounded-lg group">
                
                {/* --- SVG Filters Definition --- */}
                <svg className="absolute w-0 h-0">
@@ -89,7 +89,7 @@ export const MonitoringModule: React.FC = () => {
                <img 
                   src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200" 
                   alt="Monitoring Sample"
-                  className="w-full h-full object-cover transition-all duration-100"
+                  className="w-full h-full object-cover transition-colors duration-100"
                   style={{
                      // Apply Filters via CSS
                      filter: 
@@ -110,8 +110,8 @@ export const MonitoringModule: React.FC = () => {
                )}
 
                {/* --- HUD --- */}
-               <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded border border-white/10 flex flex-col gap-1 shadow-lg z-10">
-                  <div className="text-[10px] text-slate-400 font-mono tracking-widest uppercase">Assist Tool</div>
+               <div className="absolute top-4 left-4 bg-zinc-50/80 dark:bg-black backdrop-blur-sm px-3 py-1.5 rounded border border-zinc-200 dark:border-white flex flex-col gap-1 shadow-lg z-10">
+                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400 font-mono tracking-widest uppercase">Assist Tool</div>
                   <div className={`text-sm font-bold font-mono ${tool !== 'NONE' ? 'text-cyan-400' : 'text-white'}`}>
                      {tool === 'NONE' ? 'OFF' : tool.replace('_', ' ')}
                   </div>
@@ -119,27 +119,27 @@ export const MonitoringModule: React.FC = () => {
 
                {/* --- Legend --- */}
                {tool === 'FALSE_COLOR' && (
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/80 p-2 rounded border border-slate-700 flex flex-col gap-1 z-10">
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-red-600"></div><span className="text-[9px] text-white">Clip (100)</span></div>
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-yellow-400"></div><span className="text-[9px] text-white">Near (90)</span></div>
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-[#eebb99]"></div><span className="text-[9px] text-white">Skin High</span></div>
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500"></div><span className="text-[9px] text-white">Skin (42)</span></div>
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-blue-600"></div><span className="text-[9px] text-white">Shadow</span></div>
-                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-purple-600"></div><span className="text-[9px] text-white">Black (0)</span></div>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 bg-zinc-950/80 p-2 rounded border border-zinc-200 dark:border-zinc-800 flex flex-col gap-1 z-10">
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-red-600"></div><span className="text-[11px] text-zinc-900 dark:text-white">Clip (100)</span></div>
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-yellow-400"></div><span className="text-[11px] text-zinc-900 dark:text-white">Near (90)</span></div>
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-orange-200"></div><span className="text-[11px] text-zinc-900 dark:text-white">Skin High</span></div>
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500"></div><span className="text-[11px] text-zinc-900 dark:text-white">Skin (42)</span></div>
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-primary-600"></div><span className="text-[11px] text-zinc-900 dark:text-white">Shadow</span></div>
+                     <div className="flex items-center gap-2"><div className="w-3 h-3 bg-purple-600"></div><span className="text-[11px] text-zinc-900 dark:text-white">Black (0)</span></div>
                   </div>
                )}
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col overflow-y-auto">
-            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Monitor size={20} className="text-cyan-400"/> 监视器辅助 (Assist Tools)</h3>
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Monitor size={20} className="text-cyan-400"/> 监视器辅助 (Assist Tools)</h3>
             
             <div className="space-y-4">
-               <button onClick={() => setTool('NONE')} className={`w-full p-4 rounded-lg border text-left transition-all ${tool === 'NONE' ? 'bg-slate-700 border-white text-white' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
+               <button onClick={() => setTool('NONE')} className={`w-full p-4 rounded-lg border text-left transition-colors ${tool === 'NONE' ? 'bg-zinc-700 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   <span className="font-bold text-sm">标准监看 (Clean)</span>
                </button>
                
-               <button onClick={() => setTool('FALSE_COLOR')} className={`w-full p-4 rounded-lg border text-left transition-all group ${tool === 'FALSE_COLOR' ? 'bg-purple-900/40 border-purple-400 text-white' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
+               <button onClick={() => setTool('FALSE_COLOR')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'FALSE_COLOR' ? 'bg-primary-900/40 border-purple-400 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
                      <span className={`font-bold text-sm ${tool==='FALSE_COLOR' ? 'text-purple-300' : 'group-hover:text-purple-300'}`}>伪色 (False Color)</span>
                      {tool === 'FALSE_COLOR' && <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>}
@@ -147,12 +147,12 @@ export const MonitoringModule: React.FC = () => {
                   <div className="text-[10px] opacity-70 leading-relaxed">
                      将亮度映射为 10 阶色彩。
                      <br/>• <span className="text-green-400">绿色 (IRE 42-48)</span>: 完美肤色曝光
-                     <br/>• <span className="text-purple-400">紫色 (IRE 0-10)</span>: 死黑无细节
+                     <br/>• <span className="text-primary-400">紫色 (IRE 0-10)</span>: 死黑无细节
                      <br/>• <span className="text-red-400">红色 (IRE 95-100)</span>: 过曝警告
                   </div>
                </button>
 
-               <button onClick={() => setTool('PEAKING')} className={`w-full p-4 rounded-lg border text-left transition-all group ${tool === 'PEAKING' ? 'bg-red-900/30 border-red-500 text-white' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
+               <button onClick={() => setTool('PEAKING')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'PEAKING' ? 'bg-red-900/30 border-red-500 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
                      <span className={`font-bold text-sm ${tool==='PEAKING' ? 'text-red-300' : 'group-hover:text-red-300'}`}>峰值对焦 (Focus Peaking)</span>
                      {tool === 'PEAKING' && <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>}
@@ -163,9 +163,9 @@ export const MonitoringModule: React.FC = () => {
                   </div>
                </button>
 
-               <button onClick={() => setTool('ZEBRA')} className={`w-full p-4 rounded-lg border text-left transition-all group ${tool === 'ZEBRA' ? 'bg-slate-800 border-white text-white' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
+               <button onClick={() => setTool('ZEBRA')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'ZEBRA' ? 'bg-zinc-100 dark:bg-zinc-800 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
-                     <span className={`font-bold text-sm ${tool==='ZEBRA' ? 'text-white' : 'group-hover:text-white'}`}>斑马纹 (Zebra 95%)</span>
+                     <span className={`font-bold text-sm ${tool==='ZEBRA' ? 'text-white' : 'group-hover:text-zinc-900 dark:group-hover:text-white'}`}>斑马纹 (Zebra 95%)</span>
                   </div>
                   <div className="text-[10px] opacity-70">
                      仅在亮度超过 95% IRE 的区域显示条纹。用于快速判断天空或高光是否“死白”。
@@ -173,13 +173,13 @@ export const MonitoringModule: React.FC = () => {
                </button>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-slate-700">
+            <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800">
                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs font-bold text-slate-300">模拟曝光增益 (Exposure)</span>
-                  {exposure > 0.4 && <span className="text-[10px] text-red-400 flex items-center gap-1"><AlertTriangle size={10}/> CLIPPING</span>}
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">模拟曝光增益 (Exposure)</span>
+                  {exposure > 0.4 && <span className="text-[10px] text-red-600 dark:text-red-400 flex items-center gap-1"><AlertTriangle size={10}/> CLIPPING</span>}
                </div>
                <Slider label="" value={exposure} min={-0.8} max={0.8} step={0.05} onChange={setExposure} />
-               <p className="text-[10px] text-slate-500 mt-2 italic">
+               <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2 italic">
                   调整曝光滑块，观察伪色图和斑马纹的动态变化。尝试将人物面部亮度调整至“绿色”区域。
                </p>
             </div>

@@ -27,7 +27,7 @@ export const ImagingPipelineView: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row h-full">
       {/* Main Visualization Area */}
-      <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
         
         <TabNavigation 
           tabs={tabs} 
@@ -36,7 +36,7 @@ export const ImagingPipelineView: React.FC = () => {
         />
 
         {/* Content Render */}
-        <div className="flex-1 relative overflow-hidden bg-slate-950">
+        <div className="flex-1 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950">
           {activeTab === 'FILTERS' && <OpticalFilterSimulator />}
           {activeTab === 'EXPOSURE' && <ExposureSimulator />}
           {activeTab === 'SENSOR_SIZE' && <SensorSizeSimulator />}

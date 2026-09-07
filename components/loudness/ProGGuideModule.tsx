@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Info, Activity, Box, Mic, Settings2, Image as ImageIcon, AlertTriangle, Upload, Play, Pause, X } from 'lucide-react';
 
@@ -107,7 +107,7 @@ export const ProGGuideModule: React.FC = () => {
          subtitle: "衰减深度",
          desc: "门关上时，要把声音压低多少？-80dB 是完全静音（硬闸门），-10dB 只是让背景音变轻（软扩展）。",
          tip: "人声处理建议设为 -15dB ~ -25dB，保留一点环境声会听起来更自然，不会有那种真空般的窒息感。",
-         color: "text-indigo-400"
+         color: "text-primary-400"
       },
       ATTACK: {
          title: "Attack",
@@ -128,7 +128,7 @@ export const ProGGuideModule: React.FC = () => {
          subtitle: "保持时间",
          desc: "信号跌落阈值后，强行保持开门状态的时间。",
          tip: "防抽搐神器。对于军鼓或句间呼吸，加 50-100ms Hold 可以防止门误判关闭，保证尾音完整。",
-         color: "text-orange-400"
+         color: "text-primary-400"
       }
    };
 
@@ -419,7 +419,7 @@ export const ProGGuideModule: React.FC = () => {
 
          // 4. Render (Always Draw)
          ctx.setTransform(1, 0, 0, 1, 0, 0);
-         ctx.fillStyle = '#0f172a';
+         ctx.fillStyle = 'oklch(21% 0.013 260)';
          ctx.fillRect(0, 0, w, h);
          
          ctx.scale(dpr, dpr);
@@ -430,13 +430,13 @@ export const ProGGuideModule: React.FC = () => {
 
          // Grid
          ctx.lineWidth = 1;
-         ctx.strokeStyle = '#334155';
+         ctx.strokeStyle = 'oklch(33% 0.015 286)';
          ctx.beginPath();
          [-20, -40, -60, -80].forEach(db => {
             const y = dbToY(db);
             ctx.moveTo(0, y);
             ctx.lineTo(logicalW, y);
-            ctx.fillStyle = '#64748b';
+            ctx.fillStyle = 'oklch(55% 0.018 286)';
             ctx.font = '10px monospace';
             ctx.fillText(`${db}`, 4, y - 2);
          });
@@ -449,7 +449,7 @@ export const ProGGuideModule: React.FC = () => {
          const stepX = logicalW / len;
 
          // Input (Draw first)
-         ctx.fillStyle = '#1e293b';
+         ctx.fillStyle = 'oklch(27% 0.015 286)';
          ctx.beginPath();
          ctx.moveTo(0, logicalH);
          for(let i=0; i<len; i++) ctx.lineTo(i * stepX, dbToY(inputData[i]));
@@ -458,7 +458,7 @@ export const ProGGuideModule: React.FC = () => {
 
          // Threshold (Draw AFTER Input to be visible on top)
          const thY = dbToY(p.threshold);
-         ctx.strokeStyle = '#22d3ee';
+         ctx.strokeStyle = 'oklch(72% 0.15 200)';
          ctx.lineWidth = 1.5;
          ctx.setLineDash([4, 4]);
          ctx.beginPath();
@@ -466,11 +466,11 @@ export const ProGGuideModule: React.FC = () => {
          ctx.lineTo(logicalW, thY);
          ctx.stroke();
          ctx.setLineDash([]);
-         ctx.fillStyle = '#22d3ee';
+         ctx.fillStyle = 'oklch(72% 0.15 200)';
          ctx.fillText('THR', logicalW - 25, thY - 4);
 
          // Output
-         ctx.strokeStyle = '#4ade80';
+         ctx.strokeStyle = 'oklch(76% 0.17 155)';
          ctx.lineWidth = 2;
          ctx.beginPath();
          for(let i=0; i<len; i++) {
@@ -482,7 +482,7 @@ export const ProGGuideModule: React.FC = () => {
 
          // GR
          const topLimit = logicalH * 0.1;
-         ctx.strokeStyle = '#ef4444';
+         ctx.strokeStyle = 'oklch(63% 0.21 25)';
          ctx.lineWidth = 2;
          ctx.beginPath();
          for(let i=0; i<len; i++) {
@@ -502,10 +502,10 @@ export const ProGGuideModule: React.FC = () => {
                  const progress = (elapsed % duration) / duration;
                  
                  // Draw Progress Bar at bottom
-                 ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                 ctx.fillStyle = 'oklch(100% 0 0 / 0.2)';
                  ctx.fillRect(0, logicalH - 4, logicalW, 4); // Track
                  
-                 ctx.fillStyle = '#22d3ee';
+                 ctx.fillStyle = 'oklch(72% 0.15 200)';
                  ctx.fillRect(0, logicalH - 4, logicalW * progress, 4); // Fill
              }
          }
@@ -523,13 +523,13 @@ export const ProGGuideModule: React.FC = () => {
    return (
       <div className="h-full flex flex-col lg:flex-row gap-6 p-4">
          {/* Left: Interactive Visualizer or Real Image */}
-         <div className="flex-1 flex flex-col bg-slate-950 rounded-2xl border border-slate-800 p-6 select-none relative overflow-hidden">
+         <div className="flex-1 flex flex-col bg-zinc-50 dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 select-none relative overflow-hidden">
             
             {/* View Toggle Button */}
             <div className="absolute top-4 right-4 z-20 flex gap-2">
                <button 
                   onClick={() => setShowRealImage(!showRealImage)}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-600 text-xs font-bold transition-all shadow-lg"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white rounded-lg border border-zinc-300 dark:border-zinc-600 text-xs font-bold transition-colors shadow-lg"
                >
                   {showRealImage ? <Box size={14}/> : <ImageIcon size={14}/>}
                   {showRealImage ? '返回交互模式' : '查看真实截图'}
@@ -537,21 +537,21 @@ export const ProGGuideModule: React.FC = () => {
             </div>
 
             {showRealImage ? (
-               <div className="w-full h-full flex items-center justify-center animate-in fade-in zoom-in duration-300">
+               <div className="w-full h-full flex items-center justify-center animate-fade-in zoom-in duration-300">
                   {!imgError ? (
                      <img 
                         src={progImgUrl} 
                         alt="FabFilter Pro-G Screenshot" 
-                        className="max-w-full max-h-full object-contain rounded-lg shadow-2xl border border-slate-700"
+                        className="max-w-full max-h-full object-contain rounded-lg shadow-lg border border-zinc-200 dark:border-zinc-800"
                         onError={() => setImgError(true)}
                      />
                   ) : (
-                     <div className="flex flex-col items-center justify-center text-slate-500 p-8 border-2 border-dashed border-slate-700 rounded-lg bg-black/20 max-w-md text-center">
+                     <div className="flex flex-col items-center justify-center text-zinc-500 dark:text-zinc-400 p-8 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-lg bg-zinc-950/20 max-w-md text-center">
                         <AlertTriangle size={32} className="text-red-500 mb-3"/>
-                        <p className="font-bold text-red-400 mb-2">Image Not Found (404)</p>
-                        <div className="text-xs space-y-1 bg-black/40 p-4 rounded border border-slate-800 text-left font-mono text-slate-400">
+                        <p className="font-bold text-red-600 dark:text-red-400 mb-2">Image Not Found (404)</p>
+                        <div className="text-xs space-y-1 bg-zinc-950/40 p-4 rounded border border-zinc-200 dark:border-zinc-800 text-left font-mono text-zinc-600 dark:text-zinc-400">
                            <p>Expected path:</p>
-                           <p className="text-white">../../img/loudness/2_prog.png</p>
+                           <p className="text-zinc-900 dark:text-white">../../img/loudness/2_prog.png</p>
                         </div>
                      </div>
                   )}
@@ -561,31 +561,31 @@ export const ProGGuideModule: React.FC = () => {
                   {/* Added padding-right to avoid overlap with absolute button */}
                   <div className="flex flex-wrap items-center justify-between mb-4 gap-4 pr-36">
                      <div className="flex items-center gap-4">
-                        <div className="text-[10px] text-slate-500 font-mono font-bold tracking-wider uppercase">Pro-G Simulator (Gate)</div>
+                        <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono font-bold tracking-wider uppercase">Pro-G Simulator (Gate)</div>
                      </div>
                      
-                     <div className="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-lg p-1">
+                     <div className="flex items-center gap-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-1">
                         {/* Audio Source Toggle */}
-                        <div className="flex bg-slate-800 rounded p-0.5 mr-2">
-                           <button onClick={() => { setAudioMode('SYNTH'); stopAudio(); }} className={`px-2 py-1 text-[10px] rounded font-bold transition-colors ${audioMode==='SYNTH' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>Synth</button>
-                           <button onClick={() => fileInputRef.current?.click()} className={`px-2 py-1 text-[10px] rounded font-bold transition-colors flex items-center gap-1 ${audioMode==='FILE' ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+                        <div className="flex bg-zinc-50 dark:bg-zinc-800 rounded p-0.5 mr-2">
+                           <button onClick={() => { setAudioMode('SYNTH'); stopAudio(); }} className={`px-2 py-1 text-xs rounded font-bold transition-colors ${audioMode==='SYNTH' ? 'bg-cyan-600 text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-white'}`}>Synth</button>
+                           <button onClick={() => fileInputRef.current?.click()} className={`px-2 py-1 text-xs rounded font-bold transition-colors flex items-center gap-1 ${audioMode==='FILE' ? 'bg-cyan-600 text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-white'}`}>
                               <Upload size={10}/> File
                            </button>
                            <input type="file" ref={fileInputRef} className="hidden" accept="audio/*" onChange={handleFileUpload} />
                         </div>
 
                         {audioMode === 'SYNTH' ? (
-                           <div className="flex bg-slate-800 rounded p-0.5">
-                              <button onClick={() => setSignalType('DRUMS')} className={`px-2 py-1 text-[10px] rounded flex items-center gap-1 transition-colors ${signalType==='DRUMS' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+                           <div className="flex bg-zinc-50 dark:bg-zinc-800 rounded p-0.5">
+                              <button onClick={() => setSignalType('DRUMS')} className={`px-2 py-1 text-xs rounded flex items-center gap-1 transition-colors ${signalType==='DRUMS' ? 'bg-zinc-600 text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-white'}`}>
                                  <Settings2 size={10}/> Drums
                               </button>
-                              <button onClick={() => setSignalType('VOCAL')} className={`px-2 py-1 text-[10px] rounded flex items-center gap-1 transition-colors ${signalType==='VOCAL' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+                              <button onClick={() => setSignalType('VOCAL')} className={`px-2 py-1 text-xs rounded flex items-center gap-1 transition-colors ${signalType==='VOCAL' ? 'bg-zinc-600 text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-white'}`}>
                                  <Mic size={10}/> Vocal
                               </button>
                            </div>
                         ) : (
                            <div className="flex items-center gap-2 px-2">
-                              <span className="text-[10px] text-slate-400 max-w-[100px] truncate">{fileName || 'No File'}</span>
+                              <span className="text-[10px] text-zinc-600 dark:text-zinc-400 max-w-[100px] truncate">{fileName || 'No File'}</span>
                               <button onClick={toggleAudioPlayback} disabled={!fileName} className={`p-1 rounded-full ${isPlaying ? 'bg-yellow-500 text-black' : 'bg-green-600 text-white'} disabled:opacity-50`}>
                                  {isPlaying ? <Pause size={12}/> : <Play size={12}/>}
                               </button>
@@ -596,51 +596,51 @@ export const ProGGuideModule: React.FC = () => {
 
                   <div 
                      ref={wrapperRef}
-                     className="flex-1 w-full bg-[#111] rounded-lg border border-slate-700 relative overflow-hidden shadow-inner"
+                     className="flex-1 w-full bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800 relative overflow-hidden shadow-inner"
                      onMouseEnter={() => setActiveParam('VISUALIZER')}
                   >
                      <canvas ref={canvasRef} className="block w-full h-full" />
                      {audioMode === 'FILE' && !isPlaying && fileName && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm pointer-events-none">
-                           <div className="bg-slate-900 border border-slate-700 px-4 py-2 rounded-full text-xs font-bold text-white flex items-center gap-2">
+                         <div className="absolute inset-0 flex items-center justify-center bg-zinc-50/50 dark:bg-zinc-950 backdrop-blur-sm pointer-events-none">
+                            <div className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-full text-xs font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                               <Play size={12} className="fill-white"/> Click Play to Start DSP
                            </div>
                         </div>
                      )}
                   </div>
 
-                  <div className="mt-6 h-32 bg-[#1a1a1a] rounded-xl border border-[#333] px-6 py-4 flex items-center justify-between gap-2 lg:gap-6">
-                     <ProKnob label="Threshold" value={threshold} min={-60} max={0} step={0.5} unit="dB" onChange={setThreshold} color="#22d3ee" onFocus={() => setActiveParam('THRESHOLD')} />
-                     <ProKnob label="Range" value={range} min={-80} max={0} step={1} unit="dB" onChange={setRange} color="#818cf8" onFocus={() => setActiveParam('RANGE')} />
-                     <div className="w-px h-12 bg-[#333]"></div>
-                     <ProKnob label="Attack" value={attack} min={0} max={100} step={1} unit="ms" onChange={setAttack} color="#34d399" onFocus={() => setActiveParam('ATTACK')} />
-                     <ProKnob label="Release" value={release} min={10} max={1000} step={10} unit="ms" onChange={setRelease} color="#facc15" onFocus={() => setActiveParam('RELEASE')} />
-                     <ProKnob label="Hold" value={hold} min={0} max={500} step={10} unit="ms" onChange={setHold} color="#fb923c" onFocus={() => setActiveParam('HOLD')} />
+                  <div className="mt-6 h-32 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 px-6 py-4 flex items-center justify-between gap-2 lg:gap-6">
+                     <ProKnob label="Threshold" value={threshold} min={-60} max={0} step={0.5} unit="dB" onChange={setThreshold} color="oklch(72% 0.15 200)" onFocus={() => setActiveParam('THRESHOLD')} />
+                     <ProKnob label="Range" value={range} min={-80} max={0} step={1} unit="dB" onChange={setRange} color="oklch(68% 0.18 280)" onFocus={() => setActiveParam('RANGE')} />
+                     <div className="w-px h-12 bg-zinc-700"></div>
+                     <ProKnob label="Attack" value={attack} min={0} max={100} step={1} unit="ms" onChange={setAttack} color="oklch(76% 0.17 155)" onFocus={() => setActiveParam('ATTACK')} />
+                     <ProKnob label="Release" value={release} min={10} max={1000} step={10} unit="ms" onChange={setRelease} color="oklch(82% 0.16 85)" onFocus={() => setActiveParam('RELEASE')} />
+                     <ProKnob label="Hold" value={hold} min={0} max={500} step={10} unit="ms" onChange={setHold} color="oklch(76% 0.18 60)" onFocus={() => setActiveParam('HOLD')} />
                   </div>
                </>
             )}
          </div>
 
          {/* Right: Info Panel */}
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 flex flex-col p-6 lg:p-8 rounded-2xl shadow-xl transition-colors duration-300 border-t lg:border-t-0">
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col p-6 lg:p-8 rounded-2xl shadow-md transition-colors duration-300 border-t lg:border-t-0">
             <div className="flex-1 flex flex-col justify-center">
-               <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold w-fit mb-6 bg-slate-800 border ${current.color.replace('text-', 'border-')}`}>
+               <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold w-fit mb-6 bg-zinc-50 dark:bg-zinc-800 border ${current.color.replace('text-', 'border-')}`}>
                   {activeParam === 'VISUALIZER' ? <Box size={14} className={current.color} /> : <Activity size={14} className={current.color} />}
                   <span className={current.color}>{current.subtitle}</span>
                </div>
                
-               <h2 className="text-3xl font-bold text-white mb-2">{current.title}</h2>
+               <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">{current.title}</h2>
                <div className={`h-1 w-20 rounded mb-6 ${current.color.replace('text-', 'bg-')}`}></div>
                
-               <p className="text-sm text-slate-300 leading-7 mb-8 text-justify">
+               <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 mb-8 text-justify">
                   {current.desc}
                </p>
 
-               <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700">
-                  <h4 className="text-xs font-bold text-white mb-2 flex items-center gap-2">
+               <div className="bg-zinc-800/50 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800">
+                  <h4 className="text-xs font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
                      <Info size={14} className="text-yellow-400"/> 混音师笔记
                   </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                      {current.tip}
                   </p>
                </div>
@@ -749,19 +749,19 @@ const ProKnob: React.FC<ProKnobProps> = ({ label, value, min, max, step, unit, c
                   </linearGradient>
                </defs>
                <g transform="rotate(135, 32, 32)">
-                  <circle cx="32" cy="32" r={radius} fill="none" stroke="#333" strokeWidth="4" strokeDasharray={`${arcLength} ${circumference}`} strokeLinecap="round" />
-                  <circle cx="32" cy="32" r={radius} fill="none" stroke={color} strokeWidth="4" strokeDasharray={dashArray} strokeLinecap="round" className="transition-all duration-75 ease-out" />
+                  <circle cx="32" cy="32" r={radius} fill="none" stroke="oklch(27% 0.006 286)" strokeWidth="4" strokeDasharray={`${arcLength} ${circumference}`} strokeLinecap="round" />
+                  <circle cx="32" cy="32" r={radius} fill="none" stroke={color} strokeWidth="4" strokeDasharray={dashArray} strokeLinecap="round" className="transition-[stroke-dasharray] duration-75 ease-out" />
                </g>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className={`w-10 h-10 rounded-full bg-[#2a2a2a] border border-[#444] shadow-lg flex items-center justify-center transform transition-transform duration-75 ${isDragging ? 'scale-95 border-white' : ''}`} style={{ transform: `rotate(${rotation}deg)` }}>
-                   <div className="w-1 h-3 bg-white mb-5 rounded-full shadow-[0_0_5px_white]"></div>
+                <div className={`w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 shadow-lg flex items-center justify-center transform transition-transform duration-75 ${isDragging ? 'scale-95 border-white' : ''}`} style={{ transform: `rotate(${rotation}deg)` }}>
+                   <div className="w-1 h-3 bg-zinc-50 mb-5 rounded-full shadow-[0_0_5px_white]"></div>
                 </div>
             </div>
          </div>
          <div className="text-center">
-            <div className={`text-[10px] font-bold uppercase transition-colors ${isDragging ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'}`}>{label}</div>
-            <div className="text-[9px] font-mono" style={{color: isDragging ? color : '#64748b'}}>{value.toFixed(step < 1 ? 1 : 0)}{unit}</div>
+            <div className={`text-[10px] font-bold uppercase transition-colors ${isDragging ? 'text-white' : 'text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-700 dark:text-zinc-300'}`}>{label}</div>
+            <div className="text-[11px] font-mono" style={{color: isDragging ? color : 'oklch(55% 0.018 286)'}}>{value.toFixed(step < 1 ? 1 : 0)}{unit}</div>
          </div>
       </div>
    );

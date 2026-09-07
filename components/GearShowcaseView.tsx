@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { A7M5Page, FX2Page, Lens400800GPage, Lens50150GMPage, Lens100GMPage, TeleconverterPage, A1M2Page, A9M3Page } from './GearPages';
 
@@ -16,12 +16,12 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
   }, [initialTab]);
 
   return (
-    <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-black text-slate-200">
+    <div className="flex flex-col lg:flex-row h-full overflow-hidden bg-zinc-50 dark:bg-black text-zinc-700 dark:text-zinc-200">
       {/* Product Navigation */}
-      <div className="w-full lg:w-80 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0">
-        <div className="p-6 border-b border-slate-800">
+      <div className="w-full lg:w-80 bg-zinc-100 dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex flex-col shrink-0">
+        <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
            <div className="text-[10px] font-bold text-orange-500 uppercase tracking-widest mb-1">Sony Press Release</div>
-           <h2 className="text-xl font-bold text-white">新品发布回顾</h2>
+           <h2 className="text-xl font-bold text-zinc-900 dark:text-white">新品发布回顾</h2>
         </div>
         
         <div className="flex-1 overflow-y-auto p-2 space-y-2">
@@ -34,7 +34,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="NEW" 
               badgeColor="bg-yellow-600"
               desc="11月19日发布 · 50MP 堆栈"
-              gradient="from-slate-800 to-slate-900 border-yellow-500/50"
+              gradient="from-zinc-800 to-zinc-900 border-yellow-500/50"
               accent="bg-yellow-500"
            />
 
@@ -47,7 +47,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="GLOBAL" 
               badgeColor="bg-red-600"
               desc="全域快门速度旗舰 · 2023发布"
-              gradient="from-slate-800 to-slate-900 border-red-500/50"
+              gradient="from-zinc-800 to-zinc-900 border-red-500/50"
               accent="bg-red-500"
            />
 
@@ -60,7 +60,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="FUTURE" 
               badgeColor="bg-orange-600"
               desc="全画幅新基准 · 33MP 部分堆栈"
-              gradient="from-slate-800 to-slate-900 border-orange-500/50"
+              gradient="from-zinc-800 to-zinc-900 border-orange-500/50"
               accent="bg-orange-500"
            />
 
@@ -71,10 +71,10 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               setActive={setActiveProduct}
               title="Cinema Line FX2" 
               badge="CINE" 
-              badgeColor="bg-slate-600"
-              desc="轻量化全画幅电影机 · 5月发布"
-              gradient="from-slate-800 to-slate-900 border-slate-400/50"
-              accent="bg-slate-400"
+              badgeColor="bg-zinc-600"
+               desc="轻量化全画幅电影机 · 5月发布"
+               gradient="from-zinc-800 to-zinc-900 border-zinc-400/50"
+               accent="bg-zinc-400"
            />
 
            {/* 400-800 G - NEW */}
@@ -86,8 +86,8 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="G" 
               badgeColor="bg-black border border-white/20"
               desc="原生800mm · 内变焦设计"
-              gradient="from-slate-800 to-slate-900 border-slate-500/50"
-              accent="bg-slate-300"
+               gradient="from-zinc-800 to-zinc-900 border-zinc-500/50"
+               accent="bg-zinc-300"
            />
 
            {/* 50-150 F2 */}
@@ -99,7 +99,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="GM" 
               badgeColor="bg-red-600"
               desc="恒定F2变焦 · 人像神镜"
-              gradient="from-slate-800 to-slate-900 border-red-500/50"
+              gradient="from-zinc-800 to-zinc-900 border-red-500/50"
               accent="bg-red-600"
            />
 
@@ -112,13 +112,13 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
               badge="MACRO" 
               badgeColor="bg-emerald-600"
               desc="1.4x 超微距 · 零呼吸效应"
-              gradient="from-slate-800 to-slate-900 border-emerald-500/50"
+              gradient="from-zinc-800 to-zinc-900 border-emerald-500/50"
               accent="bg-emerald-600"
            />
 
            {/* Teleconverter Guide */}
-           <div className="pt-4 border-t border-slate-800 mt-2">
-             <div className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Knowledge Base</div>
+             <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 mt-2">
+              <div className="px-4 text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2">Knowledge Base</div>
              <NavButton 
                 id="TC" 
                 active={activeProduct} 
@@ -127,7 +127,7 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
                 badge="INFO" 
                 badgeColor="bg-blue-600"
                 desc="SEL14TC / SEL20TC 详解"
-                gradient="from-slate-800 to-slate-900 border-blue-500/50"
+                gradient="from-zinc-800 to-zinc-900 border-blue-500/50"
                 accent="bg-blue-400"
              />
            </div>
@@ -152,14 +152,14 @@ export const GearShowcaseView: React.FC<GearShowcaseViewProps> = ({ initialTab }
 const NavButton: React.FC<any> = ({ id, active, setActive, title, badge, badgeColor, desc, gradient, accent }) => (
    <button 
       onClick={() => setActive(id)}
-      className={`w-full p-4 rounded-lg text-left transition-all border group relative overflow-hidden select-none ${active === id ? `bg-gradient-to-r ${gradient}` : 'bg-transparent border-transparent hover:bg-slate-800'}`}
+      className={`w-full p-4 rounded-lg text-left transition-all border group relative overflow-hidden select-none focus:outline-none ${active === id ? `bg-gradient-to-r ${gradient}` : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
    >
       <div className="relative z-10">
          <div className="flex justify-between items-center mb-1">
-            <span className={`font-bold font-mono text-lg ${active === id ? 'text-white' : 'text-slate-400'}`}>{title}</span>
+            <span className={`font-bold font-mono text-lg ${active === id ? 'text-white' : 'text-zinc-800 dark:text-zinc-300'}`}>{title}</span>
             {active === id && <span className={`${badgeColor} text-white text-[9px] px-1.5 py-0.5 rounded font-bold`}>{badge}</span>}
          </div>
-         <div className="text-xs text-slate-500 group-hover:text-slate-400">{desc}</div>
+         <div className="text-xs text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-300">{desc}</div>
       </div>
       {active === id && <div className={`absolute right-0 top-0 bottom-0 w-1 ${accent}`}></div>}
    </button>

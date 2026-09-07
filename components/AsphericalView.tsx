@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Toggle } from './Controls';
 import { Aperture, XCircle, CheckCircle, Scan, Info } from 'lucide-react';
@@ -66,28 +66,28 @@ export const AsphericalView: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row h-full">
       {/* Canvas */}
-      <div className="flex-1 bg-slate-950 relative border-b lg:border-r border-slate-800 overflow-hidden flex flex-col">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative border-b lg:border-r border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col">
         
         {/* Top HUD */}
         <div className="absolute top-4 left-4 z-10 space-y-2 pointer-events-none">
-           <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border backdrop-blur-md shadow-xl ${isAspherical ? 'bg-emerald-900/40 border-emerald-500/50 text-emerald-400' : 'bg-red-900/40 border-red-500/50 text-red-400'}`}>
+           <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border backdrop-blur-md shadow-md ${isAspherical ? 'bg-emerald-900/40 border-emerald-500/50 text-emerald-600 dark:text-emerald-400' : 'bg-red-900/40 border-red-500/50 text-red-600 dark:text-red-400'}`}>
               {isAspherical ? <CheckCircle size={18}/> : <XCircle size={18}/>}
               <span className="font-bold text-sm">{isAspherical ? '非球面 (Aspherical)' : '球面 (Spherical)'}</span>
            </div>
         </div>
 
         {/* Spot Diagram HUD (Replacing the bottom panel) */}
-        <div className="absolute bottom-4 right-4 z-10 bg-slate-900/90 border border-slate-700 p-4 rounded-xl shadow-2xl w-48 backdrop-blur-md">
-            <div className="text-[10px] font-bold text-slate-400 mb-2 flex items-center gap-2">
+        <div className="absolute bottom-4 right-4 z-10 bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 p-4 rounded-xl shadow-lg w-48 backdrop-blur-md">
+            <div className="text-[10px] font-bold text-zinc-600 dark:text-zinc-400 mb-2 flex items-center gap-2">
                 <Scan size={12} className="text-cyan-400"/> 焦点成像模拟 (Spot)
             </div>
-            <div className="w-full aspect-square bg-black border border-slate-800 rounded-lg relative flex items-center justify-center overflow-hidden">
+            <div className="w-full aspect-square bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-zinc-800 rounded-lg relative flex items-center justify-center overflow-hidden">
                 {/* Crosshair */}
-                <div className="absolute w-full h-px bg-slate-800"></div>
-                <div className="absolute h-full w-px bg-slate-800"></div>
+                <div className="absolute w-full h-px bg-zinc-100 dark:bg-zinc-800"></div>
+                <div className="absolute h-full w-px bg-zinc-100 dark:bg-zinc-800"></div>
                 
                 {/* Airy Disk Reference (faint) */}
-                <div className="w-2 h-2 bg-white/5 rounded-full absolute"></div>
+                <div className="w-2 h-2 bg-zinc-50/[0.05] rounded-full absolute"></div>
 
                 {/* Spots */}
                 {spotDiagramPoints.map((pt, i) => (
@@ -102,7 +102,7 @@ export const AsphericalView: React.FC = () => {
                     ></div>
                 ))}
             </div>
-            <div className="text-[10px] text-center mt-2 text-slate-500">
+            <div className="text-[10px] text-center mt-2 text-zinc-500 dark:text-zinc-400">
                 {isAspherical ? <span className="text-emerald-400">锐利实点 (Sharp)</span> : <span className="text-red-400">弥散圆 (Blurry)</span>}
             </div>
         </div>
@@ -194,9 +194,9 @@ export const AsphericalView: React.FC = () => {
       </div>
 
       {/* Right Control Panel */}
-      <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col">
-        <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-           <Aperture size={20} className="text-orange-400"/> 球差原理
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-800 p-6 flex flex-col">
+        <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+           <Aperture size={20} className="text-primary-400"/> 球差原理
         </h3>
         
         <Toggle 
@@ -206,18 +206,18 @@ export const AsphericalView: React.FC = () => {
         />
 
         <div className="mt-8 space-y-6">
-           <div className={`p-4 rounded-lg border transition-colors ${!isAspherical ? 'bg-red-900/20 border-red-500/50' : 'bg-slate-900 border-slate-700 opacity-50'}`}>
+           <div className={`p-4 rounded-lg border transition-colors ${!isAspherical ? 'bg-red-900/20 border-red-500/50' : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'}`}>
               <h4 className="text-sm font-bold text-red-300 mb-2 flex items-center gap-2"><XCircle size={14}/> 球面透镜 (Spherical)</h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                 光线通过透镜边缘时，折射角度过大，导致边缘光线比中心光线<strong className="text-white">汇聚得更早</strong>。
+              <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                 光线通过透镜边缘时，折射角度过大，导致边缘光线比中心光线<strong className="text-zinc-900 dark:text-white">汇聚得更早</strong>。
                  <br/><br/>
                  焦点无法重合，在传感器上形成弥散圆（雾状光晕）。这就是为什么大光圈镜头容易“肉”（锐度低）。
               </p>
            </div>
 
-           <div className={`p-4 rounded-lg border transition-colors ${isAspherical ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-slate-900 border-slate-700 opacity-50'}`}>
+           <div className={`p-4 rounded-lg border transition-colors ${isAspherical ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-50'}`}>
               <h4 className="text-sm font-bold text-emerald-300 mb-2 flex items-center gap-2"><CheckCircle size={14}/> 非球面透镜 (Aspherical)</h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
                  通过改变镜片表面的曲率（边缘变平），强行修正边缘光线的折射角度。
                  <br/><br/>
                  所有光线汇聚于同一点。全开光圈也能获得极高的锐度。
@@ -225,12 +225,12 @@ export const AsphericalView: React.FC = () => {
            </div>
         </div>
 
-        <div className="mt-auto pt-6 border-t border-slate-700 text-[10px] text-slate-500">
+        <div className="mt-auto pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
            <div className="flex items-center gap-2 mb-2">
-              <Info size={12} className="text-orange-400"/>
-              <strong className="text-slate-400">Sony GM 技术注记：</strong>
+              <Info size={12} className="text-primary-400"/>
+              <strong className="text-zinc-600 dark:text-zinc-400">Sony GM 技术注记：</strong>
            </div>
-           索尼的 <span className="text-orange-400">XA (Extreme Aspherical)</span> 镜片表面研磨精度高达 0.01 微米。不仅修正球差，还消除了传统非球面镜片研磨痕迹导致的“洋葱圈”焦外，实现了锐度与柔美散景的统一。
+           索尼的 <span className="text-primary-400">XA (Extreme Aspherical)</span> 镜片表面研磨精度高达 0.01 微米。不仅修正球差，还消除了传统非球面镜片研磨痕迹导致的“洋葱圈”焦外，实现了锐度与柔美散景的统一。
         </div>
       </div>
     </div>

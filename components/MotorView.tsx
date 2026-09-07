@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { MotorType } from '../types';
 import { Select, Slider } from './Controls';
 import { Cpu, Zap, Activity } from 'lucide-react';
@@ -53,18 +53,18 @@ export const MotorView: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row h-full">
       {/* Visualization Area */}
-      <div className="flex-1 bg-slate-900 relative flex items-center justify-center border-b lg:border-r border-slate-700">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 relative flex items-center justify-center border-b lg:border-r border-zinc-200 dark:border-zinc-800">
         
-        <div className="relative w-[600px] h-[400px] bg-slate-800 rounded-xl overflow-hidden shadow-2xl border border-slate-600">
+        <div className="relative w-[600px] h-[400px] bg-zinc-50 dark:bg-zinc-800 rounded-xl overflow-hidden shadow-lg border border-zinc-600">
           {/* Background Grid */}
           <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(#475569 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
 
           {/* Motor Description Overlay */}
-          <div className="absolute top-4 left-4 text-white z-10">
+          <div className="absolute top-4 left-4 text-zinc-900 dark:text-white z-10">
             <h2 className="text-2xl font-bold flex items-center gap-2">
-              {motorType === MotorType.STM && <Cpu className="text-blue-400" />}
+              {motorType === MotorType.STM && <Cpu className="text-primary-400" />}
               {motorType === MotorType.USM && <Activity className="text-yellow-400" />}
-              {motorType === MotorType.LINEAR && <Zap className="text-purple-400" />}
+              {motorType === MotorType.LINEAR && <Zap className="text-primary-400" />}
               {motorType === MotorType.STM && 'STM 步进马达'}
               {motorType === MotorType.USM && 'USM 超声波马达'}
               {motorType === MotorType.LINEAR && 'Linear 线性马达'}
@@ -88,7 +88,7 @@ export const MotorView: React.FC = () => {
             {motorType === MotorType.STM && (
               <>
                  {/* Lead Screw */}
-                 <div className="absolute w-[400px] h-4 bg-slate-600 rounded flex items-center overflow-hidden">
+                 <div className="absolute w-[400px] h-4 bg-zinc-600 rounded flex items-center overflow-hidden">
                     <div className="w-full h-full" style={{
                       backgroundImage: 'linear-gradient(90deg, transparent 50%, #94a3b8 50%)',
                       backgroundSize: '20px 100%',
@@ -97,9 +97,9 @@ export const MotorView: React.FC = () => {
                  </div>
                  <style>{`@keyframes screw-spin { from { background-position: 0 0; } to { background-position: 20px 0; } }`}</style>
                  {/* Stepper Motor Block */}
-                 <div className="absolute right-10 w-24 h-24 bg-slate-700 border border-slate-500 rounded flex flex-col items-center justify-center">
-                    <div className="text-xs text-slate-400">Stepper</div>
-                    <div className={`w-12 h-12 border-4 border-dashed border-slate-400 rounded-full ${currentFocus !== targetFocus ? 'animate-spin' : ''}`}></div>
+                 <div className="absolute right-10 w-24 h-24 bg-zinc-100 dark:bg-zinc-700 border border-zinc-500 rounded flex flex-col items-center justify-center">
+                    <div className="text-xs text-zinc-600 dark:text-zinc-400">Stepper</div>
+                    <div className={`w-12 h-12 border-4 border-dashed border-zinc-400 rounded-full ${currentFocus !== targetFocus ? 'animate-spin' : ''}`}></div>
                  </div>
               </>
             )}
@@ -111,7 +111,7 @@ export const MotorView: React.FC = () => {
                     {/* Rotor */}
                     <div className={`w-full h-full rounded-full border-[4px] border-dashed border-yellow-500/80 absolute ${currentFocus !== targetFocus ? 'animate-spin' : ''}`} style={{animationDuration: '0.2s'}}></div>
                     {/* Stator Waves */}
-                    <div className="absolute bottom-[-20px] text-xs text-yellow-500 font-mono">Piezo Vibration</div>
+                    <div className="absolute bottom-[-20px] text-xs text-yellow-600 dark:text-yellow-500 font-mono">Piezo Vibration</div>
                  </div>
                  {/* Drive linkage */}
                  <div className="absolute w-32 h-2 bg-yellow-600/50" style={{ transform: `translateX(${(currentFocus - 50) * 2}px)` }}></div>
@@ -121,14 +121,14 @@ export const MotorView: React.FC = () => {
             {motorType === MotorType.LINEAR && (
               <>
                  {/* Magnetic Rails */}
-                 <div className="absolute top-20 w-[400px] h-4 bg-purple-900/50 rounded flex justify-between px-2">
-                    {[...Array(10)].map((_,i) => <div key={i} className="w-2 h-full bg-purple-500/50"></div>)}
+                 <div className="absolute top-20 w-[400px] h-4 bg-primary-900/50 rounded flex justify-between px-2">
+                    {[...Array(10)].map((_,i) => <div key={i} className="w-2 h-full bg-primary-500/50"></div>)}
                  </div>
-                 <div className="absolute bottom-20 w-[400px] h-4 bg-purple-900/50 rounded flex justify-between px-2">
-                    {[...Array(10)].map((_,i) => <div key={i} className="w-2 h-full bg-purple-500/50"></div>)}
+                 <div className="absolute bottom-20 w-[400px] h-4 bg-primary-900/50 rounded flex justify-between px-2">
+                    {[...Array(10)].map((_,i) => <div key={i} className="w-2 h-full bg-primary-500/50"></div>)}
                  </div>
                  {/* Magnetic Field Visualization */}
-                 <div className="absolute w-[400px] h-32 border-y border-purple-500/20">
+                 <div className="absolute w-[400px] h-32 border-y border-primary-500/20">
                     <div className={`w-full h-full transition-opacity duration-100 ${currentFocus !== targetFocus ? 'opacity-100' : 'opacity-0'}`} style={{
                        backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(168, 85, 247, 0.2) 20px)'
                     }}></div>
@@ -139,7 +139,7 @@ export const MotorView: React.FC = () => {
           </div>
           
           {/* Ruler */}
-          <div className="absolute bottom-0 w-full h-8 bg-slate-900 flex justify-between px-12 pt-2 text-[10px] text-slate-500 font-mono">
+          <div className="absolute bottom-0 w-full h-8 bg-zinc-50 dark:bg-zinc-900 flex justify-between px-12 pt-2 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
              <span>Macro</span>
              <span>1m</span>
              <span>Infinity</span>
@@ -150,8 +150,8 @@ export const MotorView: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className="w-full lg:w-80 bg-slate-800 p-6 flex flex-col">
-        <h3 className="text-xl font-bold text-white mb-6">对焦系统 (Focus Mechanics)</h3>
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-800 p-6 flex flex-col">
+        <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">对焦系统 (Focus Mechanics)</h3>
 
         <Select 
           label="马达类型 (Motor Type)"
@@ -166,12 +166,12 @@ export const MotorView: React.FC = () => {
 
         <div className="my-6">
           <div className="flex justify-between mb-2">
-            <label className="text-sm font-medium text-slate-300">对焦目标位置</label>
+            <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">对焦目标位置</label>
           </div>
           <div className="flex gap-2">
-            <button onClick={() => setTargetFocus(10)} className="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded text-xs">最近 (Macro)</button>
-            <button onClick={() => setTargetFocus(50)} className="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded text-xs">中距</button>
-            <button onClick={() => setTargetFocus(90)} className="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded text-xs">无穷远</button>
+            <button onClick={() => setTargetFocus(10)} className="flex-1 bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-600 py-2 rounded text-xs">最近 (Macro)</button>
+            <button onClick={() => setTargetFocus(50)} className="flex-1 bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-600 py-2 rounded text-xs">中距</button>
+            <button onClick={() => setTargetFocus(90)} className="flex-1 bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-600 py-2 rounded text-xs">无穷远</button>
           </div>
           <div className="mt-4">
             <Slider 
@@ -183,23 +183,23 @@ export const MotorView: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-slate-900 rounded p-4 border border-slate-700">
+        <div className="bg-zinc-100 dark:bg-zinc-900 rounded p-4 border border-zinc-200 dark:border-zinc-800">
            <div className="grid grid-cols-2 gap-4 text-sm">
              <div>
-               <span className="text-slate-500 block text-xs">响应速度</span>
-               <span className="text-white font-mono">{stats.speed > 2 ? '极快' : stats.speed > 1 ? '快' : '普通'}</span>
+               <span className="text-zinc-500 dark:text-zinc-400 block text-xs">响应速度</span>
+               <span className="text-zinc-900 dark:text-white font-mono">{stats.speed > 2 ? '极快' : stats.speed > 1 ? '快' : '普通'}</span>
              </div>
              <div>
-               <span className="text-slate-500 block text-xs">噪音控制</span>
-               <span className="text-white font-mono">{stats.noise}</span>
+               <span className="text-zinc-500 dark:text-zinc-400 block text-xs">噪音控制</span>
+               <span className="text-zinc-900 dark:text-white font-mono">{stats.noise}</span>
              </div>
              <div>
-               <span className="text-slate-500 block text-xs">运动特性</span>
-               <span className="text-white font-mono">{stats.step ? '步进式 (适合视频)' : '模拟量'}</span>
+               <span className="text-zinc-500 dark:text-zinc-400 block text-xs">运动特性</span>
+               <span className="text-zinc-900 dark:text-white font-mono">{stats.step ? '步进式 (适合视频)' : '模拟量'}</span>
              </div>
              <div>
-               <span className="text-slate-500 block text-xs">平滑度</span>
-               <span className="text-white font-mono">{stats.smoothness}</span>
+               <span className="text-zinc-500 dark:text-zinc-400 block text-xs">平滑度</span>
+               <span className="text-zinc-900 dark:text-white font-mono">{stats.smoothness}</span>
              </div>
            </div>
         </div>

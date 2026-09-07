@@ -1,4 +1,4 @@
-﻿
+
 import React, { useState } from 'react';
 import { ExternalLink, GraduationCap, ArrowRight } from 'lucide-react';
 import { QUIZ_DATABASE, QuizQuestion } from '../utils/quizData';
@@ -186,8 +186,8 @@ export const KnowledgeQuizView: React.FC = () => {
 
 const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) => {
   return (
-    <div className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300" role="dialog" aria-modal="true" aria-label="模块迁移公告">
-      <div className="w-full max-w-md bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in duration-300" role="dialog" aria-modal="true" aria-label="模块迁移公告">
+      <div className="w-full max-w-md bg-zinc-100 dark:bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
         <div className="p-6 md:p-8 text-center">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-primary-600/20 border border-primary-500/30 flex items-center justify-center mb-4">
             <GraduationCap size={32} className="text-primary-500" />
@@ -215,12 +215,12 @@ const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) =>
           </a>
           <button
             onClick={onContinue}
-            className="mt-3 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 border border-zinc-700"
+            className="mt-3 w-full py-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 border border-zinc-700"
           >
             仍留在本站继续答题 <ArrowRight size={16} />
           </button>
         </div>
-        <div className="py-2 border-t border-zinc-800 text-center text-[10px] text-zinc-600 font-mono">
+        <div className="py-2 border-t border-zinc-800 text-center text-[10px] text-zinc-600 dark:text-zinc-400 font-mono">
           CineTech Architecture · For TGTV
         </div>
       </div>

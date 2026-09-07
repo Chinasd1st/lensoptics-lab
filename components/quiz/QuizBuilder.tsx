@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useRef, useMemo } from 'react';
 import { QUIZ_DATABASE, QuizQuestion } from '../../utils/quizData';
 import { ArrowLeft, Trash2, FileText, Download, Upload, CheckCircle2, GripVertical, Plus, Save, Hash, CornerRightDown, Undo2 } from 'lucide-react';
@@ -31,14 +31,14 @@ interface QuizBuilderProps {
 
 // Difficulty Styling
 const DIFF_COLORS = {
-  EASY: 'border-emerald-500/50 bg-emerald-100/50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-100',
-  MEDIUM: 'border-cyan-500/50 bg-cyan-100/50 dark:bg-cyan-900/20 text-cyan-700 dark:text-cyan-100',
-  HARD: 'border-red-500/50 bg-red-100/50 dark:bg-red-900/20 text-red-700 dark:text-red-100',
+  EASY: 'border-emerald-500/50 bg-emerald-100/50 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-100',
+  MEDIUM: 'border-primary-500/50 bg-primary-100/50 dark:bg-primary-900 text-primary-700 dark:text-primary-100',
+  HARD: 'border-red-500/50 bg-red-100/50 dark:bg-red-900 text-red-700 dark:text-red-100',
 };
 
 const DIFF_BADGE = {
   EASY: 'bg-emerald-500 dark:bg-emerald-600',
-  MEDIUM: 'bg-cyan-500 dark:bg-cyan-600',
+  MEDIUM: 'bg-primary-500 dark:bg-primary-600',
   HARD: 'bg-red-500 dark:bg-red-600',
 };
 
@@ -64,29 +64,29 @@ const SourceItem = ({ question, isUsed }: { question: QuizQuestion; isUsed: bool
       {...listeners}
       {...attributes}
       className={`
-        group relative p-3 rounded-xl border-2 transition-all select-none
+        group relative p-3 rounded-xl border-2 transition-colors select-none
         ${isUsed
-          ? 'bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-60'
-          : `bg-white dark:bg-slate-800 border-transparent hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg cursor-grab active:cursor-grabbing`
+          ? 'bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-60'
+          : `bg-white dark:bg-zinc-800 border-transparent hover:border-zinc-300 dark:hover:border-zinc-600 hover:shadow-lg cursor-grab active:cursor-grabbing`
         }
         ${isDragging ? 'opacity-30' : ''}
       `}
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex gap-2">
-          <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold border ${colorClass}`}>{question.difficulty}</span>
-          <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">{question.type}</span>
+          <span className={`text-[11px] px-1.5 py-0.5 rounded font-bold border ${colorClass}`}>{question.difficulty}</span>
+          <span className="text-[11px] px-1.5 py-0.5 rounded font-bold bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300">{question.type}</span>
         </div>
-        <span className="text-[9px] font-mono text-slate-400 flex items-center gap-0.5"><Hash size={9} />{question.id}</span>
+        <span className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 flex items-center gap-0.5"><Hash size={9} />{question.id}</span>
       </div>
 
-      <div className={`text-xs font-medium line-clamp-2 ${isUsed ? 'text-slate-500' : 'text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white'}`}>
+      <div className={`text-xs font-medium line-clamp-2 ${isUsed ? 'text-zinc-500 dark:text-zinc-400' : 'text-zinc-700 dark:text-zinc-200 group-hover:text-zinc-900 dark:group-hover:text-white'}`}>
         {question.question}
       </div>
 
       {isUsed && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/40 dark:bg-slate-950/40 backdrop-blur-[0.5px] rounded-xl cursor-not-allowed">
-          <span className="text-emerald-600 dark:text-emerald-500 text-[10px] font-bold flex items-center gap-1 bg-white/90 dark:bg-slate-900/90 px-2 py-1 rounded-full shadow-sm border border-emerald-500/20">
+        <div className="absolute inset-0 flex items-center justify-center bg-zinc-50/[0.4] dark:bg-zinc-950 backdrop-blur-[0.5px] rounded-xl cursor-not-allowed">
+          <span className="text-emerald-600 dark:text-emerald-500 text-xs font-bold flex items-center gap-1 bg-zinc-50/[0.9] dark:bg-zinc-900 px-2 py-1 rounded-full shadow-sm border border-emerald-500/20">
             <CheckCircle2 size={10} /> 已添加
           </span>
         </div>
@@ -128,37 +128,37 @@ const SortablePaperItem = ({ item, index, onRemove, activeDragType, activeOverId
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg p-3 flex gap-3 items-start group shadow-sm hover:shadow-md transition-all relative ${isInsertionTarget ? 'mt-6' : ''}`}
+      className={`bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-3 flex gap-3 items-start group shadow-sm hover:shadow-md transition-colors relative ${isInsertionTarget ? 'mt-6' : ''}`}
     >
       {/* Insertion Indicator Line (Visual Feedback) */}
       {isInsertionTarget && (
         <div className="absolute -top-4 left-0 right-0 h-0.5 flex items-center justify-center pointer-events-none">
-           <div className="w-full h-full bg-cyan-500 shadow-[0_0_8px_cyan]"></div>
-           <div className="absolute bg-cyan-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg animate-bounce flex items-center gap-1">
+           <div className="w-full h-full bg-primary-500 shadow-[0_0_8px_cyan]"></div>
+            <div className="absolute bg-primary-600 text-white text-[11px] px-2 py-0.5 rounded-full font-bold shadow-lg animate-bounce flex items-center gap-1">
               <CornerRightDown size={10} /> 插入此处 (Insert Here)
            </div>
         </div>
       )}
 
-      <div {...attributes} {...listeners} className="text-slate-400 cursor-move hover:text-slate-600 dark:hover:text-slate-300 mt-1 touch-none">
+      <div {...attributes} {...listeners} className="text-zinc-600 dark:text-zinc-400 cursor-move hover:text-zinc-600 dark:hover:text-zinc-700 dark:text-zinc-300 mt-1 touch-none">
         <GripVertical size={16} />
       </div>
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1.5">
           <span className={`w-2 h-2 rounded-full ${DIFF_BADGE[item.question.difficulty]}`}></span>
-          <span className="text-[10px] text-slate-500 font-mono font-bold">Q{index + 1}.</span>
-          <span className="text-[10px] text-slate-400 font-mono">#{item.question.id}</span>
-          <span className="text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 rounded border border-slate-200 dark:border-slate-700">{item.question.type}</span>
+          <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono font-bold">Q{index + 1}.</span>
+          <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-mono">#{item.question.id}</span>
+          <span className="text-[10px] text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-1.5 rounded border border-zinc-200 dark:border-zinc-800">{item.question.type}</span>
         </div>
-        <div className="text-sm text-slate-800 dark:text-slate-200 font-bold mb-2">
+        <div className="text-sm text-zinc-800 dark:text-zinc-200 font-bold mb-2">
           {item.question.question}
         </div>
 
         {item.question.options && item.question.options.length > 0 && (
           <div className="grid grid-cols-2 gap-2 mt-2">
             {item.question.options.map((opt, optIdx) => (
-              <div key={optIdx} className="text-[10px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 font-mono truncate">
+              <div key={optIdx} className="text-[10px] text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800 px-2 py-1 rounded border border-zinc-200 dark:border-zinc-800 font-mono truncate">
                 {String.fromCharCode(65 + optIdx)}. {opt}
               </div>
             ))}
@@ -168,7 +168,7 @@ const SortablePaperItem = ({ item, index, onRemove, activeDragType, activeOverId
 
       <button
         onClick={() => onRemove(index)}
-        className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+        className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900 rounded transition-colors"
         title="移除"
       >
         <Trash2 size={16} />
@@ -192,8 +192,8 @@ const PaperContainer = React.memo(({ items, itemIds, onRemove, activeDragType, a
     >
       <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
         {items.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center text-slate-400 pointer-events-none opacity-50">
-            <div className="w-20 h-20 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex items-center justify-center mb-4">
+          <div className="h-full flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 pointer-events-none opacity-50">
+            <div className="w-20 h-20 border-2 border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl flex items-center justify-center mb-4">
               <Plus size={32} />
             </div>
             <p className="text-sm font-bold">试卷是空的</p>
@@ -217,8 +217,8 @@ const PaperContainer = React.memo(({ items, itemIds, onRemove, activeDragType, a
            <div 
               ref={setFooterNodeRef}
               className={`
-              mt-2 border-2 border-dashed rounded-xl h-16 flex items-center justify-center transition-all duration-300
-              ${isOverFooter ? 'border-cyan-500 bg-cyan-100/10 text-cyan-500 scale-100 opacity-100' : 'border-slate-300 dark:border-slate-700 text-slate-400 scale-95 opacity-50'}
+              mt-2 border-2 border-dashed rounded-xl h-16 flex items-center justify-center transition-colors duration-300
+              ${isOverFooter ? 'border-primary-500 bg-primary-100/10 text-primary-500 dark:text-primary-500 scale-100 opacity-100' : 'border-zinc-300 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 scale-95 opacity-50'}
            `}>
               <span className="text-sm font-bold flex items-center gap-2 animate-pulse">
                  <Plus size={16} /> {isOverFooter ? '松手添加 (Drop to Add)' : '拖拽至此 (Drag Here)'}
@@ -238,20 +238,20 @@ const DragItemOverlay = ({ type, data }: { type: 'SOURCE' | 'PAPER', data: any }
   if (type === 'SOURCE') {
     return (
         <div className="opacity-90 rotate-3 scale-105 cursor-grabbing w-[320px]">
-           <div className="p-3 rounded-xl border-2 bg-slate-800 border-cyan-500 shadow-2xl cursor-grabbing">
+           <div className="p-3 rounded-xl border-2 bg-zinc-50 dark:bg-zinc-800 border-primary-500 shadow-lg cursor-grabbing">
               <div className="flex justify-between items-center mb-1">
-                 <span className="text-[10px] font-bold text-cyan-400">添加新题目</span>
-                 <span className="text-[10px] text-slate-400 font-mono">#{data.question.id}</span>
+                 <span className="text-[10px] font-bold text-primary-500 dark:text-primary-400">添加新题目</span>
+                 <span className="text-[10px] text-zinc-600 dark:text-zinc-400 font-mono">#{data.question.id}</span>
               </div>
-              <div className="text-xs font-medium text-white">{data.question.question}</div>
+              <div className="text-xs font-medium text-zinc-900 dark:text-white">{data.question.question}</div>
            </div>
         </div>
     );
   }
   return (
     <div className="opacity-90 rotate-2 scale-105 cursor-grabbing w-full max-w-xl">
-       <div className="bg-slate-900 border border-cyan-500 rounded-lg p-3 shadow-2xl cursor-grabbing">
-          <div className="text-sm text-white font-bold">{data.item.question.question}</div>
+       <div className="bg-zinc-50 dark:bg-zinc-900 border border-primary-500 rounded-lg p-3 shadow-lg cursor-grabbing">
+          <div className="text-sm text-zinc-900 dark:text-white font-bold">{data.item.question.question}</div>
        </div>
     </div>
   );
@@ -439,15 +439,15 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="fixed inset-0 z-50 bg-white dark:bg-slate-950 flex flex-col animate-in fade-in zoom-in duration-300">
+      <div className="fixed inset-0 z-50 bg-zinc-50 dark:bg-zinc-950 flex flex-col animate-fade-in zoom-in duration-300">
         
         {/* Toast Notification */}
         {toast && (
-           <div className="absolute top-20 right-8 z-[100] bg-slate-900 border border-slate-700 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-4 animate-in slide-in-from-right-10 fade-in duration-300">
-              <span className="text-sm text-slate-300">{toast.msg}</span>
+           <div className="absolute top-20 right-8 z-[100] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-3 rounded-xl shadow-lg flex items-center gap-4 animate-slide-in-right-10 fade-in duration-300">
+              <span className="text-sm text-zinc-700 dark:text-zinc-300">{toast.msg}</span>
               <button 
                  onClick={handleUndo} 
-                 className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold text-sm bg-cyan-900/30 px-2 py-1 rounded transition-colors"
+                 className="flex items-center gap-1 text-primary-500 dark:text-primary-400 hover:text-primary-300 font-bold text-sm bg-primary-900/30 px-2 py-1 rounded transition-colors"
               >
                  <Undo2 size={14}/> 撤销 (Undo)
               </button>
@@ -455,17 +455,17 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
         )}
 
         {/* Header */}
-        <div className="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
+        <div className="h-16 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
           <div className="flex items-center gap-4">
-            <button onClick={onBack} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors">
+            <button onClick={onBack} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-white transition-colors">
               <ArrowLeft size={20} />
             </button>
             <div>
-              <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                <FileText className="text-cyan-600 dark:text-cyan-400" size={20}/> 试卷编辑器 (Quiz Builder)
+              <h2 className="text-lg font-bold text-zinc-800 dark:text-white flex items-center gap-2">
+                <FileText className="text-primary-600 dark:text-primary-400" size={20}/> 试卷编辑器 (Quiz Builder)
               </h2>
-              <div className="text-[10px] text-slate-500">
-                 题目数: <span className="text-cyan-600 dark:text-cyan-400 font-mono font-bold mr-3">{paperItems.length}</span>
+              <div className="text-[10px] text-zinc-500 dark:text-zinc-400">
+                 题目数: <span className="text-primary-600 dark:text-primary-400 font-mono font-bold mr-3">{paperItems.length}</span>
                  总分: <span className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">{totalScore}</span>
               </div>
             </div>
@@ -473,13 +473,13 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
 
           <div className="flex items-center gap-3">
             <input type="file" ref={fileInputRef} onChange={handleImportJSON} accept=".json" className="hidden" />
-            <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all">
+            <button onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-3 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300 rounded-lg text-xs font-bold border border-zinc-200 dark:border-zinc-800 transition-colors">
               <Upload size={14} /> 导入配置
             </button>
-            <button onClick={handleExportJSON} className="flex items-center gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 transition-all">
+            <button onClick={handleExportJSON} className="flex items-center gap-2 px-3 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold border border-zinc-200 dark:border-zinc-800 transition-colors">
               <Download size={14} /> 导出配置
             </button>
-            <button onClick={() => { alert(`试卷已保存！共 ${paperItems.length} 题，总分 ${totalScore}。`); }} className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-cyan-900/20 transition-all ml-2">
+            <button onClick={() => { alert(`试卷已保存！共 ${paperItems.length} 题，总分 ${totalScore}。`); }} className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-500 text-zinc-900 dark:text-white rounded-lg text-xs font-bold shadow-lg shadow-primary-900/20 transition-colors ml-2">
               <Save size={14} /> 保存并使用
             </button>
           </div>
@@ -489,10 +489,10 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
         <div className="flex-1 flex overflow-hidden">
           
           {/* Left: Source Library */}
-          <div className="w-1/3 min-w-[320px] border-r border-slate-200 dark:border-slate-800 flex flex-col bg-slate-50 dark:bg-slate-900/50">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-10">
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">题库列表 (Source)</div>
-              <div className="text-[10px] text-slate-400">拖拽题目添加到右侧试卷</div>
+          <div className="w-1/3 min-w-[320px] border-r border-zinc-200 dark:border-zinc-800 flex flex-col bg-zinc-50 dark:bg-zinc-900">
+            <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 sticky top-0 z-10">
+              <div className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-1">题库列表 (Source)</div>
+              <div className="text-[10px] text-zinc-600 dark:text-zinc-400">拖拽题目添加到右侧试卷</div>
             </div>
             <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
               {sourceList.map((q) => (
@@ -502,12 +502,12 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
           </div>
 
           {/* Right: Paper Construction */}
-          <div className="flex-1 flex flex-col bg-slate-100 dark:bg-slate-950 relative">
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex justify-between items-center shadow-sm z-10">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">试卷预览 (Preview)</div>
-              <div className="text-[10px] text-slate-500 flex gap-4">
+          <div className="flex-1 flex flex-col bg-zinc-100 dark:bg-zinc-950 relative">
+            <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 flex justify-between items-center shadow-sm z-10">
+              <div className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-widest">试卷预览 (Preview)</div>
+              <div className="text-[10px] text-zinc-500 dark:text-zinc-400 flex gap-4">
                  <span>Easy: <span className="text-emerald-500 font-mono">{paperItems.filter(i=>i.question.difficulty==='EASY').length}</span></span>
-                 <span>Med: <span className="text-cyan-500 font-mono">{paperItems.filter(i=>i.question.difficulty==='MEDIUM').length}</span></span>
+                 <span>Med: <span className="text-primary-500 font-mono">{paperItems.filter(i=>i.question.difficulty==='MEDIUM').length}</span></span>
                  <span>Hard: <span className="text-red-500 font-mono">{paperItems.filter(i=>i.question.difficulty==='HARD').length}</span></span>
               </div>
             </div>

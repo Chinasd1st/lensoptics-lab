@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef } from 'react';
 import { Slider, Select } from './Controls';
 import { Sun, BoxSelect, ScanLine, MonitorPlay } from 'lucide-react';
@@ -19,11 +19,11 @@ export const ExposureSimulator: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-full">
-      <div className="flex-1 relative bg-black flex items-center justify-center overflow-hidden">
+      <div className="flex-1 relative bg-zinc-50 dark:bg-black flex items-center justify-center overflow-hidden">
          {/* Scene Simulation */}
          <div className="relative w-full h-full">
             <div 
-              className="absolute inset-0 bg-cover bg-center transition-all duration-100"
+              className="absolute inset-0 bg-cover bg-center transition-colors duration-100"
               style={{
                 backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop)',
                 filter: `brightness(${brightness})`
@@ -40,7 +40,7 @@ export const ExposureSimulator: React.FC = () => {
                  }}
                >
                  <div className="absolute top-2 left-2 w-4 h-4 bg-yellow-300 rounded-full blur-[2px]"></div>
-                 <div className="text-white text-xs font-bold absolute center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">RACING</div>
+                 <div className="text-zinc-900 dark:text-white text-xs font-bold absolute center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">RACING</div>
                </div>
                <style>{`@keyframes drive { from { transform: translateX(-100%); } to { transform: translateX(500%); } }`}</style>
             </div>
@@ -56,7 +56,7 @@ export const ExposureSimulator: React.FC = () => {
          </div>
 
          {/* Histogram HUD */}
-         <div className="absolute top-4 right-4 bg-black/60 backdrop-blur p-2 rounded text-xs font-mono text-white">
+         <div className="absolute top-4 right-4 bg-zinc-100/60 dark:bg-zinc-950 backdrop-blur p-2 rounded text-xs font-mono text-zinc-900 dark:text-white">
             <div className={`${Math.abs(evDiff) > 3 ? 'text-red-500' : 'text-emerald-400'}`}>
                MM: {evDiff > 0 ? '+' : ''}{evDiff.toFixed(1)} EV
             </div>
@@ -68,23 +68,23 @@ export const ExposureSimulator: React.FC = () => {
          </div>
       </div>
 
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 p-6 flex flex-col overflow-y-auto">
-        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Sun size={18}/> 曝光控制台</h3>
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+        <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2"><Sun size={18}/> 曝光控制台</h3>
         
         <div className="space-y-6">
           <Slider label="ISO 感光度" value={iso} min={100} max={25600} step={100} onChange={setIso} />
           
           <Slider label="快门分母 (1/x 秒)" value={shutterDenominator} min={10} max={2000} step={10} onChange={setShutterDenominator} />
-          <p className="text-[10px] text-slate-500 -mt-3 mb-2">
+          <p className="text-[10px] text-zinc-500 dark:text-zinc-400 -mt-3 mb-2">
              当前快门速度: <span className="text-cyan-400 font-mono">1/{shutterDenominator}s</span> ({shutterDenominator >= 500 ? '高速凝固' : '慢门模糊'})
           </p>
 
           <Slider label="光圈 (f/x)" value={aperture} min={1.4} max={16} step={0.1} onChange={setAperture} />
         </div>
 
-        <div className="mt-8 bg-slate-800 p-3 rounded border border-slate-700">
-           <div className="text-xs text-cyan-400 font-bold mb-1">物理原理</div>
-           <ul className="text-[10px] text-slate-400 leading-relaxed space-y-1 list-disc pl-3">
+        <div className="mt-8 bg-zinc-50 dark:bg-zinc-800 p-3 rounded border border-zinc-200 dark:border-zinc-800">
+           <div className="text-xs text-primary-500 dark:text-cyan-400 font-bold mb-1">物理原理</div>
+           <ul className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-1 list-disc pl-3">
              <li><strong>快门:</strong> 控制时间。分母越大(1/1000s)，时间越短，进光越少，运动越清晰。</li>
              <li><strong>光圈:</strong> 控制通光孔径。f值越小(f/1.4)，孔径越大，进光越多。</li>
              <li><strong>ISO:</strong> 信号增益。硬提升亮度，副作用是引入电子噪点。</li>
@@ -111,10 +111,10 @@ export const SensorSizeSimulator: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-full">
-      <div className="flex-1 bg-black flex flex-col items-center justify-center relative p-8">
+      <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center relative p-8">
           {/* Lens Circle */}
-          <div className="w-[500px] h-[500px] rounded-full border border-slate-700 flex items-center justify-center relative overflow-hidden">
-             <div className="absolute top-2 text-slate-600 text-xs">Lens Image Circle (Full Frame coverage)</div>
+          <div className="w-[500px] h-[500px] rounded-full border border-zinc-200 dark:border-zinc-800 flex items-center justify-center relative overflow-hidden">
+             <div className="absolute top-2 text-zinc-600 dark:text-zinc-400 text-xs">Lens Image Circle (Full Frame coverage)</div>
              <div 
                className="absolute inset-0 opacity-50 bg-cover bg-center"
                style={{backgroundImage: 'url(https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1000&auto=format&fit=crop)'}}
@@ -123,51 +123,51 @@ export const SensorSizeSimulator: React.FC = () => {
              {/* Sensor Rectangles */}
              {/* FF */}
              <div className={`absolute border-2 border-white/30 w-[360px] h-[240px] flex items-end justify-end p-1`}>
-                <span className="text-[10px] text-white/50">Full Frame</span>
+                <span className="text-[10px] text-zinc-900 dark:text-zinc-100/50 dark:text-white/50">Full Frame</span>
              </div>
              {/* APS-C */}
              <div className={`absolute border-2 border-yellow-400/30 w-[240px] h-[160px] flex items-end justify-end p-1`}>
-                <span className="text-[10px] text-yellow-400/50">APS-C</span>
+                <span className="text-[10px] text-yellow-600 dark:text-yellow-400">APS-C</span>
              </div>
              {/* M43 */}
              <div className={`absolute border-2 border-red-400/30 w-[180px] h-[135px] flex items-end justify-end p-1`}>
-                <span className="text-[10px] text-red-400/50">M43</span>
+                <span className="text-[10px] text-red-600 dark:text-red-400">M43</span>
              </div>
 
              {/* Active Sensor Highlight */}
              <div 
-               className={`absolute border-4 ${current.color} shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 z-10 bg-white/5`}
+               className={`absolute border-4 ${current.color} shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300 z-10 bg-zinc-50/[0.05]`}
                style={{ width: `${360 / current.crop}px`, height: `${240 / current.crop}px` }} // Simplified ratio for demo
              >
-                <div className="absolute top-0 left-0 bg-black/70 text-white text-xs px-1 py-0.5">Active Area</div>
+                <div className="absolute top-0 left-0 bg-zinc-50/80 dark:bg-black text-zinc-900 dark:text-white text-xs px-1 py-0.5">Active Area</div>
              </div>
           </div>
       </div>
 
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><BoxSelect size={18}/> 画幅与裁切系数</h3>
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+         <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><BoxSelect size={18}/> 画幅与裁切系数</h3>
          
          <div className="space-y-2">
             {(Object.keys(specs) as Array<keyof typeof specs>).map((key) => (
               <button
                 key={key}
                 onClick={() => setFormat(key)}
-                className={`w-full p-4 rounded-lg border text-left transition-all ${
-                  format === key ? `bg-slate-800 ${specs[key].color.replace('border', 'border')}` : 'border-slate-700 hover:bg-slate-800'
+                className={`w-full p-4 rounded-lg border text-left transition-colors ${
+                  format === key ? `bg-zinc-100 dark:bg-zinc-800 ${specs[key].color.replace('border', 'border')}` : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'
                 } border-l-4`}
               >
-                <div className="font-bold text-sm text-slate-200">{specs[key].name}</div>
-                <div className="text-[10px] text-slate-500 mt-1">
+                <div className="font-bold text-sm text-zinc-700 dark:text-zinc-200">{specs[key].name}</div>
+                <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-1">
                    {specs[key].nickname} | Crop Factor: {specs[key].crop}x
                 </div>
               </button>
             ))}
          </div>
 
-         <div className="mt-8 bg-slate-800 p-4 rounded-lg border border-slate-700">
-            <div className="text-xs text-slate-400 mb-2">物理 50mm 镜头在当前画幅下的等效视角：</div>
-            <div className="text-2xl font-mono text-cyan-400 font-bold">{equivFocal.toFixed(0)}mm</div>
-            <div className="text-[10px] text-slate-500 mt-2 leading-relaxed">
+         <div className="mt-8 bg-zinc-50 dark:bg-zinc-800 p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-2">物理 50mm 镜头在当前画幅下的等效视角：</div>
+            <div className="text-2xl font-mono text-primary-500 dark:text-cyan-400 font-bold">{equivFocal.toFixed(0)}mm</div>
+            <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2 leading-relaxed">
                传感器越小，裁切掉的边缘越多，视角显得越“窄”，相当于镜头焦距变长了（赚了长焦，亏了广角）。
             </div>
          </div>
@@ -186,10 +186,10 @@ export const ShutterAngleSimulator: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-full">
-      <div className="flex-1 bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center relative overflow-hidden">
          
          {/* Animation Container */}
-         <div className="relative w-full h-64 flex items-center justify-center bg-slate-950 border-y border-slate-800">
+         <div className="relative w-full h-64 flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 border-y border-zinc-200 dark:border-zinc-800">
             {/* Background Grid for reference */}
             <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(90deg, #334155 1px, transparent 1px)', backgroundSize: '100px 100%'}}></div>
 
@@ -208,14 +208,14 @@ export const ShutterAngleSimulator: React.FC = () => {
 
          <div className="mt-8 flex gap-8">
             <div className="text-center">
-               <div className="text-4xl font-mono text-white mb-1">1/{Math.round(shutterSpeedInv)}</div>
-               <div className="text-xs text-slate-500">实际快门速度 (秒)</div>
+               <div className="text-4xl font-mono text-zinc-900 dark:text-white mb-1">1/{Math.round(shutterSpeedInv)}</div>
+               <div className="text-xs text-zinc-500 dark:text-zinc-400">实际快门速度 (秒)</div>
             </div>
          </div>
       </div>
 
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><MonitorPlay size={18}/> 视频快门角度</h3>
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+         <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><MonitorPlay size={18}/> 视频快门角度</h3>
 
          <div className="space-y-6">
             <Select 
@@ -237,18 +237,18 @@ export const ShutterAngleSimulator: React.FC = () => {
             />
             
             <div className="flex gap-2 mb-4">
-               <button onClick={() => setAngle(90)} className="flex-1 py-1 bg-slate-800 text-[10px] rounded hover:bg-slate-700 text-slate-400">90° (动作片)</button>
-               <button onClick={() => setAngle(180)} className="flex-1 py-1 bg-slate-800 text-[10px] rounded hover:bg-slate-700 text-emerald-400 font-bold">180° (标准)</button>
-               <button onClick={() => setAngle(360)} className="flex-1 py-1 bg-slate-800 text-[10px] rounded hover:bg-slate-700 text-slate-400">360° (梦幻)</button>
+               <button onClick={() => setAngle(90)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">90° (动作片)</button>
+               <button onClick={() => setAngle(180)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-700 text-emerald-600 dark:text-emerald-400 font-bold">180° (标准)</button>
+               <button onClick={() => setAngle(360)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">360° (梦幻)</button>
             </div>
          </div>
 
-         <div className="mt-4 bg-slate-800 p-4 rounded border border-slate-700">
-            <div className="text-xs font-bold text-emerald-400 mb-2">180° 规则 (The 180° Rule)</div>
-            <p className="text-[10px] text-slate-400 leading-relaxed">
+         <div className="mt-4 bg-zinc-50 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800">
+            <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-2">180° 规则 (The 180° Rule)</div>
+            <p className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
                为了获得自然的、符合人眼感受的动态模糊，快门速度应为帧率倒数的两倍。
                <br/><br/>
-               公式: <code className="bg-slate-900 px-1 rounded">Angle / 360 = ShutterTime * FPS</code>
+               公式: <code className="bg-zinc-100 dark:bg-zinc-900 px-1 rounded">Angle / 360 = ShutterTime * FPS</code>
                <br/><br/>
                例如 24fps 拍摄，使用 1/48s 快门 (即180°)，模糊程度最接近人眼感受。
             </p>
@@ -322,18 +322,18 @@ export const RollingShutterSimulator: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row h-full">
-      <div className="flex-1 bg-black flex items-center justify-center relative">
+      <div className="flex-1 bg-zinc-50 dark:bg-black flex items-center justify-center relative">
          <canvas ref={canvasRef} width={600} height={400} className="max-w-full" />
-         <div className="absolute top-4 left-4 text-xs text-slate-500 font-mono">
+         <div className="absolute top-4 left-4 text-xs text-zinc-500 dark:text-zinc-400 font-mono">
             Sensor Readout Simulation
          </div>
       </div>
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><ScanLine size={18}/> 果冻效应 (Rolling Shutter)</h3>
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+        <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2"><ScanLine size={18}/> 果冻效应 (Rolling Shutter)</h3>
         
         <div className="space-y-6">
           <Slider label="传感器读出速度 (ms)" value={readoutSpeed} min={1} max={100} step={1} onChange={setReadoutSpeed} />
-          <div className="flex justify-between text-[10px] text-slate-500 -mt-2">
+          <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400 -mt-2">
              <span>Global (1ms)</span>
              <span>Slow (100ms)</span>
           </div>
@@ -342,15 +342,15 @@ export const RollingShutterSimulator: React.FC = () => {
         </div>
 
         <div className="mt-8 space-y-4">
-           <div className="bg-slate-800 p-3 rounded border-l-2 border-emerald-400">
-              <div className="text-xs text-white font-bold">全局快门 (Global Shutter)</div>
-              <p className="text-[10px] text-slate-400 mt-1">所有像素同时曝光。无果冻效应。常见于 RED Komodo, Sony a9 III (不差钱首选)。</p>
+           <div className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded border-l-2 border-emerald-400">
+              <div className="text-xs text-zinc-900 dark:text-white font-bold">全局快门 (Global Shutter)</div>
+              <p className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-1">所有像素同时曝光。无果冻效应。常见于 RED Komodo, Sony a9 III (不差钱首选)。</p>
            </div>
-           <div className="bg-slate-800 p-3 rounded border-l-2 border-pink-400">
-              <div className="text-xs text-white font-bold">卷帘快门 (Rolling Shutter)</div>
-              <p className="text-[10px] text-slate-400 mt-1">
+           <div className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded border-l-2 border-pink-400">
+              <div className="text-xs text-zinc-900 dark:text-white font-bold">卷帘快门 (Rolling Shutter)</div>
+              <p className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-1">
                  逐行读取。读到底部时物体已移动，造成倾斜/扭曲。
-                 <br/><span className="text-pink-500 font-bold">小知识：</span> 高像素机型如果不采用堆栈式底，果冻通常很严重（读得慢）。
+                 <br/><span className="text-primary-500 font-bold">小知识：</span> 高像素机型如果不采用堆栈式底，果冻通常很严重（读得慢）。
               </p>
            </div>
         </div>

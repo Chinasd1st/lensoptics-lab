@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useMemo, useEffect } from 'react';
 import { Slider, Toggle, Select } from './Controls';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, traceRayThroughSystem } from '../utils/optics';
@@ -247,10 +247,10 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
   return (
     <div className="flex flex-col lg:flex-row h-full">
       {/* Viewport */}
-      <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800">
         
         {/* HUD Overlay */}
-        <div className="absolute top-4 left-4 z-10 font-mono text-xs text-cyan-500 space-y-2 pointer-events-none">
+        <div className="absolute top-4 left-4 z-10 font-mono text-xs text-primary-500 dark:text-cyan-500 space-y-2 pointer-events-none">
           <div className="flex items-center gap-2">
             <Maximize2 size={14} /> 
             <span>EFL: {focalLengthEquiv.toFixed(1)}mm</span>
@@ -264,13 +264,13 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
              <span>MTF: {(100 - (apertureStop > 8 ? (apertureStop-8)*5 : (4-apertureStop)*5)).toFixed(0)}%</span>
           </div>
           {breathingComp && (
-             <div className="flex items-center gap-2 text-purple-400 animate-pulse">
+             <div className="flex items-center gap-2 text-primary-600 dark:text-primary-400 animate-pulse">
                 <MonitorPlay size={14} />
                 <span>BREATHING COMP: ON</span>
              </div>
           )}
           {diffractionBlur > 0 && (
-             <div className="flex items-center gap-2 text-orange-400 animate-pulse bg-black/50 px-1 rounded">
+             <div className="flex items-center gap-2 text-primary-600 dark:text-primary-400 animate-pulse bg-zinc-950/50 px-1 rounded">
                 <AlertTriangle size={14} />
                 <span>DIFFRACTION: {diffractionBlur.toFixed(1)}px</span>
              </div>
@@ -278,20 +278,20 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
         </div>
 
         {/* Ray Legend */}
-        <div className="absolute top-24 left-4 z-10 space-y-2 pointer-events-none bg-black/60 p-3 rounded-lg border border-white/10 backdrop-blur-sm shadow-xl">
-           <div className="text-[10px] font-bold text-slate-300 mb-1 flex items-center gap-1"><Info size={12}/> 光路图例</div>
-           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-green-500 shadow-[0_0_5px_lime]"></div><span className="text-[9px] text-green-400">中心成像 (Axial)</span></div>
-           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-blue-500 shadow-[0_0_5px_blue]"></div><span className="text-[9px] text-blue-400">上边缘 (Upper Marginal)</span></div>
-           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-red-500 shadow-[0_0_5px_red]"></div><span className="text-[9px] text-red-400">下边缘 (Lower Marginal)</span></div>
-           <div className="mt-2 text-[8px] text-slate-500 leading-tight w-32">
+        <div className="absolute top-24 left-4 z-10 space-y-2 pointer-events-none bg-zinc-100/60 dark:bg-zinc-950 p-3 rounded-lg border border-zinc-200 dark:border-white backdrop-blur-sm shadow-md">
+           <div className="text-[10px] font-bold text-zinc-700 dark:text-zinc-300 mb-1 flex items-center gap-1"><Info size={12}/> 光路图例</div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-green-500 shadow-[0_0_5px_lime]"></div><span className="text-[11px] text-green-400">中心成像 (Axial)</span></div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-primary-500 shadow-[0_0_5px_blue]"></div><span className="text-[11px] text-primary-600 dark:text-primary-400">上边缘 (Upper Marginal)</span></div>
+           <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-red-500 shadow-[0_0_5px_red]"></div><span className="text-[11px] text-red-600 dark:text-red-400">下边缘 (Lower Marginal)</span></div>
+           <div className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400 leading-tight w-32">
               观察红蓝光线在 CMOS 处的汇聚情况可判断边缘画质。
            </div>
         </div>
 
         {/* Element Legend */}
         <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-1 items-end pointer-events-none">
-           <div className="flex gap-4 text-[10px] text-slate-500 bg-black/50 p-2 rounded border border-slate-800">
-              <div className="flex items-center gap-1"><span className="w-3 h-3 border border-orange-500 bg-[url(#pattern-xa)]"></span> XA 极值非球面</div>
+           <div className="flex gap-4 text-xs text-zinc-500 dark:text-zinc-400 bg-zinc-950/50 p-2 rounded border border-zinc-200 dark:border-zinc-800">
+              <div className="flex items-center gap-1"><span className="w-3 h-3 border border-primary-500 bg-zinc-200 dark:bg-zinc-800"></span> XA 极值非球面</div>
               <div className="flex items-center gap-1"><span className="w-3 h-3 border border-green-500 bg-[url(#pattern-ed)]"></span> ED 低色散</div>
            </div>
         </div>
@@ -385,11 +385,11 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
       </div>
 
       {/* Engineering Controls */}
-      <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 flex flex-col overflow-y-auto select-none">
+      <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col overflow-y-auto select-none">
          
          {/* Main Header */}
-         <div className="p-6 pb-2 border-b border-slate-800">
-           <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+         <div className="p-6 pb-2 border-b border-zinc-200 dark:border-zinc-800">
+           <h3 className="text-lg font-bold text-zinc-800 dark:text-zinc-100 flex items-center gap-2">
               <Microscope className="text-cyan-400" size={20}/> 
               实验室 (Lab)
            </h3>
@@ -403,14 +403,14 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
            </div>
            
            {/* MEME Box */}
-           <div className="mt-4 bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700 p-3 rounded-lg relative overflow-hidden group">
-              <div className="absolute -right-4 -top-4 text-slate-700 opacity-20 transform rotate-12">
+           <div className="mt-4 bg-gradient-to-r from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 rounded-lg relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 text-zinc-700 dark:text-zinc-300 opacity-20 transform rotate-12">
                  <Sparkles size={80} />
               </div>
-              <div className="text-[10px] font-bold text-cyan-400 mb-1 flex items-center gap-1">
+              <div className="text-[10px] font-bold text-primary-500 dark:text-cyan-400 mb-1 flex items-center gap-1">
                  <Sparkles size={10} /> 圈内黑话 (Community Insight)
               </div>
-              <div className="text-[10px] text-slate-300 leading-relaxed italic">
+              <div className="text-[10px] text-zinc-700 dark:text-zinc-300 leading-relaxed italic">
                  "{currentLens.meme}"
               </div>
            </div>
@@ -419,11 +419,11 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
          <div className="p-6 space-y-6">
 
             {/* Panel 1: Viewfinder */}
-            <div className="bg-black rounded-lg border-2 border-slate-700 p-2 relative overflow-hidden aspect-video flex items-center justify-center group shadow-lg">
-               <div className="absolute top-2 left-2 text-[10px] text-green-500 font-mono z-10 flex items-center gap-1">
+            <div className="bg-black rounded-lg border-2 border-zinc-200 dark:border-zinc-800 p-2 relative overflow-hidden aspect-video flex items-center justify-center group shadow-lg">
+               <div className="absolute top-2 left-2 text-xs text-green-500 font-mono z-10 flex items-center gap-1">
                  <Eye size={10} /> REC [STANDBY]
                </div>
-               <div className="absolute bottom-2 right-2 text-[10px] text-white font-mono z-10">
+               <div className="absolute bottom-2 right-2 text-xs text-zinc-900 dark:text-white font-mono z-10">
                  {focalLengthEquiv.toFixed(0)}mm
                </div>
                
@@ -443,12 +443,12 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                        <div className="w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
                     </div>
                   </div>
-                  <div className="absolute top-1/4 left-1/4 w-8 h-20 bg-slate-700/50"></div>
-                  <div className="absolute bottom-1/4 right-1/4 w-12 h-12 bg-slate-600/50 rounded-full"></div>
+                  <div className="absolute top-1/4 left-1/4 w-8 h-20 bg-zinc-700/50"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-12 h-12 bg-zinc-600/50 rounded-full"></div>
                </div>
                
                {/* Aperture Blades Overlay */}
-               <div className="absolute inset-0 pointer-events-none bg-black transition-opacity duration-300" style={{opacity: 0.8 - (32 - apertureStop)/32 * 0.8 }}></div>
+               <div className="absolute inset-0 pointer-events-none bg-zinc-50 dark:bg-black transition-opacity duration-300" style={{opacity: 0.8 - (32 - apertureStop)/32 * 0.8 }}></div>
 
                <div className="absolute inset-4 border border-white/20 pointer-events-none"></div>
             </div>
@@ -457,7 +457,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
             <div className="space-y-4">
                <div>
                   <div className="flex justify-between text-xs mb-2">
-                     <span className="text-slate-400">变焦 (Zoom)</span>
+                     <span className="text-zinc-600 dark:text-zinc-400">变焦 (Zoom)</span>
                      <span className="text-cyan-400 font-mono">{focalLengthEquiv.toFixed(0)}mm</span>
                   </div>
                   <input 
@@ -465,24 +465,24 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                     value={zoomPos} 
                     disabled={currentLens.type === 'Prime'}
                     onChange={e => setZoomPos(parseFloat(e.target.value))}
-                    className={`w-full h-1 rounded appearance-none ${currentLens.type === 'Prime' ? 'bg-slate-800 cursor-not-allowed' : 'bg-slate-700 accent-cyan-500'}`}
+                    className={`w-full h-1 rounded appearance-none ${currentLens.type === 'Prime' ? 'bg-zinc-100 dark:bg-zinc-800 cursor-not-allowed' : 'bg-zinc-700 accent-cyan-500'}`}
                   />
                </div>
 
                <div>
                   <div className="flex justify-between text-xs mb-2">
-                     <span className="text-slate-400">对焦 (Distance)</span>
+                     <span className="text-zinc-600 dark:text-zinc-400">对焦 (Distance)</span>
                      <span className="text-emerald-400 font-mono">{(focusDistance/1000).toFixed(2)}m</span>
                   </div>
                   <input 
                     type="range" min={currentLens.minFocus} max="5000" step="10" 
                     value={focusDistance} 
                     onChange={e => setFocusDistance(parseFloat(e.target.value))}
-                    className="w-full accent-emerald-500 h-1 bg-slate-700 appearance-none rounded dir-rtl"
+                    className="w-full accent-emerald-500 h-1 bg-zinc-100 dark:bg-zinc-700 appearance-none rounded dir-rtl"
                   />
                   <div className="mt-4">
                      <Toggle label="呼吸补偿 (Breathing Comp.)" checked={breathingComp} onChange={setBreathingComp} />
-                     <div className="text-[10px] text-slate-500 leading-tight">
+                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 leading-tight">
                         {breathingComp ? "启用补偿：视角锁定。通过裁切画面边缘，抵消对焦时的物理焦距变化。" : "原生光学：视角随对焦距离改变（呼吸效应）。"}
                      </div>
                   </div>
@@ -490,7 +490,7 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
 
                <div>
                   <div className="flex justify-between text-xs mb-2">
-                     <span className="text-slate-400">光圈 (Aperture)</span>
+                     <span className="text-zinc-600 dark:text-zinc-400">光圈 (Aperture)</span>
                      <span className="text-yellow-500 font-mono">f/{apertureStop.toFixed(1)}</span>
                   </div>
                   <input 
@@ -500,66 +500,66 @@ export const ZoomSystemView: React.FC<ZoomSystemViewProps> = ({ initialTab }) =>
                      step={0.1} 
                      value={apertureStop} 
                      onChange={e => setApertureStop(parseFloat(e.target.value))}
-                     className="w-full accent-yellow-500 h-1 bg-slate-700 appearance-none rounded"
+                     className="w-full accent-yellow-500 h-1 bg-zinc-100 dark:bg-zinc-700 appearance-none rounded"
                   />
                   {/* Aperture Warning Labels */}
                   <div className="flex justify-between h-4 mt-1">
                      {apertureStop < 2.0 && (
-                        <span className="text-[10px] text-pink-400 flex items-center gap-1"><AlertTriangle size={8}/> 刀锐奶化 (Creamy)</span>
+                        <span className="text-[10px] text-primary-600 dark:text-primary-400 flex items-center gap-1"><AlertTriangle size={8}/> 刀锐奶化 (Creamy)</span>
                      )}
                      {apertureStop > 16 && (
-                        <span className="text-[10px] text-orange-400 flex items-center gap-1 ml-auto"><AlertTriangle size={8}/> 衍射画质崩坏</span>
+                        <span className="text-[10px] text-primary-600 dark:text-primary-400 flex items-center gap-1 ml-auto"><AlertTriangle size={8}/> 衍射画质崩坏</span>
                      )}
                   </div>
                </div>
             </div>
 
             {/* Panel 3: DoF Calculator */}
-            <div className="bg-slate-800 rounded p-3 border border-slate-700">
-               <h4 className="text-xs font-bold text-slate-300 flex items-center gap-2 mb-2">
+            <div className="bg-zinc-100 dark:bg-zinc-800 rounded p-3 border border-zinc-200 dark:border-zinc-800">
+               <h4 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-2 mb-2">
                   <Calculator size={12} className="text-emerald-400"/> 景深计算器 (DoF Calc)
                </h4>
                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-slate-900 p-1 rounded">
-                     <div className="text-[9px] text-slate-500">前界限</div>
+                  <div className="bg-zinc-100 dark:bg-zinc-900 p-1 rounded">
+                     <div className="text-[11px] text-zinc-500 dark:text-zinc-400">前界限</div>
                      <div className="text-[10px] font-mono text-emerald-300">{(dofData.near/1000).toFixed(2)}m</div>
                   </div>
-                  <div className="bg-slate-900 p-1 rounded">
-                     <div className="text-[9px] text-slate-500">后界限</div>
+                  <div className="bg-zinc-100 dark:bg-zinc-900 p-1 rounded">
+                     <div className="text-[11px] text-zinc-500 dark:text-zinc-400">后界限</div>
                      <div className="text-[10px] font-mono text-emerald-300">{dofData.far === Infinity ? '∞' : (dofData.far/1000).toFixed(2) + 'm'}</div>
                   </div>
-                  <div className="bg-slate-900 p-1 rounded border border-emerald-900/50">
-                     <div className="text-[9px] text-slate-500">总景深</div>
-                     <div className="text-[10px] font-mono text-emerald-400 font-bold">{dofData.depth === Infinity ? '∞' : (dofData.depth/1000).toFixed(2) + 'm'}</div>
+                  <div className="bg-zinc-100 dark:bg-zinc-900 p-1 rounded border border-emerald-900/50">
+                     <div className="text-[11px] text-zinc-500 dark:text-zinc-400">总景深</div>
+                     <div className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">{dofData.depth === Infinity ? '∞' : (dofData.depth/1000).toFixed(2) + 'm'}</div>
                   </div>
                </div>
             </div>
 
             {/* Panel 4: Lens Specs */}
-            <div className="bg-slate-800 rounded p-3 border border-slate-700">
-               <h4 className="text-xs font-bold text-slate-300 flex items-center gap-2 mb-2">
-                  <Layers size={12} className="text-blue-400"/> 镜头参数 (Specs)
+            <div className="bg-zinc-100 dark:bg-zinc-800 rounded p-3 border border-zinc-200 dark:border-zinc-800">
+               <h4 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-2 mb-2">
+                  <Layers size={12} className="text-primary-400"/> 镜头参数 (Specs)
                </h4>
-               <ul className="text-[10px] space-y-1 text-slate-400">
+               <ul className="text-[10px] space-y-1 text-zinc-600 dark:text-zinc-400">
                   <li className="flex justify-between">
                      <span>别名:</span> <span className="text-cyan-200">{currentLens.nickname}</span>
                   </li>
                   <li className="flex justify-between">
-                     <span>结构:</span> <span className="text-slate-200">{currentLens.elements}</span>
+                     <span>结构:</span> <span className="text-zinc-700 dark:text-zinc-200">{currentLens.elements}</span>
                   </li>
                   <li className="flex justify-between">
-                     <span>重量:</span> <span className="text-slate-200">{currentLens.weight}</span>
+                     <span>重量:</span> <span className="text-zinc-700 dark:text-zinc-200">{currentLens.weight}</span>
                   </li>
                </ul>
             </div>
 
             {/* Panel 5: MTF Chart */}
-            <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
+            <div className="bg-zinc-100 dark:bg-zinc-800 rounded-lg p-3 border border-zinc-200 dark:border-zinc-800">
                <div className="flex justify-between items-center mb-2">
-                  <span className="text-xs font-bold text-slate-300">MTF 模拟 (玄学曲线)</span>
-                  <span className="text-[9px] text-cyan-400">@ 30 lp/mm</span>
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">MTF 模拟 (玄学曲线)</span>
+                  <span className="text-[11px] text-primary-500 dark:text-cyan-400">@ 30 lp/mm</span>
                </div>
-               <div className="relative h-12 w-full bg-slate-900 border border-slate-700/50 rounded overflow-hidden">
+               <div className="relative h-12 w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-700/50 rounded overflow-hidden">
                   <svg className="w-full h-full" viewBox="0 0 180 80" preserveAspectRatio="none">
                      <path d={mtfCurve} stroke="#22d3ee" strokeWidth="2" fill="none" />
                      <line x1="0" y1="20" x2="180" y2="20" stroke="#334155" strokeDasharray="2,2" />

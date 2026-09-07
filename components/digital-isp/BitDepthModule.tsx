@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Binary, Scissors, Layers, Monitor, AlertTriangle, CheckCircle } from 'lucide-react';
 
@@ -7,26 +7,26 @@ export const BitDepthModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-8">
-            {/* Display Visualizer */}
-            <div className="w-full max-w-2xl aspect-video bg-slate-900 relative border border-slate-700 overflow-hidden shadow-2xl rounded-lg group">
+          <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-8">
+             {/* Display Visualizer */}
+             <div className="w-full max-w-2xl aspect-video bg-zinc-50 dark:bg-zinc-900 relative border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-lg rounded-lg group">
                
-               {/* 1. Base Gradient - The Sky */}
-               <div className="absolute inset-0" style={{
-                  backgroundImage: 'linear-gradient(to bottom, #0f172a, #1e3a8a, #c026d3, #f59e0b)',
-               }}></div>
-               
-               {/* 2. Banding Simulation Layer (8-bit) */}
-               {/* We use a separate div with the filter applied to ensure it renders correctly on top */}
-               <div className="absolute inset-0 transition-opacity duration-300" style={{ 
-                  opacity: bitDepth === '8bit' ? 1 : 0,
-                  filter: 'url(#banding-sim-isp)' 
-               }}>
-                  {/* Clone the background to filter it */}
-                  <div className="w-full h-full" style={{
-                     backgroundImage: 'linear-gradient(to bottom, #0f172a, #1e3a8a, #c026d3, #f59e0b)',
-                  }}></div>
-               </div>
+                {/* 1. Base Gradient - The Sky */}
+                <div className="absolute inset-0" style={{
+                   backgroundImage: 'linear-gradient(to bottom, oklch(20% 0.02 260), oklch(30% 0.15 260), oklch(55% 0.28 320), oklch(74% 0.18 85))',
+                }}></div>
+                
+                {/* 2. Banding Simulation Layer (8-bit) */}
+                {/* We use a separate div with the filter applied to ensure it renders correctly on top */}
+                <div className="absolute inset-0 transition-opacity duration-300" style={{ 
+                   opacity: bitDepth === '8bit' ? 1 : 0,
+                   filter: 'url(#banding-sim-isp)' 
+                }}>
+                   {/* Clone the background to filter it */}
+                   <div className="w-full h-full" style={{
+                      backgroundImage: 'linear-gradient(to bottom, oklch(20% 0.02 260), oklch(30% 0.15 260), oklch(55% 0.28 320), oklch(74% 0.18 85))',
+                   }}></div>
+                </div>
 
                {/* 3. Dithering Layer (10-bit) */}
                {/* 10-bit often uses dithering to appear smooth on 8-bit screens */}
@@ -63,65 +63,65 @@ export const BitDepthModule: React.FC = () => {
 
                {/* HUD / Indicators */}
                <div className="absolute top-4 left-4 flex gap-2">
-                  <div className={`px-2 py-1 rounded text-[10px] font-bold border backdrop-blur-sm ${bitDepth === '8bit' ? 'bg-red-900/80 border-red-500 text-white' : 'bg-slate-900/50 border-slate-600 text-slate-400'}`}>
+                  <div className={`px-2 py-1 rounded text-xs font-bold border backdrop-blur-sm ${bitDepth === '8bit' ? 'bg-red-900/80 border-red-500 text-white' : 'bg-zinc-900/50 border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400'}`}>
                      8-bit Rec.709
                   </div>
-                  <div className={`px-2 py-1 rounded text-[10px] font-bold border backdrop-blur-sm ${bitDepth === '10bit' ? 'bg-cyan-900/80 border-cyan-500 text-white' : 'bg-slate-900/50 border-slate-600 text-slate-400'}`}>
+                  <div className={`px-2 py-1 rounded text-xs font-bold border backdrop-blur-sm ${bitDepth === '10bit' ? 'bg-cyan-900/80 border-cyan-500 text-white' : 'bg-zinc-900/50 border-zinc-300 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400'}`}>
                      10-bit HEVC
                   </div>
                </div>
 
                {bitDepth === '8bit' && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                     <div className="bg-black/60 backdrop-blur-md border border-red-500/50 text-red-200 px-4 py-2 rounded-lg shadow-2xl flex items-center gap-2 animate-in fade-in zoom-in duration-300">
+                     <div className="bg-zinc-950/60 backdrop-blur-md border border-red-500/50 text-red-700 dark:text-red-200 px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in zoom-in duration-300">
                         <AlertTriangle size={16} className="text-red-500"/>
                         <span className="text-xs font-bold">BANDING DETECTED (色彩断层)</span>
                      </div>
                   </div>
                )}
 
-               <div className="absolute bottom-4 left-4 text-white text-[10px] font-mono drop-shadow-md opacity-70">
+               <div className="absolute bottom-4 left-4 text-zinc-900 dark:text-white text-xs font-mono drop-shadow-md opacity-70">
                   Scene: Sunset Gradient (High Contrast)
                </div>
             </div>
          </div>
 
-         <div className="w-full lg:w-80 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2"><Binary size={18} className="text-blue-400"/> 色彩深度 (Bit Depth)</h3>
+          <div className="w-full lg:w-80 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Binary size={18} className="text-primary-400"/> 色彩深度 (Bit Depth)</h3>
 
             <div className="space-y-4">
-               <button onClick={() => setBitDepth('8bit')} className={`w-full p-4 rounded-lg border text-left transition-all ${bitDepth === '8bit' ? 'bg-slate-800 border-red-500 shadow ring-1 ring-red-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex justify-between items-start mb-1">
-                     <div className="font-bold text-sm text-red-400">8-bit (1670万色)</div>
-                     {bitDepth === '8bit' && <AlertTriangle size={14} className="text-red-500"/>}
-                  </div>
-                  <div className="text-[10px] text-slate-400 leading-relaxed">
-                     每通道 256 级灰度。在拍摄天空、白墙等大面积渐变时，极易出现<strong>色彩断层 (Banding)</strong>。
-                     <br/><span className="text-red-400 font-bold mt-1 block">后期噩梦：</span> 一旦对 8-bit Log 素材进行调色拉伸，断层会瞬间显现。
-                  </div>
-               </button>
-               
-               <button onClick={() => setBitDepth('10bit')} className={`w-full p-4 rounded-lg border text-left transition-all ${bitDepth === '10bit' ? 'bg-slate-800 border-cyan-500 shadow ring-1 ring-cyan-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}>
-                  <div className="flex justify-between items-start mb-1">
-                     <div className="font-bold text-sm text-cyan-400">10-bit (10.7亿色)</div>
-                     {bitDepth === '10bit' && <CheckCircle size={14} className="text-cyan-500"/>}
-                  </div>
-                  <div className="text-[10px] text-slate-400 leading-relaxed">
-                     每通道 1024 级灰度。色彩过渡极其平滑。
-                     <br/><span className="text-cyan-400 font-bold mt-1 block">专业标准：</span> 拍摄 Log 或 HDR 视频的最低要求。数据量虽大，但换来了后期空间的质变。
-                  </div>
-               </button>
+                <button onClick={() => setBitDepth('8bit')} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '8bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-red-500 shadow ring-1 ring-red-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                   <div className="flex justify-between items-start mb-1">
+                      <div className="font-bold text-sm text-red-600 dark:text-red-400">8-bit (1670万色)</div>
+                      {bitDepth === '8bit' && <AlertTriangle size={14} className="text-red-500"/>}
+                   </div>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      每通道 256 级灰度。在拍摄天空、白墙等大面积渐变时，极易出现<strong>色彩断层 (Banding)</strong>。
+                      <br/><span className="text-red-400 font-bold mt-1 block">后期噩梦：</span> 一旦对 8-bit Log 素材进行调色拉伸，断层会瞬间显现。
+                   </div>
+                </button>
+                
+                <button onClick={() => setBitDepth('10bit')} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '10bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow ring-1 ring-cyan-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                   <div className="flex justify-between items-start mb-1">
+                      <div className="font-bold text-sm text-primary-500 dark:text-cyan-400">10-bit (10.7亿色)</div>
+                      {bitDepth === '10bit' && <CheckCircle size={14} className="text-cyan-500"/>}
+                   </div>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      每通道 1024 级灰度。色彩过渡极其平滑。
+                      <br/><span className="text-cyan-400 font-bold mt-1 block">专业标准：</span> 拍摄 Log 或 HDR 视频的最低要求。数据量虽大，但换来了后期空间的质变。
+                   </div>
+                </button>
 
-               <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-4 rounded-lg border border-slate-700 mt-4">
-                  <div className="flex items-center gap-2 text-white font-bold text-xs mb-2">
-                     <Scissors size={14} className="text-slate-400" /> 厂商"刀法"解析
-                  </div>
-                  <p className="text-[10px] text-slate-400 italic leading-relaxed">
-                     为什么入门机只有 8-bit？
-                     <br/>
-                     不仅仅是传感器能力，更因为 10-bit 视频编码对相机处理器的算力要求呈指数级上升。厂商通过锁定 8-bit 来强行划分产品等级（如 A7M3 vs A7S3）。
-                  </p>
-               </div>
+                <div className="bg-gradient-to-r from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 mt-4">
+                   <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold text-xs mb-2">
+                      <Scissors size={14} className="text-zinc-600 dark:text-zinc-400" /> 厂商"刀法"解析
+                   </div>
+                   <p className="text-xs text-zinc-600 dark:text-zinc-400 italic leading-relaxed">
+                      为什么入门机只有 8-bit？
+                      <br/>
+                      不仅仅是传感器能力，更因为 10-bit 视频编码对相机处理器的算力要求呈指数级上升。厂商通过锁定 8-bit 来强行划分产品等级（如 A7M3 vs A7S3）。
+                   </p>
+                </div>
             </div>
          </div>
       </div>

@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Lightbulb, Monitor, Maximize2, Aperture, Anchor, Move, Crosshair, LayoutTemplate, Film, Zap } from 'lucide-react';
 import { LightingModule } from './LightingModule';
@@ -42,7 +42,7 @@ export const CinematographyView: React.FC<CinematographyViewProps> = ({ initialT
 
    return (
       <div className="flex flex-col lg:flex-row h-full overflow-hidden">
-         <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
             
             <TabNavigation 
                tabs={tabs} 
@@ -50,7 +50,7 @@ export const CinematographyView: React.FC<CinematographyViewProps> = ({ initialT
                onTabChange={(id) => setActiveTab(id as Tab)} 
             />
 
-            <div className="flex-1 relative overflow-hidden bg-slate-950">
+            <div className="flex-1 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950">
                {activeTab === 'COMPOSITION' && <CompositionModule />}
                {activeTab === 'LIGHTING' && <LightingModule />}
                {activeTab === 'INVERSE_SQUARE' && <InverseSquareModule />}
@@ -74,8 +74,8 @@ const CompositionModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-8 relative">
-            <div className="relative w-full max-w-3xl aspect-[4/3] lg:aspect-video bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl rounded-lg group">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-8 relative">
+            <div className="relative w-full max-w-3xl aspect-[4/3] lg:aspect-video bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-lg rounded-lg group">
                {rule === 'THIRDS' && <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2000)'}}></div>}
                {rule === 'LINES' && <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2000)'}}></div>}
                {/* Updated Symmetry Image */}
@@ -86,10 +86,10 @@ const CompositionModule: React.FC = () => {
                   <div className="absolute inset-0 pointer-events-none transition-opacity duration-500">
                      {rule === 'THIRDS' && (
                         <>
-                           <div className="absolute left-1/3 top-0 bottom-0 w-px bg-white/50 shadow-[0_0_2px_black]"></div>
-                           <div className="absolute right-1/3 top-0 bottom-0 w-px bg-white/50 shadow-[0_0_2px_black]"></div>
-                           <div className="absolute top-1/3 left-0 right-0 h-px bg-white/50 shadow-[0_0_2px_black]"></div>
-                           <div className="absolute bottom-1/3 left-0 right-0 h-px bg-white/50 shadow-[0_0_2px_black]"></div>
+                           <div className="absolute left-1/3 top-0 bottom-0 w-px bg-zinc-50/5 shadow-[0_0_2px_black]"></div>
+                           <div className="absolute right-1/3 top-0 bottom-0 w-px bg-zinc-50/5 shadow-[0_0_2px_black]"></div>
+                           <div className="absolute top-1/3 left-0 right-0 h-px bg-zinc-50/5 shadow-[0_0_2px_black]"></div>
+                           <div className="absolute bottom-1/3 left-0 right-0 h-px bg-zinc-50/5 shadow-[0_0_2px_black]"></div>
                            <div className="absolute top-1/3 right-1/3 w-4 h-4 -translate-y-1/2 translate-x-1/2 border-2 border-red-500 rounded-full animate-pulse"></div>
                         </>
                      )}
@@ -105,74 +105,74 @@ const CompositionModule: React.FC = () => {
                      )}
                      {rule === 'SPACE' && (
                         <div className="absolute inset-0">
-                           <div className="absolute inset-0 bg-black/30"></div>
-                           <div className="absolute bottom-[20%] right-[30%] w-[10%] h-[20%] bg-white/10 rounded-full blur-xl border border-white/20"></div>
-                           <div className="absolute top-10 left-10 text-white font-mono text-xs opacity-70">SPACE &gt; SUBJECT</div>
+                           <div className="absolute inset-0 bg-zinc-50/80 dark:bg-black"></div>
+                           <div className="absolute bottom-[20%] right-[30%] w-[10%] h-[20%] bg-zinc-50/[0.1] rounded-full blur-xl border border-white/20"></div>
+                           <div className="absolute top-10 left-10 text-zinc-900 dark:text-white font-mono text-xs opacity-70">SPACE &gt; SUBJECT</div>
                         </div>
                      )}
                   </div>
                )}
                <div className="absolute bottom-4 right-4">
-                  <button onClick={() => setOverlay(!overlay)} className={`px-3 py-1 rounded-full text-[10px] font-bold border backdrop-blur-sm ${overlay ? 'bg-cyan-600/80 border-cyan-400 text-white' : 'bg-black/40 border-white/30 text-white/50'}`}>
+                  <button onClick={() => setOverlay(!overlay)} className={`px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-sm ${overlay ? 'bg-cyan-600/80 border-cyan-400 text-white' : 'bg-zinc-950/40 border-white/30 text-white/50'}`}>
                      {overlay ? 'HIDE GUIDE' : 'SHOW GUIDE'}
                   </button>
                </div>
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col overflow-y-auto">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
                <LayoutTemplate size={20} className="text-cyan-400"/> 构图法则
             </h3>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
-               <button onClick={() => setRule('THIRDS')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'THIRDS' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
+               <button onClick={() => setRule('THIRDS')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'THIRDS' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   {/* Grid3X3 is not imported but used in original file, assuming it should be used or replaced */}
-                  <span className={`text-xs font-bold text-slate-200`}>三分法</span>
+                  <span className={`text-xs font-bold text-zinc-200`}>三分法</span>
                </button>
-               <button onClick={() => setRule('LINES')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'LINES' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
-                  <Move size={20} className={rule === 'LINES' ? 'text-cyan-400' : 'text-slate-500'} />
-                  <span className="text-xs font-bold text-slate-200">引导线</span>
+               <button onClick={() => setRule('LINES')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'LINES' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                  <Move size={20} className={rule === 'LINES' ? 'text-cyan-400' : 'text-zinc-500 dark:text-zinc-400'} />
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">引导线</span>
                </button>
-               <button onClick={() => setRule('SYMMETRY')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'SYMMETRY' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
+               <button onClick={() => setRule('SYMMETRY')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SYMMETRY' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   {/* Split is not imported but used in original file, assuming it should be used or replaced */}
-                  <span className="text-xs font-bold text-slate-200">对称构图</span>
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">对称构图</span>
                </button>
-               <button onClick={() => setRule('SPACE')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-all ${rule === 'SPACE' ? 'bg-slate-800 border-cyan-500 shadow-md' : 'border-slate-700 hover:bg-slate-800'}`}>
+               <button onClick={() => setRule('SPACE')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SPACE' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
                   {/* Minimize is not imported but used in original file, assuming it should be used or replaced */}
-                  <span className="text-xs font-bold text-slate-200">留白</span>
+                  <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">留白</span>
                </button>
             </div>
 
-            <div className="bg-slate-800 p-5 rounded-xl border border-slate-700 min-h-[150px]">
+            <div className="bg-zinc-100 dark:bg-zinc-800 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 min-h-[150px]">
                {rule === 'THIRDS' && (
-                  <div className="animate-in fade-in slide-in-from-right-4">
-                     <h4 className="text-sm font-bold text-white mb-2">九宫格 (Rule of Thirds)</h4>
-                     <p className="text-xs text-slate-400 leading-relaxed">
+                  <div className="animate-fade-in slide-in-from-right-4">
+                     <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">九宫格 (Rule of Thirds)</h4>
+                     <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                         将画面分为九宫格。将主体（如人眼、地平线）放置在 <strong>线条交叉点</strong> 或 <strong>分割线</strong> 上，而非死板地放在正中间。这能让画面更具活力和平衡感。
                      </p>
                   </div>
                )}
                {rule === 'LINES' && (
-                  <div className="animate-in fade-in slide-in-from-right-4">
-                     <h4 className="text-sm font-bold text-white mb-2">引导线 (Leading Lines)</h4>
-                     <p className="text-xs text-slate-400 leading-relaxed">
+                  <div className="animate-fade-in slide-in-from-right-4">
+                     <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">引导线 (Leading Lines)</h4>
+                     <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                         利用环境中的线条（道路、栏杆、墙壁、光影）将观众的视线 <strong>强行引导</strong> 至主体。这是创造画面纵深感（Depth）最有效的方法。
                      </p>
                   </div>
                )}
                {rule === 'SYMMETRY' && (
-                  <div className="animate-in fade-in slide-in-from-right-4">
-                     <h4 className="text-sm font-bold text-white mb-2">对称构图 (Symmetry)</h4>
-                     <p className="text-xs text-slate-400 leading-relaxed">
+                  <div className="animate-fade-in slide-in-from-right-4">
+                     <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">对称构图 (Symmetry)</h4>
+                     <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                         追求画面的绝对平衡。常用于表现建筑的宏伟、水面倒影的静谧或韦斯·安德森式的强迫症美学。注意保持相机绝对水平。
                      </p>
                   </div>
                )}
                {rule === 'SPACE' && (
-                  <div className="animate-in fade-in slide-in-from-right-4">
-                     <h4 className="text-sm font-bold text-white mb-2">留白 (Negative Space)</h4>
-                     <p className="text-xs text-slate-400 leading-relaxed">
+                  <div className="animate-fade-in slide-in-from-right-4">
+                     <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">留白 (Negative Space)</h4>
+                     <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
                         "少即是多"。大面积的空白（天空、纯色背景）给主体以呼吸空间。通过极简的画面元素，强化孤独感或高级感，迫使观众聚焦于微小的主体。
                      </p>
                   </div>
@@ -192,14 +192,14 @@ const InverseSquareModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-8 relative overflow-hidden">
             {/* Grid Background */}
             <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '50px 50px'}}></div>
             
             {/* Light Source */}
             <div className="absolute left-10 top-1/2 -translate-y-1/2 z-10">
                <div className="w-8 h-8 bg-yellow-400 rounded-full shadow-[0_0_50px_orange]"></div>
-               <div className="absolute top-10 left-0 text-white text-xs font-mono w-20">Source</div>
+               <div className="absolute top-10 left-0 text-zinc-900 dark:text-white text-xs font-mono w-20">Source</div>
             </div>
 
             {/* Light Rays / Cone */}
@@ -215,39 +215,39 @@ const InverseSquareModule: React.FC = () => {
 
             {/* Target Surface */}
             <div 
-               className="absolute top-1/2 -translate-y-1/2 w-4 bg-white shadow-[0_0_20px_white] transition-all duration-300 z-20"
+               className="absolute top-1/2 -translate-y-1/2 w-4 bg-zinc-50 shadow-[0_0_20px_white] transition-colors duration-300 z-20"
                style={{ 
                   left: `${60 + distance * 150}px`,
                   height: `${radius * 2}px` 
                }}
             >
-               <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-white font-mono text-xs whitespace-nowrap">{distance}m</div>
-               <div className="absolute top-1/2 left-4 text-cyan-400 font-bold text-lg whitespace-nowrap">{intensity.toFixed(0)}%</div>
+               <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-zinc-900 dark:text-white font-mono text-xs whitespace-nowrap">{distance}m</div>
+               <div className="absolute top-1/2 left-4 text-primary-500 dark:text-cyan-400 font-bold text-lg whitespace-nowrap">{intensity.toFixed(0)}%</div>
             </div>
 
             {/* Reference Markers */}
-            <div className="absolute bottom-10 left-10 right-10 h-1 bg-slate-700 flex justify-between items-center text-[10px] text-slate-500">
-               {[1,2,3,4].map(m => <div key={m} className="relative"><div className="absolute -top-2 w-0.5 h-4 bg-slate-500"></div><span className="mt-4 block">{m}m</span></div>)}
+            <div className="absolute bottom-10 left-10 right-10 h-1 bg-zinc-100 dark:bg-zinc-700 flex justify-between items-center text-xs text-zinc-500 dark:text-zinc-400">
+               {[1,2,3,4].map(m => <div key={m} className="relative"><div className="absolute -top-2 w-0.5 h-4 bg-zinc-500"></div><span className="mt-4 block">{m}m</span></div>)}
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
                <Zap size={20} className="text-yellow-400"/> 平方反比定律
             </h3>
             
             <Slider label="光源距离 (Distance)" value={distance} min={1} max={4} step={0.1} onChange={setDistance} unit="m" />
 
-            <div className="mt-8 bg-slate-800 p-5 rounded-xl border border-slate-700">
+            <div className="mt-8 bg-zinc-50 dark:bg-zinc-800 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800">
                <div className="flex justify-between items-end mb-4">
-                  <span className="text-xs text-slate-400">光照强度 (Intensity)</span>
-                  <span className="text-2xl font-mono text-yellow-400 font-bold">{intensity.toFixed(1)}%</span>
+                  <span className="text-xs text-zinc-600 dark:text-zinc-400">光照强度 (Intensity)</span>
+                  <span className="text-2xl font-mono text-yellow-600 dark:text-yellow-400 font-bold">{intensity.toFixed(1)}%</span>
                </div>
-               <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                  <div className="h-full bg-yellow-500 transition-all duration-300" style={{ width: `${intensity}%` }}></div>
+               <div className="w-full bg-zinc-50 dark:bg-zinc-900 h-2 rounded-full overflow-hidden">
+                  <div className="h-full bg-yellow-500 transition-colors duration-300" style={{ width: `${intensity}%` }}></div>
                </div>
                
-               <p className="text-[10px] text-slate-400 mt-4 leading-relaxed italic">
+               <p className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed italic">
                   "Inverse Square Law": 光照强度与距离的平方成反比。
                   <br/><br/>
                   距离从 1m 增加到 2m (2倍)，光线强度变为 1/4 (25%)，而非 1/2。

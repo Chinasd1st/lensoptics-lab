@@ -1,46 +1,46 @@
-
+﻿
 import React from 'react';
 import { Layers, Cpu, MonitorPlay, Zap, Film, Scan, Anchor, Maximize, Dumbbell, Aperture, Info, ZoomIn, Star, BookOpen, Shield, Move, Video, Palette, Sparkles, Scale, Eye, Timer, Brain } from 'lucide-react';
 
 // --- Shared Components ---
 export const SpecCard: React.FC<{ icon: React.ReactNode; label: string; value: string; sub: string }> = ({ icon, label, value, sub }) => (
-   <div className="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-700/50 flex flex-col items-start hover:bg-slate-700/50 transition-colors select-none group min-w-[140px]">
-      <div className="mb-3 p-2 bg-slate-900/80 rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">{icon}</div>
-      <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">{label}</div>
-      <div className="text-lg font-black text-white leading-tight break-words w-full">{value}</div>
-      <div className="text-[10px] text-cyan-400/80 mt-1 font-mono">{sub}</div>
+   <div className="bg-zinc-50 dark:bg-zinc-800 backdrop-blur-sm p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 flex flex-col items-start hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors select-none group min-w-[140px]">
+      <div className="mb-3 p-2 bg-zinc-100/80 dark:bg-zinc-900 rounded-lg group-hover:scale-110 transition-transform duration-300 shadow-lg">{icon}</div>
+      <div className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-bold mb-1">{label}</div>
+      <div className="text-lg font-black text-zinc-900 dark:text-white leading-tight break-words w-full">{value}</div>
+      <div className="text-[10px] text-primary-500 dark:text-cyan-400 mt-1 font-mono">{sub}</div>
    </div>
 );
 
 export const FeatureRow: React.FC<{ title: string; desc: string }> = ({ title, desc }) => (
    <div className="relative pl-6 py-2 select-none group">
-      <div className="absolute left-0 top-3 bottom-1 w-1 bg-slate-700 group-hover:bg-cyan-500 transition-colors rounded-full"></div>
-      <h3 className="text-lg font-bold text-slate-200 mb-1 group-hover:text-white transition-colors">{title}</h3>
-      <p className="text-sm text-slate-400 leading-relaxed text-justify">{desc}</p>
+      <div className="absolute left-0 top-3 bottom-1 w-1 bg-zinc-100 dark:bg-zinc-700 group-hover:bg-cyan-500 transition-colors rounded-full"></div>
+      <h3 className="text-lg font-bold text-zinc-700 dark:text-zinc-200 mb-1 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">{title}</h3>
+      <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed text-justify">{desc}</p>
    </div>
 );
 
 export const TechDeepDive: React.FC<{ items: { term: string; icon: React.ReactNode; def: string; why: string }[] }> = ({ items }) => (
    <div className="mt-12 space-y-6">
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 mb-4">
+      <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-2 mb-4">
          <BookOpen size={18} className="text-cyan-400" />
-         <h3 className="text-sm font-bold text-white uppercase tracking-widest">技术深度解析 (Tech Glossary)</h3>
+         <h3 className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-widest">技术深度解析 (Tech Glossary)</h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
          {items.map((item, idx) => (
-            <div key={idx} className="bg-slate-900/80 p-5 rounded-xl border border-slate-800 hover:border-slate-600 transition-all group">
+            <div key={idx} className="bg-zinc-50 dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-600 transition-colors group">
                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-slate-500 group-hover:text-cyan-400 transition-colors">{item.icon}</span>
-                  <span className="text-sm font-bold text-slate-200">{item.term}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400 group-hover:text-cyan-400 transition-colors">{item.icon}</span>
+                  <span className="text-sm font-bold text-zinc-900 dark:text-zinc-200">{item.term}</span>
                </div>
                <div className="space-y-2">
-                  <p className="text-xs text-slate-400 leading-relaxed text-justify border-l-2 border-slate-700 pl-3">
-                     <strong className="text-slate-500 block text-[10px] uppercase mb-0.5">定义</strong>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed text-justify border-l-2 border-zinc-200 dark:border-zinc-800 pl-3">
+                     <strong className="text-zinc-500 dark:text-zinc-400 block text-xs uppercase mb-0.5">定义</strong>
                      {item.def}
                   </p>
-                  <p className="text-xs text-slate-400 leading-relaxed text-justify border-l-2 border-cyan-900/50 pl-3">
-                     <strong className="text-cyan-600 block text-[10px] uppercase mb-0.5">核心优势</strong>
-                     {item.why}
+                   <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed text-justify border-l-2 border-cyan-200 dark:border-cyan-900 pl-3">
+                      <strong className="text-cyan-700 dark:text-cyan-400 block text-xs uppercase mb-0.5">核心优势</strong>
+                      {item.why}
                   </p>
                </div>
             </div>
@@ -51,34 +51,34 @@ export const TechDeepDive: React.FC<{ items: { term: string; icon: React.ReactNo
 
 // --- NEW 0. A1M2 Page (8K) ---
 export const A1M2Page: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
       {/* Header Image & Title */}
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-yellow-500/30">
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-yellow-500/30">
                <Star size={12} className="text-yellow-500 fill-yellow-500"/>
-               <span className="text-[10px] font-bold text-yellow-100 tracking-wide">RELEASED NOV 2024</span>
+               <span className="text-[10px] font-bold text-yellow-500 dark:text-yellow-100 tracking-wide">RELEASED NOV 2024</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-neutral-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 dark:from-zinc-900 dark:via-neutral-900 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
             <div className="text-center z-10 w-full">
-               <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black text-white tracking-tighter mb-2 italic">
+               <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black text-zinc-900 dark:text-white tracking-tighter mb-2 italic">
                   α1 <span className="text-yellow-500">II</span>
                </h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.3em] uppercase mt-4">The One. Reborn.</p>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.3em] uppercase mt-4">The One. Reborn.</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
                <div>
-                  <h2 className="text-2xl font-bold text-white mb-1">全画幅微单™旗舰 · AI 进化</h2>
-                  <div className="text-xs text-slate-500 bg-slate-800 px-2 py-1 inline-block rounded">
-                     发布时间: 2024年11月19日
+                  <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">全画幅微单™旗舰 · AI 进化</h2>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 inline-block rounded">
+                      发布时间: 2024年11月19日
                   </div>
                </div>
-               <span className="text-2xl font-black text-yellow-500">$6,499</span>
+               <span className="text-2xl font-black text-yellow-600 dark:text-yellow-500">$6,499</span>
             </div>
-            <p className="text-sm text-slate-300 leading-7 text-justify max-w-3xl">
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 text-justify max-w-3xl">
                索尼正式发布新一代旗舰 Alpha 1 II (ILCE-1M2)。配备约 5010 万有效像素 Exmor RS™ 堆栈式传感器与内置 AI 智能芯片。
                支持 AF/AE 追踪的约 30 张/秒无黑屏高速连拍，具备防畸变快门，并大幅提升了高感光画质与防抖性能（中心 8.5 级）。
                机身重量仅约 743 克，专为专业生态、新闻、体育及航空航天摄影师打造。
@@ -88,8 +88,8 @@ export const A1M2Page: React.FC = () => (
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
          <SpecCard icon={<Layers className="text-yellow-400"/>} label="Sensor" value="50.1MP" sub="Exmor RS 堆栈式" />
-         <SpecCard icon={<Brain className="text-purple-400"/>} label="AI Processing" value="Subject Auto" sub="自动识别主体类型" />
-         <SpecCard icon={<Timer className="text-blue-400"/>} label="Pre-Capture" value="1.0 Sec" sub="预拍摄功能" />
+         <SpecCard icon={<Brain className="text-primary-400"/>} label="AI Processing" value="Subject Auto" sub="自动识别主体类型" />
+         <SpecCard icon={<Timer className="text-primary-400"/>} label="Pre-Capture" value="1.0 Sec" sub="预拍摄功能" />
          <SpecCard icon={<Shield className="text-emerald-400"/>} label="IBIS" value="8.5 Stops" sub="中心 8.5级 / 周边 7.0级" />
       </div>
 
@@ -124,33 +124,33 @@ export const A1M2Page: React.FC = () => (
 
 // --- NEW A9M3 Page (Global Shutter) ---
 export const A9M3Page: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-red-500/30">
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-red-500/30">
                <Zap size={12} className="text-red-500 fill-red-500"/>
-               <span className="text-[10px] font-bold text-red-100 tracking-wide">RELEASED NOV 2023</span>
+               <span className="text-[10px] font-bold text-red-500 dark:text-red-100 tracking-wide">RELEASED NOV 2023</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-neutral-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 dark:from-zinc-900 dark:via-neutral-900 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
             <div className="text-center z-10 w-full">
-               <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black text-white tracking-tighter mb-2 italic">
+               <h1 className="text-5xl sm:text-7xl lg:text-9xl font-black text-zinc-900 dark:text-white tracking-tighter mb-2 italic">
                   α9 <span className="text-red-500">III</span>
                </h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.3em] uppercase mt-4">The Global Shutter Revolution</p>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.3em] uppercase mt-4">The Global Shutter Revolution</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
                <div>
-                  <h2 className="text-2xl font-bold text-white mb-1">全球首款全域快门全画幅</h2>
-                  <div className="text-xs text-slate-500 bg-slate-800 px-2 py-1 inline-block rounded">
-                     发布时间: 2023年11月7日 (已上市)
+                  <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-1">全球首款全域快门全画幅</h2>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 inline-block rounded">
+                      发布时间: 2023年11月7日 (已上市)
                   </div>
                </div>
-               <span className="text-2xl font-black text-red-500">$5,999</span>
+               <span className="text-2xl font-black text-red-600 dark:text-red-500">$5,999</span>
             </div>
-            <p className="text-sm text-slate-300 leading-7 text-justify max-w-3xl">
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 text-justify max-w-3xl">
                Sony α9 III (ILCE-9M3) 是影像历史的里程碑。它搭载了世界上首款全画幅全域快门 (Global Shutter) 影像传感器，彻底消除了果冻效应。
                支持高达 120fps 的无黑屏连拍（含 AF/AE 追踪）和 1/80,000 秒的最高快门速度，并实现了全速闪光同步。这是体育、新闻和野生动物摄影的终极速度机器。
             </p>
@@ -160,8 +160,8 @@ export const A9M3Page: React.FC = () => (
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
          <SpecCard icon={<Scan className="text-red-400"/>} label="Sensor" value="24.6MP" sub="全域快门 CMOS" />
          <SpecCard icon={<Zap className="text-yellow-400"/>} label="Speed" value="120 fps" sub="无黑屏连拍" />
-         <SpecCard icon={<Timer className="text-blue-400"/>} label="Shutter" value="1/80,000s" sub="全速闪光同步" />
-         <SpecCard icon={<Brain className="text-purple-400"/>} label="AF" value="AI Unit" sub="实时识别追踪" />
+         <SpecCard icon={<Timer className="text-primary-400"/>} label="Shutter" value="1/80,000s" sub="全速闪光同步" />
+         <SpecCard icon={<Brain className="text-primary-400"/>} label="AF" value="AI Unit" sub="实时识别追踪" />
       </div>
 
       <TechDeepDive items={[
@@ -195,41 +195,41 @@ export const A9M3Page: React.FC = () => (
 
 // --- 1. A7M5 Page ---
 export const A7M5Page: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-orange-500/30 shadow-lg">
-               <Star size={12} className="text-orange-500 fill-orange-500"/>
-               <span className="text-[10px] font-bold text-orange-100 tracking-wide">2025.12.02 RELEASE</span>
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary-500/30 shadow-lg">
+               <Star size={12} className="text-primary-500 fill-orange-500"/>
+               <span className="text-[10px] font-bold text-orange-500 dark:text-orange-100 tracking-wide">2025.12.02 RELEASE</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-gray-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 dark:from-zinc-900 dark:via-neutral-900 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
             <div className="absolute inset-0 opacity-30" style={{backgroundImage: 'radial-gradient(circle at 70% 30%, rgba(234, 88, 12, 0.15) 0%, transparent 60%)'}}></div>
             <div className="text-center z-10 max-w-3xl w-full px-4">
-               <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-white tracking-tighter mb-2 italic drop-shadow-2xl break-words whitespace-normal leading-none">
-                  α7 <span className="text-orange-500">V</span>
+               <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-zinc-900 dark:text-white tracking-tighter mb-2 italic drop-shadow-2xl break-words whitespace-normal leading-none">
+                  α7 <span className="text-primary-500">V</span>
                </h1>
-               <p className="text-sm lg:text-lg text-slate-400 font-light tracking-[0.2em] uppercase border-t border-slate-700/50 pt-4 mt-4">The Hybrid Master</p>
+                <p className="text-sm lg:text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase border-t border-zinc-300 dark:border-zinc-800 pt-4 mt-4">The Hybrid Master</p>
             </div>
          </div>
-         <div className="p-8 bg-gradient-to-b from-slate-900 to-slate-950">
+         <div className="p-8 bg-gradient-to-b from-zinc-50 to-zinc-100 dark:from-zinc-900 dark:to-zinc-950">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-               <h2 className="text-2xl font-bold text-white leading-tight">五代全能 · 堆栈普及</h2>
+               <h2 className="text-2xl font-bold text-zinc-900 dark:text-white leading-tight">五代全能 · 堆栈普及</h2>
                <div className="text-right">
-                  <div className="text-[10px] text-slate-500 uppercase tracking-wider">MSRP</div>
-                  <span className="text-2xl font-black text-orange-500">$2,899</span>
+                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">MSRP</div>
+                  <span className="text-2xl font-black text-primary-500">$2,899</span>
                </div>
             </div>
-            <p className="text-sm text-slate-300 leading-7 text-justify max-w-3xl">
-               索尼正式发布 Alpha 7 V (ILCE-7M5)。作为微单市场的“守门员”，五代机并未采用传闻中的 42MP，而是搭载了一块全新的 <strong className="text-orange-200 bg-orange-900/30 px-1 rounded">3300万像素部分堆栈式 (Partially Stacked) CMOS</strong>。这使得它拥有了接近 A9 系列的读出速度，彻底解决了电子快门的果冻效应问题，并实现了 30fps 的无黑屏连拍。
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 text-justify max-w-3xl">
+               索尼正式发布 Alpha 7 V (ILCE-7M5)。作为微单市场的“守门员”，五代机并未采用传闻中的 42MP，而是搭载了一块全新的 <strong className="text-orange-600 dark:text-orange-200 bg-primary-100 dark:bg-primary-900 px-1 rounded">3300万像素部分堆栈式 (Partially Stacked) CMOS</strong>。这使得它拥有了接近 A9 系列的读出速度，彻底解决了电子快门的果冻效应问题，并实现了 30fps 的无黑屏连拍。
             </p>
          </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-         <SpecCard icon={<Layers className="text-orange-400"/>} label="Sensor" value="33MP" sub="部分堆栈 Exmor RS" />
-         <SpecCard icon={<Cpu className="text-blue-400"/>} label="Processor" value="BIONZ XR2" sub="双芯片 + AI 单元" />
-         <SpecCard icon={<MonitorPlay className="text-purple-400"/>} label="Video" value="4K 60p FF" sub="4K 120p (S35)" />
+         <SpecCard icon={<Layers className="text-primary-400"/>} label="Sensor" value="33MP" sub="部分堆栈 Exmor RS" />
+         <SpecCard icon={<Cpu className="text-primary-400"/>} label="Processor" value="BIONZ XR2" sub="双芯片 + AI 单元" />
+         <SpecCard icon={<MonitorPlay className="text-primary-400"/>} label="Video" value="4K 60p FF" sub="4K 120p (S35)" />
          <SpecCard icon={<Zap className="text-yellow-400"/>} label="Burst" value="30 fps" sub="无黑屏连拍" />
       </div>
 
@@ -264,37 +264,37 @@ export const A7M5Page: React.FC = () => (
 
 // --- 2. FX2 Page ---
 export const FX2Page: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-500/30">
-               <Film size={12} className="text-slate-300"/>
-               <span className="text-[10px] font-bold text-slate-200">AVAILABLE MAY 2025</span>
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-500/30">
+               <Film size={12} className="text-zinc-400 dark:text-zinc-300"/>
+               <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-200">AVAILABLE MAY 2025</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-950 via-slate-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 dark:from-zinc-950 dark:via-zinc-900 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
             <div className="text-center z-10 w-full">
-               <div className="inline-block border border-slate-600 bg-slate-800/50 text-slate-300 px-3 py-1 text-[10px] font-bold rounded mb-4 tracking-wider">CINEMA LINE</div>
-               <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white tracking-tighter mb-2">FX2</h1>
-               <p className="text-lg lg:text-xl text-slate-500 font-light tracking-[0.2em] uppercase">Compact Cine Full-Frame</p>
+               <div className="inline-block border border-zinc-300 dark:border-zinc-600 bg-zinc-50/50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 px-3 py-1 text-xs font-bold rounded mb-4 tracking-wider">CINEMA LINE</div>
+               <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-zinc-900 dark:text-white tracking-tighter mb-2">FX2</h1>
+               <p className="text-lg lg:text-xl text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase">Compact Cine Full-Frame</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-               <h2 className="text-2xl font-bold text-white">轻量化电影机 · 个人创作者利器</h2>
-               <span className="text-2xl font-black text-slate-400">$2,699</span>
+               <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">轻量化电影机 · 个人创作者利器</h2>
+               <span className="text-2xl font-black text-zinc-600 dark:text-zinc-400">$2,699</span>
             </div>
-            <p className="text-sm text-slate-300 leading-7 text-justify max-w-3xl">
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 text-justify max-w-3xl">
                索尼 Cinema Line 家族迎来新成员 FX2。定位介于 FX30 与 FX3 之间，它是一台搭载 33MP 全画幅传感器的轻型电影机。配备了专业的可倾斜 OLED 取景器，并支持完整的 S-Log3 电影工作流。
             </p>
          </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-         <SpecCard icon={<Layers className="text-slate-400"/>} label="Sensor" value="33MP BSI" sub="全画幅 Exmor R" />
-         <SpecCard icon={<MonitorPlay className="text-slate-400"/>} label="Video" value="4K 30p FF" sub="7K 超采样" />
-         <SpecCard icon={<Scan className="text-slate-400"/>} label="Log" value="S-Log3" sub="15+ 档动态范围" />
-         <SpecCard icon={<Anchor className="text-slate-400"/>} label="Body" value="Compact" sub="带 EVF / 笼式设计" />
+         <SpecCard icon={<Layers className="text-zinc-600 dark:text-zinc-400"/>} label="Sensor" value="33MP BSI" sub="全画幅 Exmor R" />
+         <SpecCard icon={<MonitorPlay className="text-zinc-600 dark:text-zinc-400"/>} label="Video" value="4K 30p FF" sub="7K 超采样" />
+         <SpecCard icon={<Scan className="text-zinc-600 dark:text-zinc-400"/>} label="Log" value="S-Log3" sub="15+ 档动态范围" />
+         <SpecCard icon={<Anchor className="text-zinc-600 dark:text-zinc-400"/>} label="Body" value="Compact" sub="带 EVF / 笼式设计" />
       </div>
 
       <TechDeepDive items={[
@@ -328,38 +328,38 @@ export const FX2Page: React.FC = () => (
 
 // --- 3. 400-800 G Page ---
 export const Lens400800GPage: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-500/30">
-               <Anchor size={12} className="text-slate-300"/>
-               <span className="text-[10px] font-bold text-slate-200">2025.02.26</span>
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-zinc-500/30">
+               <Anchor size={12} className="text-zinc-400 dark:text-zinc-300"/>
+               <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-200">2025.02.26</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-gray-900 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-200 dark:from-zinc-900 dark:via-neutral-900 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
              <div className="text-center z-10 w-full">
-               <div className="inline-block bg-black border border-white/20 text-white text-[10px] font-bold px-2 py-1 rounded mb-4 shadow-lg">SONY G</div>
-               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-2 leading-tight break-words">
-                  FE 400-800mm <br className="hidden md:inline"/><span className="text-slate-500 font-light">F6.3-8</span> G OSS
+                <div className="inline-block bg-zinc-200 dark:bg-black border border-zinc-300 dark:border-white text-zinc-900 dark:text-white text-xs font-bold px-2 py-1 rounded mb-4 shadow-lg">SONY G</div>
+               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-zinc-900 dark:text-white tracking-tight mb-2 leading-tight break-words">
+                   FE 400-800mm <br className="hidden md:inline"/><span className="text-zinc-600 dark:text-zinc-400 font-light">F6.3-8</span> G OSS
                </h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.2em] uppercase mt-4">Super Telephoto Zoom</p>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase mt-4">Super Telephoto Zoom</p>
             </div>
          </div>
-         <div className="p-8 flex flex-col md:flex-row justify-between items-end gap-6 bg-slate-900">
-            <p className="text-sm text-slate-300 leading-7 max-w-2xl text-justify">
+         <div className="p-8 flex flex-col md:flex-row justify-between items-end gap-6 bg-zinc-50 dark:bg-zinc-900">
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-7 max-w-2xl text-justify">
                Sony α 系统首支达到 800mm 的超远摄变焦镜头。专为野生动物、航空航天和体育摄影师设计，采用内变焦设计，重心极致稳定。支持 2x 增倍镜扩展至 1600mm。
             </p>
             <div className="text-right shrink-0">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">MSRP</div>
-                <div className="text-3xl font-black text-white">$2,899</div>
+                <div className="text-[10px] text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1">MSRP</div>
+                <div className="text-3xl font-black text-zinc-900 dark:text-white">$2,899</div>
             </div>
          </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-         <SpecCard icon={<Maximize className="text-blue-400"/>} label="Focal Length" value="400-800mm" sub="支持 2x 增倍镜" />
+         <SpecCard icon={<Maximize className="text-primary-400"/>} label="Focal Length" value="400-800mm" sub="支持 2x 增倍镜" />
          <SpecCard icon={<Anchor className="text-yellow-400"/>} label="Mechanics" value="Internal Zoom" sub="内变焦设计" />
-         <SpecCard icon={<Dumbbell className="text-slate-400"/>} label="Weight" value="2,475g" sub="轻量化设计" />
+         <SpecCard icon={<Dumbbell className="text-zinc-600 dark:text-zinc-400"/>} label="Weight" value="2,475g" sub="轻量化设计" />
       </div>
 
       <TechDeepDive items={[
@@ -387,20 +387,20 @@ export const Lens400800GPage: React.FC = () => (
 
 // --- 4. 50-150mm F2 GM Page ---
 export const Lens50150GMPage: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
-         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-900 via-black to-red-950 flex flex-col items-center justify-center relative p-8">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-red-100 dark:from-zinc-900 dark:via-black dark:to-red-950 flex flex-col items-center justify-center relative p-8">
              <div className="text-center z-10 w-full">
-               <div className="inline-block bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded mb-4 shadow-lg">G MASTER</div>
-               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight mb-2 leading-tight break-words">
+               <div className="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded mb-4 shadow-lg">G MASTER</div>
+               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-zinc-900 dark:text-white tracking-tight mb-2 leading-tight break-words">
                   FE 50-150mm <span className="text-red-500">F2</span> GM
                </h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.2em] uppercase mt-4">The Portrait Zoom</p>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase mt-4">The Portrait Zoom</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
-            <p className="text-lg text-slate-300 leading-relaxed max-w-3xl">
-               继 28-70mm F2 之后，索尼再次打破物理极限。这是一支覆盖了 50mm, 85mm, 135mm 三大人像黄金焦段，且全程保持 <strong className="text-white">F2 超大光圈</strong> 的变焦镜头。
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
+            <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-3xl">
+               继 28-70mm F2 之后，索尼再次打破物理极限。这是一支覆盖了 50mm, 85mm, 135mm 三大人像黄金焦段，且全程保持 <strong className="text-zinc-900 dark:text-white">F2 超大光圈</strong> 的变焦镜头。
             </p>
          </div>
       </div>
@@ -408,7 +408,7 @@ export const Lens50150GMPage: React.FC = () => (
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
          <SpecCard icon={<Aperture className="text-red-400"/>} label="Aperture" value="F2.0 Constant" sub="超越大三元" />
          <SpecCard icon={<Zap className="text-yellow-400"/>} label="Autofocus" value="4x XD" sub="极速对焦" />
-         <SpecCard icon={<Maximize className="text-blue-400"/>} label="Range" value="50-150mm" sub="人像黄金焦段" />
+         <SpecCard icon={<Maximize className="text-primary-400"/>} label="Range" value="50-150mm" sub="人像黄金焦段" />
       </div>
 
       <TechDeepDive items={[
@@ -436,19 +436,19 @@ export const Lens50150GMPage: React.FC = () => (
 
 // --- 5. 100mm Macro GM Page ---
 export const Lens100GMPage: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
-         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-900 via-black to-emerald-950 flex flex-col items-center justify-center relative p-8">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-zinc-50 to-emerald-100 dark:from-zinc-900 dark:via-black dark:to-emerald-950 flex flex-col items-center justify-center relative p-8">
              <div className="text-center z-10 w-full">
-               <div className="inline-block bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded mb-4 shadow-lg">G MASTER</div>
-               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight mb-2 leading-tight break-words">
+               <div className="inline-block bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded mb-4 shadow-lg">G MASTER</div>
+               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-zinc-900 dark:text-white tracking-tight mb-2 leading-tight break-words">
                   FE 100mm F2.8 <span className="text-emerald-500">GM</span>
                </h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.2em] uppercase mt-4">OSS Macro</p>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase mt-4">OSS Macro</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
-            <p className="text-lg text-slate-300 leading-relaxed max-w-3xl">
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
+            <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-3xl">
                2025年10月11日发布。这是索尼首款 GM 级微距镜头，取代了经典的 90mm G。它拥有 1.4x 的原生放大倍率，是拍摄珠宝、昆虫和精密产品的工业级工具。
             </p>
          </div>
@@ -457,7 +457,7 @@ export const Lens100GMPage: React.FC = () => (
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
          <SpecCard icon={<Scan className="text-emerald-400"/>} label="Magnification" value="1.4x" sub="原生超微距" />
          <SpecCard icon={<Anchor className="text-yellow-400"/>} label="Stabilization" value="Hybrid OSS" sub="Z轴位移补偿" />
-         <SpecCard icon={<Zap className="text-blue-400"/>} label="Focus" value="XD Linear" sub="内对焦设计" />
+         <SpecCard icon={<Zap className="text-primary-400"/>} label="Focus" value="XD Linear" sub="内对焦设计" />
       </div>
 
       <TechDeepDive items={[
@@ -485,122 +485,122 @@ export const Lens100GMPage: React.FC = () => (
 
 // --- 6. Teleconverter Guide Page ---
 export const TeleconverterPage: React.FC = () => (
-   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+   <div className="max-w-5xl mx-auto p-6 lg:p-12 space-y-10 animate-fade-in slide-in-from-bottom-4 duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-lg">
          <div className="absolute top-4 right-4 z-10">
-            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-blue-500/30">
-               <Info size={12} className="text-blue-400"/>
-               <span className="text-[10px] font-bold text-blue-100">KNOWLEDGE BASE</span>
+            <div className="flex items-center gap-2 bg-zinc-950/60 dark:bg-zinc-800 backdrop-blur-md px-3 py-1.5 rounded-full border border-primary-500/30">
+               <Info size={12} className="text-primary-400"/>
+               <span className="text-[10px] font-bold text-blue-500 dark:text-blue-100">KNOWLEDGE BASE</span>
             </div>
          </div>
-         <div className="aspect-[21/9] bg-gradient-to-br from-slate-900 via-blue-950 to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
+         <div className="aspect-[21/9] bg-gradient-to-br from-zinc-100 via-blue-50 to-zinc-200 dark:from-zinc-900 dark:via-blue-950 dark:to-black flex flex-col items-center justify-center relative overflow-hidden p-8">
              <div className="text-center z-10 w-full">
-               <div className="inline-block border border-blue-500/50 bg-blue-900/20 text-blue-300 px-3 py-1 text-[10px] font-bold rounded mb-4 tracking-wider">E-MOUNT SYSTEM</div>
-               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight mb-2 break-words">Teleconverters</h1>
-               <p className="text-lg text-slate-400 font-light tracking-[0.2em] uppercase mt-2">1.4x & 2.0x 增距镜详解</p>
+                <div className="inline-block border border-primary-300 dark:border-primary-500 bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-blue-300 px-3 py-1 text-xs font-bold rounded mb-4 tracking-wider">E-MOUNT SYSTEM</div>
+               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-zinc-900 dark:text-white tracking-tight mb-2 break-words">Teleconverters</h1>
+               <p className="text-lg text-zinc-600 dark:text-zinc-400 font-light tracking-[0.2em] uppercase mt-2">1.4x & 2.0x 增距镜详解</p>
             </div>
          </div>
-         <div className="p-8 bg-slate-900">
-            <h2 className="text-2xl font-bold text-white mb-2">以光圈换取射程的艺术</h2>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-3xl text-justify">
+         <div className="p-8 bg-zinc-50 dark:bg-zinc-900">
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">以光圈换取射程的艺术</h2>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed max-w-3xl text-justify">
                增距镜（Teleconverter）是安装在机身与镜头之间的精密光学元件。它通过光学放大原理，以牺牲进光量（光圈值）为代价，将镜头的物理焦距延长 1.4倍 或 2.0倍。是野生动物、航空和体育摄影师的必备工具。
             </p>
          </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-         {/* 1.4x Card */}
-         <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden group hover:border-blue-500/50 transition-all">
-            <div className="p-6 border-b border-slate-800 bg-slate-800/50">
-               <div className="flex justify-between items-start">
-                  <div>
-                     <h3 className="text-xl font-bold text-white">SEL14TC (1.4x)</h3>
-                     <p className="text-xs text-slate-400">平衡之选</p>
-                  </div>
-                  <span className="bg-blue-600 text-white text-[10px] px-2 py-1 rounded font-bold">主流推荐</span>
-               </div>
-            </div>
-            <div className="p-6 space-y-4">
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">焦距倍率</span>
-                  <span className="text-white font-mono font-bold">1.4x</span>
-               </div>
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">光圈损失</span>
-                  <span className="text-red-400 font-mono font-bold">-1 Stop</span>
-               </div>
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">画质影响</span>
-                  <span className="text-emerald-400 font-mono font-bold">极小</span>
-               </div>
-               <div className="bg-black/20 p-3 rounded text-xs text-slate-300 mt-4 leading-relaxed">
-                  <strong className="text-blue-400 block mb-1">最佳用途：</strong> 几乎不影响对焦速度和画质，是 70-200GM 和 100-400GM 的常驻挂机附件。
-               </div>
-            </div>
-         </div>
+          {/* 1.4x Card */}
+          <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden group hover:border-primary-500/50 transition-all">
+             <div className="p-6 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100/80 dark:bg-zinc-800">
+                <div className="flex justify-between items-start">
+                   <div>
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white">SEL14TC (1.4x)</h3>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400">平衡之选</p>
+                   </div>
+                   <span className="bg-primary-600 text-white text-xs px-2 py-1 rounded font-bold">主流推荐</span>
+                </div>
+             </div>
+             <div className="p-6 space-y-4">
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">焦距倍率</span>
+                   <span className="text-zinc-900 dark:text-white font-mono font-bold">1.4x</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">光圈损失</span>
+                   <span className="text-red-500 dark:text-red-400 font-mono font-bold">-1 Stop</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">画质影响</span>
+                   <span className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">极小</span>
+                </div>
+                <div className="bg-zinc-100/80 dark:bg-zinc-950 p-3 rounded text-xs text-zinc-700 dark:text-zinc-300 mt-4 leading-relaxed">
+                   <strong className="text-primary-500 dark:text-primary-400 block mb-1">最佳用途：</strong> 几乎不影响对焦速度和画质，是 70-200GM 和 100-400GM 的常驻挂机附件。
+                </div>
+             </div>
+          </div>
 
-         {/* 2.0x Card */}
-         <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden group hover:border-purple-500/50 transition-all">
-            <div className="p-6 border-b border-slate-800 bg-slate-800/50">
-               <div className="flex justify-between items-start">
-                  <div>
-                     <h3 className="text-xl font-bold text-white">SEL20TC (2.0x)</h3>
-                     <p className="text-xs text-slate-400">极致射程</p>
-                  </div>
-                  <span className="bg-purple-600 text-white text-[10px] px-2 py-1 rounded font-bold">特定用途</span>
-               </div>
-            </div>
-            <div className="p-6 space-y-4">
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">焦距倍率</span>
-                  <span className="text-white font-mono font-bold">2.0x</span>
-               </div>
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">光圈损失</span>
-                  <span className="text-red-400 font-mono font-bold">-2 Stops</span>
-               </div>
-               <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">画质影响</span>
-                  <span className="text-yellow-400 font-mono font-bold">轻微可见</span>
-               </div>
-               <div className="bg-black/20 p-3 rounded text-xs text-slate-300 mt-4 leading-relaxed">
-                  <strong className="text-purple-400 block mb-1">最佳用途：</strong> 配合最新的 FE 400-800mm 镜头，可获得惊人的 1600mm 焦距。但在弱光下对焦会变慢。
-               </div>
-            </div>
-         </div>
+          {/* 2.0x Card */}
+          <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden group hover:border-primary-500/50 transition-all">
+             <div className="p-6 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-100/80 dark:bg-zinc-800">
+                <div className="flex justify-between items-start">
+                   <div>
+                      <h3 className="text-xl font-bold text-zinc-900 dark:text-white">SEL20TC (2.0x)</h3>
+                      <p className="text-xs text-zinc-600 dark:text-zinc-400">极致射程</p>
+                   </div>
+                   <span className="bg-purple-600 text-white text-xs px-2 py-1 rounded font-bold">特定用途</span>
+                </div>
+             </div>
+             <div className="p-6 space-y-4">
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">焦距倍率</span>
+                   <span className="text-zinc-900 dark:text-white font-mono font-bold">2.0x</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">光圈损失</span>
+                   <span className="text-red-500 dark:text-red-400 font-mono font-bold">-2 Stops</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                   <span className="text-zinc-600 dark:text-zinc-400">画质影响</span>
+                   <span className="text-yellow-600 dark:text-yellow-400 font-mono font-bold">轻微可见</span>
+                </div>
+                <div className="bg-zinc-100/80 dark:bg-zinc-950 p-3 rounded text-xs text-zinc-700 dark:text-zinc-300 mt-4 leading-relaxed">
+                   <strong className="text-primary-500 dark:text-primary-400 block mb-1">最佳用途：</strong> 配合最新的 FE 400-800mm 镜头，可获得惊人的 1600mm 焦距。但在弱光下对焦会变慢。
+                </div>
+             </div>
+          </div>
       </div>
 
-      <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-         <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><ZoomIn size={18} className="text-cyan-400"/> 典型搭配效果预览</h3>
+      <div className="bg-zinc-50 dark:bg-zinc-900 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800">
+         <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2"><ZoomIn size={18} className="text-cyan-400"/> 典型搭配效果预览</h3>
          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-400 border-collapse min-w-[600px]">
+            <table className="w-full text-left text-xs text-zinc-600 dark:text-zinc-400 border-collapse min-w-[600px]">
                <thead>
-                  <tr className="border-b border-slate-700 text-slate-200">
+                  <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-200">
                      <th className="py-3 pl-2 w-1/3">原镜头</th>
-                     <th className="py-3 text-blue-300 w-1/3">+ 1.4x (SEL14TC)</th>
-                     <th className="py-3 text-purple-300 w-1/3">+ 2.0x (SEL20TC)</th>
+                     <th className="py-3 text-blue-700 dark:text-blue-300 w-1/3">+ 1.4x (SEL14TC)</th>
+                      <th className="py-3 text-purple-600 dark:text-purple-300 w-1/3">+ 2.0x (SEL20TC)</th>
                   </tr>
                </thead>
-               <tbody className="divide-y divide-slate-800">
-                  <tr className="hover:bg-slate-800/50 transition-colors">
-                     <td className="py-4 pl-2 font-bold text-white">70-200mm F2.8 GM II</td>
-                     <td className="py-4 font-mono text-slate-300">98-280mm F4</td>
-                     <td className="py-4 font-mono text-slate-300">140-400mm F5.6</td>
+                <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors">
+                     <td className="py-4 pl-2 font-bold text-zinc-900 dark:text-white">70-200mm F2.8 GM II</td>
+                     <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">98-280mm F4</td>
+                     <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">140-400mm F5.6</td>
                   </tr>
-                  <tr className="hover:bg-slate-800/50 transition-colors">
-                     <td className="py-4 pl-2 font-bold text-white">200-600mm F5.6-6.3 G</td>
-                     <td className="py-4 font-mono text-slate-300">280-840mm F8-9</td>
-                     <td className="py-4 font-mono text-yellow-500">400-1200mm F11-13 *</td>
+                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors">
+                     <td className="py-4 pl-2 font-bold text-zinc-900 dark:text-white">200-600mm F5.6-6.3 G</td>
+                     <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">280-840mm F8-9</td>
+                     <td className="py-4 font-mono text-yellow-600 dark:text-yellow-500">400-1200mm F11-13 *</td>
                   </tr>
-                  <tr className="hover:bg-slate-800/50 bg-slate-800/20 transition-colors border-l-2 border-cyan-500">
-                     <td className="py-4 pl-2 font-bold text-cyan-400">400-800mm F6.3-8 G (NEW)</td>
-                     <td className="py-4 font-mono text-white">560-1120mm F9-11</td>
-                     <td className="py-4 font-mono text-white">800-1600mm F13-16</td>
+                   <tr className="hover:bg-primary-50 dark:hover:bg-cyan-900 bg-primary-50/50 dark:bg-cyan-900 transition-colors border-l-2 border-primary-400 dark:border-cyan-500">
+                     <td className="py-4 pl-2 font-bold text-primary-500 dark:text-cyan-400">400-800mm F6.3-8 G (NEW)</td>
+                     <td className="py-4 font-mono text-zinc-900 dark:text-white">560-1120mm F9-11</td>
+                     <td className="py-4 font-mono text-zinc-900 dark:text-white">800-1600mm F13-16</td>
                   </tr>
                </tbody>
             </table>
          </div>
-         <p className="mt-4 text-[10px] text-slate-500 italic bg-black/20 p-2 rounded">
+          <p className="mt-4 text-xs text-zinc-600 dark:text-zinc-400 italic bg-zinc-100/80 dark:bg-zinc-950 p-2 rounded">
             * 标注黄色部分：光圈过小 (F11+)，仅 A1/A9/A7RV 等高性能机身支持相位对焦，普通机身可能仅支持反差对焦或无法自动对焦。
          </p>
       </div>

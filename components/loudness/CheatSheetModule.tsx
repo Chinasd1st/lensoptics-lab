@@ -1,28 +1,28 @@
-
+﻿
 import React from 'react';
 import { BookOpen, AlertTriangle, Star } from 'lucide-react';
 
 export const CheatSheetModule: React.FC = () => {
    return (
       <div className="h-full flex flex-col items-center justify-center p-4">
-         <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+         <div className="w-full max-w-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-lg">
             
             {/* Header with Golden Rule */}
-            <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-6 border-b border-slate-700">
+            <div className="bg-gradient-to-r from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 p-6 border-b border-zinc-200 dark:border-zinc-800">
                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-bold text-white flex items-center gap-2"><BookOpen size={20} className="text-cyan-400"/> 响度速查手册</h3>
-                  <div className="text-[10px] text-slate-500">Based on GY/T 377 & 262</div>
+                  <h3 className="font-bold text-zinc-900 dark:text-white flex items-center gap-2"><BookOpen size={20} className="text-cyan-400"/> 响度速查手册</h3>
+                  <div className="text-[10px] text-zinc-500 dark:text-zinc-400">Based on GY/T 377 & 262</div>
                </div>
-               <div className="bg-slate-800/50 p-4 rounded-xl border border-indigo-500/30 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-2 opacity-10"><Star size={64}/></div>
-                  <div className="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-2">GOLDEN RULE</div>
-                  <p className="text-sm font-medium text-slate-200 italic leading-relaxed">
+                <div className="bg-zinc-50 dark:bg-zinc-800 p-4 rounded-xl border border-primary-500/30 relative overflow-hidden">
+                   <div className="absolute top-0 right-0 p-2 opacity-10"><Star size={64}/></div>
+                   <div className="text-xs font-bold text-primary-600 dark:text-indigo-300 uppercase tracking-widest mb-2">GOLDEN RULE</div>
+                   <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200 italic leading-relaxed">
                      "对白定地基，音乐做气氛。<br/>不顶峰值，不凑数字，最后一次看 LUFS。"
                   </p>
                </div>
             </div>
 
-            <div className="divide-y divide-slate-800">
+            <div className="divide-y divide-zinc-800">
                <SheetRow 
                   q="会不会炸麦/爆音?" 
                   a="dBTP (真峰值)" 
@@ -34,7 +34,7 @@ export const CheatSheetModule: React.FC = () => {
                   q="网络视频 (B站/油管)" 
                   a="Web Standard" 
                   val="-14 LUFS" 
-                  color="text-blue-400"
+                  color="text-primary-400"
                   desc="超过 -14 会被强制拉低。低于不拉高。"
                />
                <SheetRow 
@@ -48,7 +48,7 @@ export const CheatSheetModule: React.FC = () => {
                   q="手机短视频 (抖音)" 
                   a="Mobile" 
                   val="-13 ~ -15 LUFS" 
-                  color="text-purple-400"
+                  color="text-primary-400"
                   desc="稍微响一点，但不要太满。"
                />
                <SheetRow 
@@ -65,13 +65,13 @@ export const CheatSheetModule: React.FC = () => {
 };
 
 const SheetRow: React.FC<{ q: string; a: string; val: string; color: string; desc?: string }> = ({ q, a, val, color, desc }) => (
-   <div className="flex items-center p-5 hover:bg-slate-800/50 transition-colors group">
-      <div className="w-1/4 text-sm text-slate-400 font-medium">{q}</div>
+   <div className="flex items-center p-5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors group">
+      <div className="w-1/4 text-sm text-zinc-600 dark:text-zinc-400 font-medium">{q}</div>
       <div className={`w-1/4 text-sm font-bold font-mono ${color}`}>{a}</div>
-      <div className="w-1/4 text-right text-xs font-mono text-slate-200 bg-slate-800/80 py-1 px-2 rounded inline-block border border-slate-700">
+      <div className="w-1/4 text-right text-xs font-mono text-zinc-700 dark:text-zinc-200 bg-zinc-100/ dark:bg-zinc-800 py-1 px-2 rounded inline-block border border-zinc-200 dark:border-zinc-800">
          {val}
       </div>
-      <div className="w-1/4 pl-4 text-[10px] text-slate-500 leading-tight opacity-50 group-hover:opacity-100 transition-opacity">
+      <div className="w-1/4 pl-4 text-xs text-zinc-500 dark:text-zinc-400 leading-tight opacity-50 group-hover:opacity-100 transition-opacity">
          {desc}
       </div>
    </div>

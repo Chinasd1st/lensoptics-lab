@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useRef } from 'react';
 import { CENTER_X, CENTER_Y, OPTICAL_AXIS_Y, calculateSphericalAberration } from '../utils/optics';
 import { Toggle, Slider } from './Controls';
@@ -32,7 +32,7 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
 
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-hidden">
-      <div className="flex-1 bg-slate-950 relative overflow-hidden border-b lg:border-r border-slate-800 flex flex-col">
+      <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden border-b lg:border-r border-zinc-200 dark:border-zinc-800 flex flex-col">
         
         <TabNavigation 
           tabs={tabs} 
@@ -40,7 +40,7 @@ export const LensAdvancedView: React.FC<LensAdvancedViewProps> = ({ initialTab }
           onTabChange={(id) => setActiveTab(id as Tab)} 
         />
 
-        <div className="flex-1 relative overflow-hidden bg-slate-950">
+        <div className="flex-1 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950">
            {activeTab === 'CINE_VS_PHOTO' && <CineVsPhotoModule />}
            {activeTab === 'ASPHERICAL' && <AsphericalView />} 
            {activeTab === 'COATING' && <CoatingModule />}
@@ -64,48 +64,48 @@ const DiffractionModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-8 relative">
-            <div className="relative w-64 h-64 bg-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden rounded-lg shadow-2xl">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-8 relative">
+            <div className="relative w-64 h-64 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center overflow-hidden rounded-lg shadow-lg">
                {/* Airy Disk Pattern */}
                <div className="absolute inset-0 flex items-center justify-center">
                   {/* Outer Rings */}
                   <div className="rounded-full border-2 border-white/20" style={{ width: airyDiskSize * 3, height: airyDiskSize * 3, opacity: 0.3 }}></div>
                   <div className="rounded-full border-2 border-white/40" style={{ width: airyDiskSize * 2, height: airyDiskSize * 2, opacity: 0.5 }}></div>
                   {/* Central Spot */}
-                  <div className="rounded-full bg-white blur-sm shadow-[0_0_20px_white]" style={{ width: airyDiskSize, height: airyDiskSize }}></div>
+                  <div className="rounded-full bg-zinc-50 blur-sm shadow-[0_0_20px_white]" style={{ width: airyDiskSize, height: airyDiskSize }}></div>
                </div>
                
-               <div className="absolute bottom-2 right-2 text-[10px] text-slate-500 font-mono">Simulated Point Source</div>
+               <div className="absolute bottom-2 right-2 text-xs text-zinc-500 dark:text-zinc-400 font-mono">Simulated Point Source</div>
             </div>
 
             <div className="mt-8 flex gap-12 text-center">
                <div>
-                  <div className="text-3xl font-bold text-white mb-1">f/{fStop}</div>
-                  <div className="text-[10px] text-slate-500 uppercase tracking-widest">Aperture</div>
+                  <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">f/{fStop}</div>
+                  <div className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Aperture</div>
                </div>
                <div>
                   <div className={`text-3xl font-bold mb-1 ${fStop > 11 ? 'text-red-500' : 'text-emerald-400'}`}>
                      {fStop > 11 ? 'SOFT' : 'SHARP'}
                   </div>
-                  <div className="text-[10px] text-slate-500 uppercase tracking-widest">Result</div>
+                  <div className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">Result</div>
                </div>
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col overflow-y-auto">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-               <SunDim size={20} className="text-orange-400"/> 衍射极限 (Diffraction)
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+               <SunDim size={20} className="text-primary-400"/> 衍射极限 (Diffraction)
             </h3>
             
             <Slider label="光圈值 (f-stop)" value={fStop} min={1.4} max={32} step={0.1} onChange={setFStop} />
 
-            <div className="mt-6 bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
+            <div className="mt-6 bg-zinc-50 dark:bg-zinc-800 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-4">
                <div className="flex justify-between items-center">
-                  <span className="text-xs font-bold text-white">艾里斑 (Airy Disk) 大小</span>
-                  <span className="text-xs font-mono text-cyan-400">{airyDiskSize.toFixed(1)} µm</span>
+                  <span className="text-xs font-bold text-zinc-900 dark:text-white">艾里斑 (Airy Disk) 大小</span>
+                  <span className="text-xs font-mono text-primary-500 dark:text-cyan-400">{airyDiskSize.toFixed(1)} µm</span>
                </div>
                
-               <div className="h-32 relative border-l border-b border-slate-600 mt-4">
+               <div className="h-32 relative border-l border-b border-zinc-300 dark:border-zinc-600 mt-4">
                   <div className="absolute bottom-0 left-0 right-0 h-full flex items-end">
                      {/* Sweet Spot Curve */}
                      {/* Scale viewBox X: 0-300 matches roughly the visual width, Y: 0-100 */}
@@ -126,14 +126,14 @@ const DiffractionModule: React.FC = () => {
                         />
                      </svg>
                   </div>
-                  <div className="absolute -bottom-4 left-0 text-[9px] text-slate-500">f/1.4</div>
-                  <div className="absolute -bottom-4 left-[25%] text-[9px] text-emerald-500 font-bold">f/8 (最佳)</div>
-                  <div className="absolute -bottom-4 right-0 text-[9px] text-slate-500">f/32</div>
-                  <div className="absolute top-0 -left-6 text-[9px] text-slate-500 -rotate-90">Sharpness</div>
+                  <div className="absolute -bottom-4 left-0 text-[11px] text-zinc-500 dark:text-zinc-400">f/1.4</div>
+                  <div className="absolute -bottom-4 left-[25%] text-[11px] text-emerald-600 dark:text-emerald-500 font-bold">f/8 (最佳)</div>
+                  <div className="absolute -bottom-4 right-0 text-[11px] text-zinc-500 dark:text-zinc-400">f/32</div>
+                  <div className="absolute top-0 -left-6 text-[11px] text-zinc-500 dark:text-zinc-400 -rotate-90">Sharpness</div>
                </div>
 
-               <p className="text-[10px] text-slate-400 mt-4 leading-relaxed italic">
-                  <strong className="text-white">误区：</strong> 光圈越小画质越好？
+               <p className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-4 leading-relaxed italic">
+                  <strong className="text-zinc-900 dark:text-white">误区：</strong> 光圈越小画质越好？
                   <br/>
                   错！当光孔极小时（如 f/22），光波发生显著衍射干扰，形成巨大的"艾里斑"，导致图像整体发糊。全画幅相机的最佳光圈通常在 f/5.6 - f/8。
                </p>
@@ -205,49 +205,49 @@ const MTFModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-white dark:bg-slate-900 flex flex-col p-6 overflow-hidden transition-colors duration-300">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col p-6 overflow-hidden transition-colors duration-300">
             {/* Chart Container */}
-            <div className="relative flex-1 bg-white dark:bg-slate-800 rounded-lg p-6 shadow-xl flex flex-col select-none border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+            <div className="relative flex-1 bg-zinc-50 dark:bg-zinc-800 rounded-lg p-6 shadow-md flex flex-col select-none border border-zinc-200 dark:border-zinc-800 transition-colors duration-300">
                <div className="flex justify-between items-start mb-4">
                   <div>
-                     <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">MTF Chart</h2>
-                     <p className="text-xs text-slate-500 dark:text-slate-400 font-mono">Modulation Transfer Function @ f/{aperture}</p>
+                     <h2 className="text-2xl font-black text-zinc-800 dark:text-zinc-100">MTF Chart</h2>
+                     <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">Modulation Transfer Function @ f/{aperture}</p>
                   </div>
                   {/* Values Readout */}
                   {hoverX !== null ? (
-                     <div className="bg-slate-100 dark:bg-slate-900 p-2 rounded border border-slate-200 dark:border-slate-700 text-[10px] font-mono w-40 shadow-inner">
-                        <div className="font-bold text-slate-600 dark:text-slate-300 border-b border-slate-300 dark:border-slate-700 mb-1 pb-1">POS: {hoverX.toFixed(1)}mm</div>
+                     <div className="bg-zinc-100 dark:bg-zinc-900 p-2 rounded border border-zinc-200 dark:border-zinc-800 text-xs font-mono w-40 shadow-inner">
+                        <div className="font-bold text-zinc-600 dark:text-zinc-300 border-b border-zinc-300 dark:border-zinc-800 mb-1 pb-1">POS: {hoverX.toFixed(1)}mm</div>
                         <div className="flex justify-between text-emerald-600 dark:text-emerald-400"><span>10-S: {(getMTFValue(hoverX, 10, 'S')*100).toFixed(0)}</span><span>10-M: {(getMTFValue(hoverX, 10, 'M')*100).toFixed(0)}</span></div>
-                        <div className="flex justify-between text-purple-600 dark:text-purple-400"><span>30-S: {(getMTFValue(hoverX, 30, 'S')*100).toFixed(0)}</span><span>30-M: {(getMTFValue(hoverX, 30, 'M')*100).toFixed(0)}</span></div>
+                        <div className="flex justify-between text-primary-600 dark:text-primary-400"><span>30-S: {(getMTFValue(hoverX, 30, 'S')*100).toFixed(0)}</span><span>30-M: {(getMTFValue(hoverX, 30, 'M')*100).toFixed(0)}</span></div>
                      </div>
                   ) : (
-                     <div className="text-[10px] text-slate-400 italic mt-2">Hover chart to inspect</div>
+                     <div className="text-[10px] text-zinc-600 dark:text-zinc-400 italic mt-2">Hover chart to inspect</div>
                   )}
                </div>
 
                {/* Legend Bar */}
-               <div className="flex gap-4 mb-4 text-[10px] font-bold bg-slate-50 dark:bg-slate-900/50 p-2 rounded-md border border-slate-100 dark:border-slate-700 transition-colors">
-                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-emerald-600 dark:bg-emerald-500"></div> <span className="text-slate-600 dark:text-slate-400">10 lp/mm (反差)</span></div>
-                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-purple-600 dark:bg-purple-500"></div> <span className="text-slate-600 dark:text-slate-400">30 lp/mm (分辨率)</span></div>
-                  <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-2"></div>
-                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-slate-400 dark:border-slate-500"></span> <span className="text-slate-600 dark:text-slate-400">实线: 径向 (S)</span></div>
-                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-dashed border-slate-400 dark:border-slate-500"></span> <span className="text-slate-600 dark:text-slate-400">虚线: 切向 (M)</span></div>
+               <div className="flex gap-4 mb-4 text-xs font-bold bg-zinc-50 dark:bg-zinc-900 p-2 rounded-md border border-zinc-100 dark:border-zinc-800 transition-colors">
+                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-emerald-600 dark:bg-emerald-500"></div> <span className="text-zinc-600 dark:text-zinc-400">10 lp/mm (反差)</span></div>
+                  <div className="flex items-center gap-2"><div className="w-4 h-0.5 bg-purple-600 dark:bg-primary-500"></div> <span className="text-zinc-600 dark:text-zinc-400">30 lp/mm (分辨率)</span></div>
+                  <div className="w-px h-4 bg-zinc-300 dark:bg-zinc-600 mx-2"></div>
+                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-zinc-400 dark:border-zinc-500"></span> <span className="text-zinc-600 dark:text-zinc-400">实线: 径向 (S)</span></div>
+                  <div className="flex items-center gap-2"><span className="w-4 border-b-2 border-dashed border-zinc-400 dark:border-zinc-500"></span> <span className="text-zinc-600 dark:text-zinc-400">虚线: 切向 (M)</span></div>
                </div>
 
                {/* SVG Graph */}
-               <div className="relative flex-1 border-l border-b border-slate-300 dark:border-slate-600 cursor-crosshair group transition-colors" onMouseMove={handleMouseMove} onMouseLeave={() => setHoverX(null)}>
+               <div className="relative flex-1 border-l border-b border-zinc-300 dark:border-zinc-600 cursor-crosshair group transition-colors" onMouseMove={handleMouseMove} onMouseLeave={() => setHoverX(null)}>
                   {/* Y-Axis Labels */}
                   <div className="absolute inset-0 flex flex-col justify-between pointer-events-none -left-8 h-full py-[0px]">
                      {[100, 80, 60, 40, 20, 0].map((v, i) => (
-                        <span key={v} className="text-[9px] text-slate-400 dark:text-slate-500 text-right w-6" style={{top: `${i*20}%`, position: 'absolute'}}>{v}</span>
+                        <span key={v} className="text-[11px] text-zinc-600 dark:text-zinc-400 dark:text-zinc-400 text-right w-6" style={{top: `${i*20}%`, position: 'absolute'}}>{v}</span>
                      ))}
                   </div>
 
                   {/* X-Axis Grid & Labels */}
                   <div className="absolute inset-0 flex justify-between pointer-events-none pl-[2px]">
                      {[0, 5, 10, 15, 21.6].map(v => (
-                        <div key={v} className="h-full border-r border-slate-100 dark:border-slate-700 relative" style={{left: `calc(${(v/21.6)*100}% - 1px)`, position: 'absolute'}}>
-                           <span className="absolute -bottom-6 -left-2 text-[10px] text-slate-400 dark:text-slate-500">{v}</span>
+                        <div key={v} className="h-full border-r border-zinc-100 dark:border-zinc-800 relative" style={{left: `calc(${(v/21.6)*100}% - 1px)`, position: 'absolute'}}>
+                           <span className="absolute -bottom-6 -left-2 text-xs text-zinc-600 dark:text-zinc-400 dark:text-zinc-400">{v}</span>
                         </div>
                      ))}
                   </div>
@@ -255,7 +255,7 @@ const MTFModule: React.FC = () => {
                   {/* Horizontal Grid */}
                   <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                      {[0, 20, 40, 60, 80].map(v => (
-                        <div key={v} className="w-full border-t border-slate-100 dark:border-slate-700 h-0" style={{top: `${v}%`, position: 'absolute'}}></div>
+                        <div key={v} className="w-full border-t border-zinc-100 dark:border-zinc-800 h-0" style={{top: `${v}%`, position: 'absolute'}}></div>
                      ))}
                   </div>
 
@@ -278,23 +278,23 @@ const MTFModule: React.FC = () => {
                      )}
                   </svg>
                </div>
-               <div className="text-center text-[10px] text-slate-400 mt-6 font-bold">Distance from Image Center (mm)</div>
+               <div className="text-center text-xs text-zinc-600 dark:text-zinc-400 mt-6 font-bold">Distance from Image Center (mm)</div>
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-800 border-l border-slate-700 p-6 flex flex-col overflow-y-auto">
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-800 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-               <h3 className="text-xl font-bold text-white flex items-center gap-2"><LineChart size={20} className="text-cyan-400" /> 控制台</h3>
-               <button onClick={() => setShowTheory(!showTheory)} className={`p-2 rounded-full transition-colors ${showTheory ? 'bg-cyan-600 text-white' : 'bg-slate-700 text-slate-400'}`} title="Theory Guide">
+               <h3 className="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2"><LineChart size={20} className="text-cyan-400" /> 控制台</h3>
+               <button onClick={() => setShowTheory(!showTheory)} className={`p-2 rounded-full transition-colors ${showTheory ? 'bg-cyan-600 text-white' : 'bg-zinc-700 text-zinc-600 dark:text-zinc-400'}`} title="Theory Guide">
                   <BookOpen size={18} />
                </button>
             </div>
 
             {showTheory ? (
-               <div className="space-y-6 animate-in fade-in slide-in-from-right-4">
-                  <div className="p-4 bg-slate-900 rounded border border-slate-600">
-                     <h4 className="text-sm font-bold text-cyan-400 mb-2">什么是 MTF?</h4>
-                     <p className="text-[11px] text-slate-300 leading-relaxed">
+               <div className="space-y-6 animate-fade-in slide-in-from-right-4">
+                  <div className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded border border-zinc-600">
+                     <h4 className="text-sm font-bold text-primary-500 dark:text-cyan-400 mb-2">什么是 MTF?</h4>
+                     <p className="text-[11px] text-zinc-700 dark:text-zinc-300 leading-relaxed">
                         MTF (Modulation Transfer Function) 描述了镜头还原反差的能力。
                         <br/>Y轴越高(接近1)，代表还原度越好。
                         <br/>X轴代表从画面中心(0)到边缘(21.6mm)的位置。
@@ -303,17 +303,17 @@ const MTFModule: React.FC = () => {
 
                   <div className="space-y-4">
                      <InfoItem title="10线 (10 lp/mm) - 反差 (Contrast)" color="text-emerald-400" content="代表粗线条的还原能力。这条线越高，照片看起来越通透、立体感越强。如果不高，照片会像蒙了一层雾（球差影响）。"/>
-                     <InfoItem title="30线 (30 lp/mm) - 分辨率 (Resolution)" color="text-purple-400" content="代表细微纹理的还原能力。这条线越高，数毛越清晰。主要受衍射和像差影响。"/>
+                     <InfoItem title="30线 (30 lp/mm) - 分辨率 (Resolution)" color="text-primary-400" content="代表细微纹理的还原能力。这条线越高，数毛越清晰。主要受衍射和像差影响。"/>
                      <InfoItem title="实线 vs 虚线 (S vs M)" content="实线是径向(Sagittal)，虚线是切向(Meridional)。两条线贴得越近，焦外光斑越圆。如果两条线分叉很大（像散），焦外会变得旋转或杂乱（二线性）。"/>
                   </div>
                   
-                  <button onClick={() => setShowTheory(false)} className="w-full py-3 bg-slate-700 hover:bg-slate-600 text-xs text-white rounded">返回控制</button>
+                  <button onClick={() => setShowTheory(false)} className="w-full py-3 bg-zinc-100 dark:bg-zinc-700 hover:bg-zinc-600 text-xs text-zinc-900 dark:text-white rounded">返回控制</button>
                </div>
             ) : (
-               <div className="space-y-8 animate-in fade-in slide-in-from-left-4">
+               <div className="space-y-8 animate-fade-in slide-in-from-left-4">
                   <div>
                      <Slider label="光圈 (Aperture)" value={aperture} min={1.4} max={22} step={0.1} onChange={setAperture} />
-                     <div className="text-[10px] text-slate-400 mt-2 bg-slate-900 p-2 rounded border border-slate-700">
+                     <div className="text-[10px] text-zinc-600 dark:text-zinc-400 mt-2 bg-zinc-50 dark:bg-zinc-900 p-2 rounded border border-zinc-200 dark:border-zinc-800">
                         {aperture < 2.8 ? '大光圈下，边缘画质通常会因球差和彗差而下降。曲线末端(边缘)掉落明显。' : 
                          aperture > 16 ? '小光圈下，整体画质会因衍射效应(Diffraction)而下降。全图反差降低。' : 
                          '黄金光圈 (f/5.6-f/8) 通常拥有最佳的中心和边缘画质。曲线最为平直。'}
@@ -322,11 +322,11 @@ const MTFModule: React.FC = () => {
 
                   <Toggle label="启用像差修正 (ED/ASP镜片)" checked={correction} onChange={setCorrection} />
                   
-                  <div className="bg-slate-900 p-4 rounded border border-slate-700">
-                     <h4 className="text-xs font-bold text-slate-300 mb-2">曲线解读</h4>
-                     <ul className="text-[10px] text-slate-400 space-y-2 list-disc pl-3">
+                  <div className="bg-zinc-100 dark:bg-zinc-900 p-4 rounded border border-zinc-200 dark:border-zinc-800">
+                     <h4 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-2">曲线解读</h4>
+                     <ul className="text-[10px] text-zinc-600 dark:text-zinc-400 space-y-2 list-disc pl-3">
                         <li><span className="text-emerald-400">绿色线</span> 决定画面是否"通透"。</li>
-                        <li><span className="text-purple-400">紫色线</span> 决定画面是否"锐利"。</li>
+                        <li><span className="text-primary-400">紫色线</span> 决定画面是否"锐利"。</li>
                         <li>实虚线分离越严重，像散(Astigmatism)越严重，焦外越难看。</li>
                      </ul>
                   </div>
@@ -342,17 +342,17 @@ const CineVsPhotoModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-slate-900 flex items-center justify-center p-6 lg:p-12 relative overflow-hidden">
+         <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center p-6 lg:p-12 relative overflow-hidden">
             {/* Visual Comparison */}
-            <div className="relative w-full max-w-lg aspect-square lg:aspect-video bg-black rounded-xl border border-slate-700 shadow-2xl overflow-hidden group">
-               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?q=80&w=1000')] bg-cover bg-center transition-all duration-700 group-hover:scale-105"></div>
+            <div className="relative w-full max-w-lg aspect-square lg:aspect-video bg-zinc-50 dark:bg-black rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-lg overflow-hidden group">
+               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?q=80&w=1000')] bg-cover bg-center transition-colors duration-700 group-hover:scale-105"></div>
                
                {/* Lens Overlay Visuals */}
                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className={`w-3/4 h-3/4 border-4 border-dashed rounded-full transition-all duration-500 flex items-center justify-center ${type === 'CINE' ? 'border-cyan-500 animate-spin-slow' : 'border-slate-500 opacity-20'}`}>
+                  <div className={`w-3/4 h-3/4 border-4 border-dashed rounded-full transition-colors duration-500 flex items-center justify-center ${type === 'CINE' ? 'border-cyan-500 animate-spin-slow' : 'border-zinc-500 opacity-20'}`}>
                      {type === 'CINE' && (
                         <div className="absolute inset-4 border border-cyan-400/20 rounded-full flex items-center justify-center">
-                           <span className="text-[10px] text-cyan-400 font-mono tracking-widest">T2.1 TRANSMISSION</span>
+                           <span className="text-[10px] text-primary-500 dark:text-cyan-400 font-mono tracking-widest">T2.1 TRANSMISSION</span>
                         </div>
                      )}
                   </div>
@@ -362,39 +362,39 @@ const CineVsPhotoModule: React.FC = () => {
                {type === 'CINE' && (
                   <div className="absolute inset-0 p-4 flex flex-col justify-between">
                      <div className="w-full flex justify-between">
-                        <div className="bg-cyan-600/80 p-1 rounded text-[10px] font-bold text-white">0.8 MOD GEAR</div>
-                        <div className="bg-cyan-600/80 p-1 rounded text-[10px] font-bold text-white">DE-CLICKED</div>
+                        <div className="bg-cyan-600/80 p-1 rounded text-xs font-bold text-zinc-900 dark:text-white">0.8 MOD GEAR</div>
+                        <div className="bg-cyan-600/80 p-1 rounded text-xs font-bold text-zinc-900 dark:text-white">DE-CLICKED</div>
                      </div>
                      <div className="w-full flex justify-center pb-10">
-                        <div className="text-white bg-black/60 px-2 py-1 rounded text-xs animate-pulse">NO BREATHING</div>
+                        <div className="text-zinc-900 dark:text-white bg-zinc-100/60 dark:bg-zinc-950 px-2 py-1 rounded text-xs animate-pulse">NO BREATHING</div>
                      </div>
                   </div>
                )}
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-800 border-l border-slate-700 p-6 flex flex-col overflow-y-auto">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><Film size={20} className="text-cyan-400" /> 工业差异</h3>
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-800 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Film size={20} className="text-cyan-400" /> 工业差异</h3>
             
             <div className="flex gap-2 mb-8">
-               <button onClick={() => setType('PHOTO')} className={`flex-1 py-4 rounded-lg border font-bold flex flex-col items-center gap-2 transition-all ${type === 'PHOTO' ? 'bg-slate-700 border-white text-white' : 'border-slate-700 text-slate-500'}`}>
+               <button onClick={() => setType('PHOTO')} className={`flex-1 py-4 rounded-lg border font-bold flex flex-col items-center gap-2 transition-colors ${type === 'PHOTO' ? 'bg-zinc-700 border-white text-white' : 'border-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>
                   <CameraIcon size={20}/> 摄影镜头
                </button>
-               <button onClick={() => setType('CINE')} className={`flex-1 py-4 rounded-lg border font-bold flex flex-col items-center gap-2 transition-all ${type === 'CINE' ? 'bg-cyan-900 border-cyan-500 text-cyan-400' : 'border-slate-700 text-slate-500'}`}>
+               <button onClick={() => setType('CINE')} className={`flex-1 py-4 rounded-lg border font-bold flex flex-col items-center gap-2 transition-colors ${type === 'CINE' ? 'bg-cyan-900 border-cyan-500 text-primary-500 dark:text-cyan-400' : 'border-zinc-700 text-zinc-500 dark:text-zinc-400'}`}>
                   <Film size={20}/> 电影镜头
                </button>
             </div>
 
             <div className="space-y-4">
                {type === 'PHOTO' ? (
-                  <div className="space-y-4 animate-in fade-in slide-in-from-right-4">
+                  <div className="space-y-4 animate-fade-in slide-in-from-right-4">
                      <InfoItem title="F档 (F-Stop)" content="几何光圈比。仅表示物理直径比值，不考虑镜片透光率损失。不同F2.8镜头实际亮度可能不同。"/>
                      <InfoItem title="有级光圈" content="调整时有刻度感和咔哒声，会导致画面亮度瞬间跳变，不可在录制中调整。"/>
                      <InfoItem title="呼吸效应 (Breathing)" content="对焦时视角会产生像变焦一样的伸缩，影响电影感叙事。"/>
                      <InfoItem title="非齐焦 (Varifocal)" content="变焦后焦点会偏移，必须重新对焦。"/>
                   </div>
                ) : (
-                  <div className="space-y-4 animate-in fade-in slide-in-from-right-4">
+                  <div className="space-y-4 animate-fade-in slide-in-from-right-4">
                      <InfoItem title="T档 (T-Stop)" color="text-cyan-400" content="曝光量化。实测透光率，确保更换不同镜头时曝光完全一致。"/>
                      <InfoItem title="无级光圈 (De-clicked)" content="丝滑顺畅的转动手感，允许在拍摄中实时、无感地补偿光线变化。"/>
                      <InfoItem title="齐焦设计 (Parfocal)" color="text-cyan-400" content="变焦过程中焦点保持不变。允许推拉变焦镜头的推轨镜头拍摄。"/>
@@ -408,9 +408,9 @@ const CineVsPhotoModule: React.FC = () => {
 };
 
 const InfoItem: React.FC<{ title: string; content: string; color?: string }> = ({ title, content, color = "text-white" }) => (
-   <div className="bg-slate-900/50 p-3 rounded border border-slate-700">
+   <div className="bg-zinc-900/50 p-3 rounded border border-zinc-200 dark:border-zinc-800">
       <div className={`text-xs font-bold mb-1 ${color}`}>{title}</div>
-      <div className="text-[10px] text-slate-400 leading-relaxed">{content}</div>
+      <div className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">{content}</div>
    </div>
 );
 
@@ -419,14 +419,14 @@ const CoatingModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex flex-col items-center justify-center p-8 relative overflow-hidden">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex flex-col items-center justify-center p-8 relative overflow-hidden">
             {/* Light Source */}
-            <div className="absolute top-10 left-10 w-20 h-20 bg-white rounded-full blur-[20px] z-10 opacity-80"></div>
+            <div className="absolute top-10 left-10 w-20 h-20 bg-zinc-50 rounded-full blur-[20px] z-10 opacity-80"></div>
             
             {/* Lens Elements Stack (Simulated) */}
             <div className="relative w-64 h-64 flex items-center justify-center">
                {[...Array(5)].map((_,i) => (
-                  <div key={i} className="absolute border border-slate-600 rounded-full" 
+                  <div key={i} className="absolute border border-zinc-300 dark:border-zinc-600 rounded-full" 
                        style={{
                           width: `${200 - i*30}px`, 
                           height: `${200 - i*30}px`,
@@ -441,34 +441,34 @@ const CoatingModule: React.FC = () => {
                {coating === 'NONE' && (
                   <>
                      <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-green-500/20 rounded-full blur-xl -translate-x-[120%] -translate-y-[120%]"></div>
-                     <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-purple-500/20 rounded-full blur-lg -translate-x-[60%] -translate-y-[60%]"></div>
+                     <div className="absolute top-1/2 left-1/2 w-16 h-16 bg-primary-500/20 rounded-full blur-lg -translate-x-[60%] -translate-y-[60%]"></div>
                      <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-red-500/10 rounded-full blur-2xl translate-x-[20%] translate-y-[20%]"></div>
                      {/* Veiling Glare (Low Contrast) */}
-                     <div className="absolute inset-[-100px] bg-white/10 mix-blend-screen pointer-events-none"></div>
+                     <div className="absolute inset-[-100px] bg-zinc-50/[0.1] mix-blend-screen pointer-events-none"></div>
                   </>
                )}
             </div>
 
             {/* Subject Image (Low contrast if no coating) */}
             <div className="absolute inset-0 z-0 pointer-events-none mix-blend-screen">
-               <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=1000" className={`w-full h-full object-cover transition-all duration-500 ${coating === 'NONE' ? 'opacity-50 contrast-50' : 'opacity-80 contrast-100'}`} />
+               <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=1000" className={`w-full h-full object-cover transition-colors duration-500 ${coating === 'NONE' ? 'opacity-50 contrast-50' : 'opacity-80 contrast-100'}`} />
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><Sparkles size={20} className="text-yellow-400" /> 镀膜技术</h3>
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Sparkles size={20} className="text-yellow-400" /> 镀膜技术</h3>
             
-            <div className="flex bg-slate-800 p-1 rounded-lg mb-8 border border-slate-700">
-               <button onClick={() => setCoating('NONE')} className={`flex-1 py-2 text-xs font-bold rounded-md transition-all ${coating === 'NONE' ? 'bg-slate-600 text-white shadow' : 'text-slate-500'}`}>无镀膜 (Uncoated)</button>
-               <button onClick={() => setCoating('NANO')} className={`flex-1 py-2 text-xs font-bold rounded-md transition-all ${coating === 'NANO' ? 'bg-indigo-600 text-white shadow' : 'text-slate-500'}`}>纳米镀膜 (Nano AR)</button>
+            <div className="flex bg-zinc-50 dark:bg-zinc-800 p-1 rounded-lg mb-8 border border-zinc-200 dark:border-zinc-800">
+               <button onClick={() => setCoating('NONE')} className={`flex-1 py-2 text-xs font-bold rounded-md transition-colors ${coating === 'NONE' ? 'bg-zinc-600 text-zinc-900 dark:text-white shadow' : 'text-zinc-500 dark:text-zinc-400'}`}>无镀膜 (Uncoated)</button>
+               <button onClick={() => setCoating('NANO')} className={`flex-1 py-2 text-xs font-bold rounded-md transition-colors ${coating === 'NANO' ? 'bg-indigo-600 text-zinc-900 dark:text-white shadow' : 'text-zinc-500 dark:text-zinc-400'}`}>纳米镀膜 (Nano AR)</button>
             </div>
 
             <div className="space-y-4">
-               <InfoItem title="鬼影 (Ghosting)" content="光线在镜片之间多次反射形成的虚像。通常表现为成串的光斑。" color={coating === 'NONE' ? "text-red-400" : "text-slate-500"}/>
-               <InfoItem title="眩光 (Flare)" content="非成像光线进入镜头导致的雾化现象。会严重降低画面对比度（黑位发灰）。" color={coating === 'NONE' ? "text-red-400" : "text-slate-500"}/>
-               <div className="bg-slate-800 p-4 rounded border border-slate-700 mt-4">
-                  <h4 className="text-xs font-bold text-indigo-400 mb-2">Nano AR Coating II</h4>
-                  <p className="text-[10px] text-slate-400 leading-relaxed">
+               <InfoItem title="鬼影 (Ghosting)" content="光线在镜片之间多次反射形成的虚像。通常表现为成串的光斑。" color={coating === 'NONE' ? "text-red-400" : "text-zinc-500 dark:text-zinc-400"}/>
+               <InfoItem title="眩光 (Flare)" content="非成像光线进入镜头导致的雾化现象。会严重降低画面对比度（黑位发灰）。" color={coating === 'NONE' ? "text-red-400" : "text-zinc-500 dark:text-zinc-400"}/>
+               <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800 mt-4">
+                  <h4 className="text-xs font-bold text-primary-600 dark:text-primary-400 mb-2">Nano AR Coating II</h4>
+                  <p className="text-[10px] text-zinc-600 dark:text-zinc-400 leading-relaxed">
                      现代镜头采用纳米级多孔结构，使空气到玻璃的折射率平滑过渡，将反射率从 4% 降低到 0.1% 以下，确保在逆光下也能获得"黑得下去"的通透画质。
                   </p>
                </div>
@@ -484,8 +484,8 @@ const AberrationsModule: React.FC = () => {
 
    return (
       <div className="flex flex-col lg:flex-row h-full">
-         <div className="flex-1 bg-black flex items-center justify-center p-8 relative overflow-hidden">
-            <div className="relative w-full max-w-lg aspect-square bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl group">
+         <div className="flex-1 bg-zinc-50 dark:bg-black flex items-center justify-center p-8 relative overflow-hidden">
+            <div className="relative w-full max-w-lg aspect-square bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-lg group">
                {/* Image Source */}
                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1000)'}}></div>
                
@@ -495,7 +495,7 @@ const AberrationsModule: React.FC = () => {
                   <>
                      <div className="absolute inset-0 bg-cover bg-center mix-blend-screen opacity-50" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1000)', transform: 'scale(1.02) translate(-2px, -2px)', filter: 'hue-rotate(90deg)'}}></div>
                      <div className="absolute inset-0 bg-cover bg-center mix-blend-multiply opacity-50" style={{backgroundImage: 'url(https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1000)', transform: 'scale(1.02) translate(2px, 2px)', filter: 'hue-rotate(-90deg)'}}></div>
-                     <div className="absolute top-4 left-4 text-xs text-red-400 font-mono bg-black/60 px-2 py-1">⚠️ PURPLE FRINGING</div>
+                     <div className="absolute top-4 left-4 text-xs text-red-600 dark:text-red-400 font-mono bg-zinc-100/60 dark:bg-zinc-950 px-2 py-1">⚠️ PURPLE FRINGING</div>
                   </>
                )}
 
@@ -512,10 +512,10 @@ const AberrationsModule: React.FC = () => {
                         const y = Math.random() * 100;
                         if (x > 20 && x < 80 && y > 20 && y < 80) return null; // Only edges
                         return (
-                           <div key={i} className="absolute w-2 h-2 bg-white rounded-full blur-[1px]" style={{left: `${x}%`, top: `${y}%`, boxShadow: '2px 2px 10px white, 4px 4px 0px rgba(255,255,255,0.5)'}}></div>
+                           <div key={i} className="absolute w-2 h-2 bg-zinc-50 rounded-full blur-[1px]" style={{left: `${x}%`, top: `${y}%`, boxShadow: '2px 2px 10px white, 4px 4px 0px rgba(255,255,255,0.5)'}}></div>
                         )
                      })}
-                     <div className="absolute top-4 left-4 text-xs text-yellow-400 font-mono bg-black/60 px-2 py-1">⚠️ COMA (ASTIGMATISM)</div>
+                     <div className="absolute top-4 left-4 text-xs text-yellow-600 dark:text-yellow-400 font-mono bg-zinc-100/60 dark:bg-zinc-950 px-2 py-1">⚠️ COMA (ASTIGMATISM)</div>
                   </div>
                )}
                {type === 'COMA' && correction && (
@@ -525,7 +525,7 @@ const AberrationsModule: React.FC = () => {
                         const y = Math.random() * 100;
                         if (x > 20 && x < 80 && y > 20 && y < 80) return null;
                         return (
-                           <div key={i} className="absolute w-1 h-1 bg-white rounded-full" style={{left: `${x}%`, top: `${y}%`}}></div>
+                           <div key={i} className="absolute w-1 h-1 bg-zinc-50 rounded-full" style={{left: `${x}%`, top: `${y}%`}}></div>
                         )
                      })}
                   </div>
@@ -533,32 +533,32 @@ const AberrationsModule: React.FC = () => {
             </div>
          </div>
 
-         <div className="w-full lg:w-96 bg-slate-900 border-l border-slate-800 p-6 flex flex-col">
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2"><AlertTriangle size={20} className="text-red-400" /> 像差分析</h3>
+         <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><AlertTriangle size={20} className="text-red-400" /> 像差分析</h3>
             
             <div className="grid grid-cols-3 gap-2 mb-6">
-               <button onClick={() => setType('CA')} className={`p-2 text-[10px] font-bold rounded border ${type === 'CA' ? 'bg-red-900/50 border-red-500 text-white' : 'border-slate-700 text-slate-400'}`}>色散 (CA)</button>
-               <button onClick={() => setType('VIGNETTE')} className={`p-2 text-[10px] font-bold rounded border ${type === 'VIGNETTE' ? 'bg-slate-700 border-white text-white' : 'border-slate-700 text-slate-400'}`}>暗角</button>
-               <button onClick={() => setType('COMA')} className={`p-2 text-[10px] font-bold rounded border ${type === 'COMA' ? 'bg-yellow-900/50 border-yellow-500 text-white' : 'border-slate-700 text-slate-400'}`}>彗差 (Coma)</button>
+               <button onClick={() => setType('CA')} className={`p-2 text-xs font-bold rounded border ${type === 'CA' ? 'bg-red-900/50 border-red-500 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400'}`}>色散 (CA)</button>
+               <button onClick={() => setType('VIGNETTE')} className={`p-2 text-xs font-bold rounded border ${type === 'VIGNETTE' ? 'bg-zinc-700 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400'}`}>暗角</button>
+               <button onClick={() => setType('COMA')} className={`p-2 text-xs font-bold rounded border ${type === 'COMA' ? 'bg-yellow-900/50 border-yellow-500 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400'}`}>彗差 (Coma)</button>
             </div>
 
             <Toggle label="启用光学修正 (ED/APO)" checked={correction} onChange={setCorrection} />
 
-            <div className="mt-6 bg-slate-800 p-4 rounded border border-slate-700 min-h-[120px]">
+            <div className="mt-6 bg-zinc-50 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800 min-h-[120px]">
                {type === 'CA' && (
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
                      <strong className="text-red-400">色差 (Chromatic Aberration):</strong> 不同波长的光（红绿蓝）折射率不同，无法汇聚在同一点。
                      <br/>表现为高反差边缘出现紫边或绿边。需使用 ED (低色散) 镜片修正。
                   </p>
                )}
                {type === 'VIGNETTE' && (
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                     <strong className="text-white">暗角 (Vignetting):</strong> 镜筒物理遮挡（口径蚀）或光线入射角度过大导致。
+                  <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                     <strong className="text-zinc-900 dark:text-white">暗角 (Vignetting):</strong> 镜筒物理遮挡（口径蚀）或光线入射角度过大导致。
                      <br/>收缩光圈通常能改善。
                   </p>
                )}
                {type === 'COMA' && (
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
                      <strong className="text-yellow-400">彗差 (Coma):</strong> 边缘点光源成像变成彗星状拖尾。
                      <br/>这对星空摄影是致命的。高级镜头（如 24GM）即使光圈全开也能保持边缘星星圆润。
                   </p>
