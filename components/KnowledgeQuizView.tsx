@@ -1,5 +1,6 @@
-
+﻿
 import React, { useState } from 'react';
+import { ExternalLink, GraduationCap, ArrowRight } from 'lucide-react';
 import { QUIZ_DATABASE, QuizQuestion } from '../utils/quizData';
 import { QuizIntro } from './quiz/QuizIntro';
 import { QuizGame } from './quiz/QuizGame';
@@ -20,6 +21,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 export const KnowledgeQuizView: React.FC = () => {
   const [gameState, setGameState] = useState<'INTRO' | 'PLAYING' | 'SUMMARY' | 'BUILDER'>('INTRO');
   const [showEditor, setShowEditor] = useState(false);
+  const [showMigrated, setShowMigrated] = useState(true);
   
   // Session State
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -142,8 +144,10 @@ export const KnowledgeQuizView: React.FC = () => {
   }
 
   return (
-    <div className="h-full bg-slate-950 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
+    <div className="h-full bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-4 lg:p-8 overflow-y-auto">
       
+      {showMigrated && <MigrationModal onContinue={() => setShowMigrated(false)} />}
+
       {showEditor && <QuizEditor onClose={() => setShowEditor(false)} />}
 
       {gameState === 'INTRO' && (
@@ -176,6 +180,50 @@ export const KnowledgeQuizView: React.FC = () => {
          />
       )}
 
+    </div>
+  );
+};
+
+const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) => {
+  return (
+    <div className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300" role="dialog" aria-modal="true" aria-label="模块迁移公告">
+      <div className="w-full max-w-md bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="p-6 md:p-8 text-center">
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-primary-600/20 border border-primary-500/30 flex items-center justify-center mb-4">
+            <GraduationCap size={32} className="text-primary-500" />
+          </div>
+          <div className="inline-block px-3 py-1 text-[10px] font-bold text-primary-400 uppercase tracking-widest bg-primary-900/30 border border-primary-500/30 rounded-full mb-3">
+            For TGTV · Module Migration
+          </div>
+          <h3 className="text-2xl font-black text-white mb-2 tracking-tight">
+            问答模块已迁移至新站
+          </h3>
+          <p className="text-zinc-400 text-sm leading-relaxed text-pretty">
+            知识挑战 (Quiz) 已独立为全新应用 <span className="text-white font-bold">CineTech Quiz · 光影考场</span>：
+            更现代的界面、六种题型、独立题库运营与持续更新。
+          </p>
+          <div className="mt-4 p-3 bg-zinc-800/60 border border-zinc-700 rounded-xl text-xs text-zinc-400 leading-relaxed">
+            原站旧版仍可继续使用，但题库将优先在新站维护。
+          </div>
+          <a
+            href="/cinetech-quiz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 w-full py-3.5 bg-primary-600 hover:bg-primary-500 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
+          >
+            前往新站 <ExternalLink size={16} />
+          </a>
+          <button
+            onClick={onContinue}
+            className="mt-3 w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 border border-zinc-700"
+          >
+            仍留在本站继续答题 <ArrowRight size={16} />
+          </button>
+        </div>
+        <div className="py-2 border-t border-zinc-800 text-center text-[10px] text-zinc-600 font-mono">
+          CineTech Architecture · For TGTV
+        </div>
+      </div>
     </div>
   );
 };
