@@ -131,13 +131,13 @@ const App: React.FC = () => {
       
       {/* Header */}
       <header className="h-12 border-b border-zinc-200 dark:border-zinc-700 flex items-center justify-between px-4 lg:px-6 bg-zinc-50 dark:bg-zinc-900 shrink-0 z-50 shadow-sm relative transition-colors duration-300">
-        <div className="flex items-center gap-3 text-primary-600 dark:text-primary-500 cursor-pointer" onClick={() => setShowIntro(true)}>
+        <button className="flex items-center gap-3 text-primary-600 dark:text-primary-500 cursor-pointer" onClick={() => setShowIntro(true)} aria-label="Go to intro page">
           <Workflow size={20} />
           <h1 className="text-sm lg:text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             Cine<span className="text-primary-600 dark:text-primary-500">Tech</span> Architecture
-            <span className="hidden sm:inline-block text-[10px] font-mono text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-950 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">Masterclass v8.0</span>
+            <span className="hidden sm:inline-block text-xs font-mono text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-950 px-1.5 py-0.5 rounded-sm uppercase tracking-wider">Masterclass v8.0</span>
           </h1>
-        </div>
+        </button>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => setIsDark(!isDark)}
@@ -149,7 +149,7 @@ const App: React.FC = () => {
           </button>
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden p-1.5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            className="lg:hidden p-1.5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md"
             aria-label="Toggle sidebar navigation"
           >
             <Menu size={20} />
@@ -221,7 +221,7 @@ const App: React.FC = () => {
                   {searchResults.length > 0 ? (
                      searchResults.map((item, idx) => (
                         <button 
-                           key={idx}
+                           key={item.module + '-' + item.tab}
                            onClick={() => handleModuleChange(item.module, item.tab)}
                            className="w-full text-left p-3 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:border-primary-500/50 rounded-lg group transition-all"
                         >
@@ -487,6 +487,7 @@ const NavGroup: React.FC<{
         onClick={() => setIsOpen(!isOpen)}
         className={`w-full flex items-center justify-between px-3 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors bg-transparent border-none cursor-pointer focus:outline-none ${isDark ? 'text-zinc-400 hover:text-zinc-200' : 'text-zinc-600 hover:text-zinc-800'}`}
         aria-expanded={isOpen}
+        aria-label={title}
       >
         <span className="truncate">{title}</span>
         {isOpen ? <ChevronDown size={12} className="shrink-0" /> : <ChevronRight size={12} className="shrink-0" />}
@@ -510,6 +511,7 @@ const NavButton: React.FC<{ active: boolean; onClick: () => void; icon: React.Re
     `}
     style={{ width: 'calc(100% - 8px)' }}
     title={label}
+    aria-label={label}
   >
     <div className={`shrink-0 ${active ? 'text-primary-400' : (isDark ? 'text-zinc-400 group-hover:text-zinc-200' : 'text-zinc-500 group-hover:text-zinc-700')}`}>{icon}</div>
     <div className="flex flex-col leading-tight overflow-hidden z-10 min-w-0">

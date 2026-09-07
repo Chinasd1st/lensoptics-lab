@@ -52,12 +52,12 @@ export const UtilityToolsView: React.FC<UtilityToolsViewProps> = ({ initialTab }
 const NavButton: React.FC<{ active: boolean; onClick: () => void; icon: React.ReactNode; label: string; sub: string }> = ({ active, onClick, icon, label, sub }) => (
    <button 
       onClick={onClick}
-      className={`w-full p-3 rounded-lg text-left transition-colors flex items-center gap-3 focus:outline-none ${active ? 'bg-primary-100 border border-primary-300 dark:bg-primary-900/30 dark:border-primary-500/50' : 'hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-transparent'}`}
+       className={`w-full p-3 rounded-lg text-left transition-colors flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ${active ? 'bg-primary-100 border border-primary-300 dark:bg-primary-900/30 dark:border-primary-500/50' : 'hover:bg-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-transparent'}`}
    >
       <div className={`${active ? 'text-primary-600 dark:text-primary-400' : 'text-zinc-600 dark:text-zinc-400'}`}>{icon}</div>
       <div>
          <div className={`text-sm font-bold ${active ? 'text-primary-900 dark:text-white' : 'text-zinc-800 dark:text-zinc-200'}`}>{label}</div>
-         <div className="text-[10px] text-zinc-600 dark:text-zinc-400">{sub}</div>
+         <div className="text-xs text-zinc-600 dark:text-zinc-400">{sub}</div>
       </div>
    </button>
 );
@@ -102,7 +102,7 @@ const DoFCalculator: React.FC = () => {
                {/* Camera */}
                <div className="absolute left-4 bottom-1/2 transform translate-y-1/2 z-10 flex flex-col items-center">
                   <div className="w-4 h-12 bg-zinc-500 rounded"></div>
-                  <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2">Camera</div>
+                   <div className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">Camera</div>
                </div>
 
                {/* Axis Line */}
@@ -201,7 +201,7 @@ const TimeLapseCalculator: React.FC = () => {
 
             {/* Results Header */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="bg-gradient-to-br from-zinc-900/80 to-zinc-950 border border-zinc-700 p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+               <div className="bg-gradient-to-br from-zinc-100 to-zinc-50 dark:from-zinc-900/80 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-700 p-6 rounded-2xl flex flex-col items-center justify-center text-center">
                   <div className="text-sm text-zinc-200 mb-2 font-bold uppercase tracking-wider">拍摄时长</div>
                   <div className="text-3xl font-black text-zinc-900 dark:text-white">{formatTime(shootingDurationSecs)}</div>
                   <div className="text-xs text-primary-500 dark:text-cyan-400 mt-2 font-mono">你需要在这里守这么久</div>
@@ -234,7 +234,7 @@ const TimeLapseCalculator: React.FC = () => {
             </div>
 
             {/* Advice Box */}
-            <div className="bg-zinc-900/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 flex gap-4">
+            <div className="bg-zinc-100 dark:bg-zinc-900/50 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 flex gap-4">
                <div className="p-3 bg-yellow-900/20 rounded-full h-min text-yellow-600 dark:text-yellow-500"><Sun size={20}/></div>
                <div>
                   <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2">拍摄建议</h4>
@@ -287,7 +287,7 @@ const NDCalculator: React.FC = () => {
                   <ArrowRight className="text-zinc-600 dark:text-zinc-400 mt-2" size={24}/>
                </div>
 
-               <div className="bg-black text-zinc-900 dark:text-white border-2 border-zinc-200 dark:border-zinc-800 w-48 h-48 rounded-full flex flex-col items-center justify-center shadow-lg relative overflow-hidden">
+               <div className="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-white border-2 border-zinc-200 dark:border-zinc-800 w-48 h-48 rounded-full flex flex-col items-center justify-center shadow-lg relative overflow-hidden">
                   <div className="absolute inset-0 bg-zinc-900/50"></div>
                   <div className="relative z-10 text-center">
                      <div className="text-xs font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-1">Target Shutter</div>
@@ -311,7 +311,7 @@ const NDCalculator: React.FC = () => {
                      <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">ND 滤镜档位</label>
                      <span className="text-sm text-primary-600 dark:text-primary-400 font-mono font-bold bg-primary-100 dark:bg-primary-900/20 px-2 rounded">ND {Math.pow(2, ndStop)} ({ndStop} Stops)</span>
                   </div>
-                  <input type="range" min="1" max="16" step={1} value={ndStop} onChange={(e) => setNdStop(Number(e.target.value))} className="w-full h-3 bg-zinc-100 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-cyan-500" />
+                   <input type="range" min="1" max="16" step={1} value={ndStop} onChange={(e) => setNdStop(Number(e.target.value))} aria-label="ND filter stops" aria-valuemin={1} aria-valuemax={16} aria-valuenow={ndStop} className="w-full h-3 bg-zinc-100 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-cyan-500" />
                   <div className="flex justify-between text-xs text-zinc-500 dark:text-zinc-400 mt-2 font-mono">
                      <span>ND2 (1)</span>
                      <span>ND64 (6)</span>
@@ -323,14 +323,14 @@ const NDCalculator: React.FC = () => {
 
             {/* Usage Tip */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <div className="bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                  <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2"><Sun size={14}/> 白天拍流水 (ND64 / ND1000)</h4>
+                <div className="bg-zinc-100 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
+                   <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2"><Sun size={14}/> 白天拍流水 (ND64 / ND1000)</h4>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">
                      如果正常快门是 1/100s，加上 ND1000 (10档) 后，快门变成 10秒。足以把瀑布拍成丝绸，把水面拍平。
                   </p>
                </div>
-               <div className="bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                  <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2"><Moon size={14}/> 消除路人 (ND32k+)</h4>
+                <div className="bg-zinc-100 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
+                   <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2"><Moon size={14}/> 消除路人 (ND32k+)</h4>
                   <p className="text-xs text-zinc-600 dark:text-zinc-400">
                      如果在白天需要 2分钟以上的曝光来消除广场上的行人，你需要 13-16 档的减光。
                   </p>

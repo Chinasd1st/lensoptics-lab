@@ -86,7 +86,7 @@ export const QuizGame: React.FC<QuizGameProps> = ({ questions, onFinish }) => {
             </div>
          </div>
          {/* Segmented Progress Bar */}
-         <div className="flex w-full gap-[2px] h-1.5 rounded-full overflow-hidden">
+         <div className="flex w-full gap-[2px] h-1.5 rounded-full overflow-hidden" role="progressbar" aria-valuenow={currentIndex + 1} aria-valuemin={1} aria-valuemax={questions.length} aria-label="Quiz progress">
             {questions.map((_, i) => {
                const status = history[i]; 
                 let color = 'bg-zinc-200 dark:bg-zinc-800'; 
@@ -139,7 +139,7 @@ export const QuizGame: React.FC<QuizGameProps> = ({ questions, onFinish }) => {
                            <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">{currentQ.explanation}</p>
                         </div>
                      </div>
-                     <button onClick={nextQuestion} className="w-full mt-4 py-3 bg-zinc-50 hover:bg-zinc-200 text-black font-bold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg text-sm">
+                     <button onClick={nextQuestion} className="w-full mt-4 py-3 bg-zinc-50 hover:bg-zinc-200 text-black dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg text-sm">
                         {currentIndex === questions.length - 1 ? '查看成绩' : '下一题'} <ChevronRight size={16}/>
                      </button>
                   </div>

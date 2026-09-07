@@ -58,7 +58,7 @@ const FormatsModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
          <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-8">
-            <div className="grid grid-cols-3 gap-8 w-full max-w-4xl items-end h-64">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-4xl items-end h-64">
                {/* Bitrate Bar */}
                <div className="flex flex-col items-center gap-2 h-full justify-end">
                   <div className={`w-16 rounded-t transition-colors duration-500 ${stats.color}`} style={{height: `${stats.bitrate}%`}}></div>
@@ -93,17 +93,17 @@ const FormatsModule: React.FC = () => {
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Film size={20} className="text-cyan-400"/> 常见编码对比</h3>
             
             <div className="space-y-3">
-               <button onClick={()=>setFormat('PRORES')} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='PRORES' ? 'bg-primary-900/30 border-primary-500' : 'border-zinc-700'}`}>
+               <button onClick={()=>setFormat('PRORES')} aria-pressed={format==='PRORES'} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='PRORES' ? 'bg-primary-900/30 border-primary-500' : 'border-zinc-700'}`}>
                   <div className="font-bold text-sm text-primary-600 dark:text-primary-400 mb-1">Apple ProRes</div>
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400">帧内编码 (All-Intra)。每一帧都是完整的图片。剪辑极其流畅，像切黄油一样，但文件体积巨大。行业标准中间流。</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400">帧内编码 (All-Intra)。每一帧都是完整的图片。剪辑极其流畅，像切黄油一样，但文件体积巨大。行业标准中间流。</div>
                </button>
-               <button onClick={()=>setFormat('H265')} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='H265' ? 'bg-emerald-900/30 border-emerald-500' : 'border-zinc-700'}`}>
+               <button onClick={()=>setFormat('H265')} aria-pressed={format==='H265'} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='H265' ? 'bg-emerald-900/30 border-emerald-500' : 'border-zinc-700'}`}>
                   <div className="font-bold text-sm text-emerald-600 dark:text-emerald-400 mb-1">H.265 (HEVC)</div>
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400">帧间预测。压缩率极高，同画质下体积最小。但解码极其消耗算力，老电脑剪辑会卡成PPT。适合最终交付。</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400">帧间预测。压缩率极高，同画质下体积最小。但解码极其消耗算力，老电脑剪辑会卡成PPT。适合最终交付。</div>
                </button>
-               <button onClick={()=>setFormat('H264')} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='H264' ? 'bg-primary-900/30 border-primary-500' : 'border-zinc-700'}`}>
+               <button onClick={()=>setFormat('H264')} aria-pressed={format==='H264'} className={`w-full p-4 rounded-lg border text-left transition-colors ${format==='H264' ? 'bg-primary-900/30 border-primary-500' : 'border-zinc-700'}`}>
                   <div className="font-bold text-sm text-primary-600 dark:text-primary-400 mb-1">H.264 (AVC)</div>
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400">兼容性之王。几乎所有设备都能播放。体积和性能介于前两者之间。</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400">兼容性之王。几乎所有设备都能播放。体积和性能介于前两者之间。</div>
                </button>
             </div>
          </div>
@@ -132,7 +132,7 @@ const CodecModule: React.FC = () => {
                   );
                })}
             </div>
-            <div className="mt-12 grid grid-cols-3 gap-6 w-full max-w-2xl px-4">
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-2xl px-4">
                <div className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg border-t-2 border-red-500">
                   <span className="text-red-400 font-black text-xs block mb-1">INTRA (I-Frame)</span>
                   <p className="text-[11px] text-zinc-600 dark:text-zinc-400">完整自洽帧。体积最大，无需参考。编辑性能最强。</p>
@@ -189,11 +189,11 @@ const ShutterAngleModule: React.FC = () => {
             <style>{`@keyframes horizontal-move { from { transform: translateX(-150px); } to { transform: translateX(150px); } }`}</style>
             <div className="mt-10 flex gap-10">
                <div className="text-center">
-                  <div className="text-4xl font-black text-zinc-900 dark:text-white font-mono">1/{shutterSpeed}s</div>
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 dark:text-white font-mono">1/{shutterSpeed}s</div>
                   <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2 uppercase tracking-widest">Effective Shutter</div>
                </div>
                <div className="text-center">
-                  <div className="text-4xl font-black text-primary-500 dark:text-cyan-400 font-mono">{angle}°</div>
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-500 dark:text-cyan-400 font-mono">{angle}°</div>
                   <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2 uppercase tracking-widest">Cinema Angle</div>
                </div>
             </div>
@@ -219,9 +219,9 @@ const ShutterAngleModule: React.FC = () => {
             />
             
             <div className="flex gap-2 mb-4">
-               <button onClick={() => setAngle(90)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">90° (动作片)</button>
-               <button onClick={() => setAngle(180)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-emerald-600 dark:text-emerald-400 font-bold">180° (标准)</button>
-               <button onClick={() => setAngle(360)} className="flex-1 py-1 bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">360° (梦幻)</button>
+               <button onClick={() => setAngle(90)} className="flex-1 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">90° (动作片)</button>
+               <button onClick={() => setAngle(180)} className="flex-1 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-emerald-600 dark:text-emerald-400 font-bold">180° (标准)</button>
+               <button onClick={() => setAngle(360)} className="flex-1 py-2.5 min-h-[44px] bg-zinc-50 dark:bg-zinc-800 text-xs rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">360° (梦幻)</button>
             </div>
          </div>
       </div>

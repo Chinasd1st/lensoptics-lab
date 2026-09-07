@@ -135,11 +135,11 @@ export const MonitoringModule: React.FC = () => {
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Monitor size={20} className="text-cyan-400"/> 监视器辅助 (Assist Tools)</h3>
             
             <div className="space-y-4">
-               <button onClick={() => setTool('NONE')} className={`w-full p-4 rounded-lg border text-left transition-colors ${tool === 'NONE' ? 'bg-zinc-700 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setTool('NONE')} className={`w-full p-4 rounded-lg border text-left transition-colors ${tool === 'NONE' ? 'bg-zinc-700 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   <span className="font-bold text-sm">标准监看 (Clean)</span>
                </button>
                
-               <button onClick={() => setTool('FALSE_COLOR')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'FALSE_COLOR' ? 'bg-primary-900/40 border-purple-400 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setTool('FALSE_COLOR')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'FALSE_COLOR' ? 'bg-primary-900/40 border-purple-400 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
                      <span className={`font-bold text-sm ${tool==='FALSE_COLOR' ? 'text-purple-300' : 'group-hover:text-purple-300'}`}>伪色 (False Color)</span>
                      {tool === 'FALSE_COLOR' && <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>}
@@ -152,7 +152,7 @@ export const MonitoringModule: React.FC = () => {
                   </div>
                </button>
 
-               <button onClick={() => setTool('PEAKING')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'PEAKING' ? 'bg-red-900/30 border-red-500 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setTool('PEAKING')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'PEAKING' ? 'bg-red-900/30 border-red-500 text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
                      <span className={`font-bold text-sm ${tool==='PEAKING' ? 'text-red-300' : 'group-hover:text-red-300'}`}>峰值对焦 (Focus Peaking)</span>
                      {tool === 'PEAKING' && <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>}
@@ -163,7 +163,7 @@ export const MonitoringModule: React.FC = () => {
                   </div>
                </button>
 
-               <button onClick={() => setTool('ZEBRA')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'ZEBRA' ? 'bg-zinc-100 dark:bg-zinc-800 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setTool('ZEBRA')} className={`w-full p-4 rounded-lg border text-left transition-colors group ${tool === 'ZEBRA' ? 'bg-zinc-100 dark:bg-zinc-800 border-white text-white' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   <div className="flex justify-between items-center mb-1">
                      <span className={`font-bold text-sm ${tool==='ZEBRA' ? 'text-white' : 'group-hover:text-zinc-900 dark:group-hover:text-white'}`}>斑马纹 (Zebra 95%)</span>
                   </div>

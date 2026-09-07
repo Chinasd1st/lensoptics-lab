@@ -153,7 +153,7 @@ export const SensorSizeSimulator: React.FC = () => {
                 key={key}
                 onClick={() => setFormat(key)}
                 className={`w-full p-4 rounded-lg border text-left transition-colors ${
-                  format === key ? `bg-zinc-100 dark:bg-zinc-800 ${specs[key].color.replace('border', 'border')}` : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'
+                  format === key ? `bg-zinc-100 dark:bg-zinc-800 ${specs[key].color.replace('border', 'border')}` : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'
                 } border-l-4`}
               >
                 <div className="font-bold text-sm text-zinc-700 dark:text-zinc-200">{specs[key].name}</div>

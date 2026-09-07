@@ -40,7 +40,7 @@ export const Slider: React.FC<SliderProps> = ({ label, value, min, max, step = 1
   return (
     <div className={`mb-5 ${disabled ? 'opacity-50 pointer-events-none' : ''} group`}>
       <div className="flex justify-between mb-2 items-center">
-        <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors">
+        <label className="text-xs font-bold text-zinc-600 dark:text-zinc-300 uppercase tracking-wider group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors">
           {label}
         </label>
         
@@ -93,8 +93,8 @@ export const Toggle: React.FC<ToggleProps> = ({ label, checked, onChange }) => (
     aria-checked={checked}
     aria-label={label}
   >
-    <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors uppercase tracking-wider text-left">{label}</span>
-    <div className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 border border-transparent ${checked ? 'bg-primary-600' : 'bg-zinc-800'}`}>
+    <span className="text-xs font-bold text-zinc-600 dark:text-zinc-300 group-hover:text-zinc-700 dark:group-hover:text-zinc-200 transition-colors uppercase tracking-wider text-left">{label}</span>
+    <div className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 border border-transparent ${checked ? 'bg-primary-600' : 'bg-zinc-300 dark:bg-zinc-800'}`}>
       <div className={`bg-white w-4 h-4 rounded-full shadow-lg transform transition-transform duration-300 ${checked ? 'translate-x-6' : 'translate-x-0'}`}></div>
     </div>
   </button>
@@ -121,7 +121,7 @@ export const Select: React.FC<SelectProps> = ({ label, value, options, onChange 
         ))}
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-zinc-600 dark:text-zinc-400">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
       </div>
     </div>
   </div>

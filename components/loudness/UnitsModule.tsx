@@ -124,7 +124,7 @@ const ConceptButton: React.FC<{ isActive: boolean; onClick: () => void; icon: Re
    <button 
       onClick={onClick}
       className={`flex items-center gap-3 p-3 rounded-lg border transition-colors text-left group
-         ${isActive ? `bg-zinc-700 border-zinc-500 shadow-md ring-1 ring-white/10` : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 hover:border-zinc-700'}
+         ${isActive ? `bg-zinc-700 border-zinc-500 shadow-md ring-1 ring-white/10` : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 hover:border-zinc-700'}
       `}
    >
       <div className={`${isActive ? color : 'text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-700 dark:text-zinc-300'}`}>{icon}</div>

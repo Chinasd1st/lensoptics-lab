@@ -457,7 +457,7 @@ export const QuizBuilder: React.FC<QuizBuilderProps> = ({ onBack }) => {
         {/* Header */}
         <div className="h-16 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
           <div className="flex items-center gap-4">
-            <button onClick={onBack} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-white transition-colors">
+            <button onClick={onBack} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 rounded-full text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-white transition-colors">
               <ArrowLeft size={20} />
             </button>
             <div>

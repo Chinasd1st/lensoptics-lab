@@ -126,19 +126,19 @@ const CompositionModule: React.FC = () => {
             </h3>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
-               <button onClick={() => setRule('THIRDS')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'THIRDS' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setRule('THIRDS')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'THIRDS' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   {/* Grid3X3 is not imported but used in original file, assuming it should be used or replaced */}
                   <span className={`text-xs font-bold text-zinc-200`}>三分法</span>
                </button>
-               <button onClick={() => setRule('LINES')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'LINES' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setRule('LINES')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'LINES' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   <Move size={20} className={rule === 'LINES' ? 'text-cyan-400' : 'text-zinc-500 dark:text-zinc-400'} />
                   <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">引导线</span>
                </button>
-               <button onClick={() => setRule('SYMMETRY')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SYMMETRY' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setRule('SYMMETRY')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SYMMETRY' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   {/* Split is not imported but used in original file, assuming it should be used or replaced */}
                   <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">对称构图</span>
                </button>
-               <button onClick={() => setRule('SPACE')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SPACE' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+               <button onClick={() => setRule('SPACE')} className={`p-4 rounded-lg border text-left flex flex-col gap-2 transition-colors ${rule === 'SPACE' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                   {/* Minimize is not imported but used in original file, assuming it should be used or replaced */}
                   <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">留白</span>
                </button>

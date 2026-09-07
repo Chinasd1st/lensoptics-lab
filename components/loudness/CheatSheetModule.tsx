@@ -65,7 +65,7 @@ export const CheatSheetModule: React.FC = () => {
 };
 
 const SheetRow: React.FC<{ q: string; a: string; val: string; color: string; desc?: string }> = ({ q, a, val, color, desc }) => (
-   <div className="flex items-center p-5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors group">
+   <div className="flex items-center p-5 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 transition-colors group">
       <div className="w-1/4 text-sm text-zinc-600 dark:text-zinc-400 font-medium">{q}</div>
       <div className={`w-1/4 text-sm font-bold font-mono ${color}`}>{a}</div>
       <div className="w-1/4 text-right text-xs font-mono text-zinc-700 dark:text-zinc-200 bg-zinc-100/ dark:bg-zinc-800 py-1 px-2 rounded inline-block border border-zinc-200 dark:border-zinc-800">

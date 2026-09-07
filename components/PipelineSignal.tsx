@@ -70,7 +70,7 @@ export const SamplingSimulator: React.FC = () => {
          <div className="space-y-4">
             <button 
                onClick={() => setMode('BINNING')}
-               className={`w-full p-3 rounded-lg border text-left transition-colors ${mode === 'BINNING' ? 'bg-zinc-100 dark:bg-zinc-800 border-emerald-500 shadow-md' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}
+               className={`w-full p-3 rounded-lg border text-left transition-colors ${mode === 'BINNING' ? 'bg-zinc-100 dark:bg-zinc-800 border-emerald-500 shadow-md' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}
             >
                <div className="font-bold text-sm mb-1">跳行采样 (Binning)</div>
                <div className="text-[10px] opacity-80">
@@ -80,7 +80,7 @@ export const SamplingSimulator: React.FC = () => {
 
             <button 
                onClick={() => setMode('OVERSAMPLING')}
-               className={`w-full p-3 rounded-lg border text-left transition-colors ${mode === 'OVERSAMPLING' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}
+               className={`w-full p-3 rounded-lg border text-left transition-colors ${mode === 'OVERSAMPLING' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}
             >
                <div className="font-bold text-sm mb-1">超采样 (Oversampling)</div>
                <div className="text-[10px] opacity-80">

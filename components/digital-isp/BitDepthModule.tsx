@@ -90,7 +90,7 @@ export const BitDepthModule: React.FC = () => {
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Binary size={18} className="text-primary-400"/> 色彩深度 (Bit Depth)</h3>
 
             <div className="space-y-4">
-                <button onClick={() => setBitDepth('8bit')} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '8bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-red-500 shadow ring-1 ring-red-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                <button onClick={() => setBitDepth('8bit')} role="radio" aria-checked={bitDepth === '8bit'} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '8bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-red-500 shadow ring-1 ring-red-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                    <div className="flex justify-between items-start mb-1">
                       <div className="font-bold text-sm text-red-600 dark:text-red-400">8-bit (1670万色)</div>
                       {bitDepth === '8bit' && <AlertTriangle size={14} className="text-red-500"/>}
@@ -101,7 +101,7 @@ export const BitDepthModule: React.FC = () => {
                    </div>
                 </button>
                 
-                <button onClick={() => setBitDepth('10bit')} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '10bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow ring-1 ring-cyan-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                <button onClick={() => setBitDepth('10bit')} role="radio" aria-checked={bitDepth === '10bit'} className={`w-full p-4 rounded-lg border text-left transition-colors ${bitDepth === '10bit' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow ring-1 ring-cyan-500/20' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                    <div className="flex justify-between items-start mb-1">
                       <div className="font-bold text-sm text-primary-500 dark:text-cyan-400">10-bit (10.7亿色)</div>
                       {bitDepth === '10bit' && <CheckCircle size={14} className="text-cyan-500"/>}

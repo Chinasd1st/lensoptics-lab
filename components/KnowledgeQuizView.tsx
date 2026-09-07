@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ExternalLink, GraduationCap, ArrowRight } from 'lucide-react';
 import { QUIZ_DATABASE, QuizQuestion } from '../utils/quizData';
 import { QuizIntro } from './quiz/QuizIntro';
@@ -22,6 +22,7 @@ export const KnowledgeQuizView: React.FC = () => {
   const [gameState, setGameState] = useState<'INTRO' | 'PLAYING' | 'SUMMARY' | 'BUILDER'>('INTRO');
   const [showEditor, setShowEditor] = useState(false);
   const [showMigrated, setShowMigrated] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Session State
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -80,7 +81,7 @@ export const KnowledgeQuizView: React.FC = () => {
 
     // Final safety check
     if (selected.length === 0) {
-        alert("错误：题库为空，无法开始游戏。请检查数据源。");
+        setError("题库为空，无法开始游戏。请检查数据源。");
         return;
     }
 
@@ -91,6 +92,7 @@ export const KnowledgeQuizView: React.FC = () => {
     setScore(0);
     setCorrectCount(0);
     setGameHistory([]);
+    setError(null);
     setGameState('PLAYING');
   };
 
@@ -151,7 +153,14 @@ export const KnowledgeQuizView: React.FC = () => {
       {showEditor && <QuizEditor onClose={() => setShowEditor(false)} />}
 
       {gameState === 'INTRO' && (
-         <QuizIntro 
+         <>
+           {error && (
+             <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm w-full px-4 py-3 bg-red-500/90 backdrop-blur text-white text-sm font-bold rounded-xl shadow-lg text-center">
+               {error}
+               <button onClick={() => setError(null)} className="ml-2 underline text-red-200">关闭</button>
+             </div>
+           )}
+           <QuizIntro 
             totalQuestions={TOTAL_AVAILABLE} 
             onStart={handleStartGame}
             onImport={handleImportGame}
@@ -159,6 +168,7 @@ export const KnowledgeQuizView: React.FC = () => {
             onDownloadCsv={handleDownloadCSV}
             onOpenBuilder={() => setGameState('BUILDER')}
          />
+         </>
       )}
 
       {gameState === 'PLAYING' && (
@@ -185,6 +195,20 @@ export const KnowledgeQuizView: React.FC = () => {
 };
 
 const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) => {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onContinue();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onContinue]);
+
   return (
     <div className="fixed inset-0 z-[80] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in duration-300" role="dialog" aria-modal="true" aria-label="模块迁移公告">
       <div className="w-full max-w-md bg-zinc-100 dark:bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
@@ -192,7 +216,7 @@ const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) =>
           <div className="w-16 h-16 mx-auto rounded-2xl bg-primary-600/20 border border-primary-500/30 flex items-center justify-center mb-4">
             <GraduationCap size={32} className="text-primary-500" />
           </div>
-          <div className="inline-block px-3 py-1 text-[10px] font-bold text-primary-400 uppercase tracking-widest bg-primary-900/30 border border-primary-500/30 rounded-full mb-3">
+           <div className="inline-block px-3 py-1 text-xs font-bold text-primary-400 uppercase tracking-widest bg-primary-900/30 border border-primary-500/30 rounded-full mb-3">
             For TGTV · Module Migration
           </div>
           <h3 className="text-2xl font-black text-white mb-2 tracking-tight">
@@ -214,13 +238,14 @@ const MigrationModal: React.FC<{ onContinue: () => void }> = ({ onContinue }) =>
             前往新站 <ExternalLink size={16} />
           </a>
           <button
+            ref={closeRef}
             onClick={onContinue}
             className="mt-3 w-full py-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 border border-zinc-700"
           >
             仍留在本站继续答题 <ArrowRight size={16} />
           </button>
         </div>
-        <div className="py-2 border-t border-zinc-800 text-center text-[10px] text-zinc-600 dark:text-zinc-400 font-mono">
+        <div className="py-2 border-t border-zinc-800 text-center text-xs text-zinc-600 dark:text-zinc-400 font-mono">
           CineTech Architecture · For TGTV
         </div>
       </div>

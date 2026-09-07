@@ -543,7 +543,7 @@ export const LoudnessAnalyzerModule: React.FC = () => {
       {/* Upload Area */}
       {!result && !isProcessing && (
          <div 
-             className="flex-1 border-2 border-dashed border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-500 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-900 rounded-2xl flex flex-col items-center justify-center transition-colors cursor-pointer bg-zinc-50 dark:bg-zinc-900 group"
+             className="flex-1 border-2 border-dashed border-zinc-200 dark:border-zinc-800 hover:border-cyan-500 dark:hover:border-cyan-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-900 rounded-2xl flex flex-col items-center justify-center transition-colors cursor-pointer bg-zinc-50 dark:bg-zinc-900 group"
             onClick={() => fileInputRef.current?.click()}
          >
             <input type="file" ref={fileInputRef} className="hidden" accept="audio/*,video/*" onChange={handleFile} />
@@ -627,10 +627,10 @@ export const LoudnessAnalyzerModule: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                      <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono mr-2 hidden sm:inline-block">{zoomLevel} px/s</span>
-                     <button onClick={handleZoomOut} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom Out">
+                     <button onClick={handleZoomOut} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom Out">
                         <ZoomOut size={16} />
                      </button>
-                     <button onClick={handleZoomIn} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom In">
+                     <button onClick={handleZoomIn} className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 rounded dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white" title="Zoom In">
                         <ZoomIn size={16} />
                      </button>
                   </div>

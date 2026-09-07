@@ -26,14 +26,15 @@ export const QualityIndicatorsModule: React.FC = () => {
             </div>
             
             <div className="flex flex-col gap-1 overflow-y-auto">
-               {sections.map((s, idx) => (
-                   <button
-                     key={idx}
-                     onClick={() => setActiveSection(idx)}
+                {sections.map((s, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveSection(idx)}
+                      aria-current={activeSection === idx ? 'true' : undefined}
                       className={`p-3 rounded-lg border text-left flex items-center gap-3 transition-colors focus:outline-none ${
                          activeSection === idx 
                             ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500 shadow-md' 
-                            : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 hover:border-zinc-200 dark:hover:border-zinc-700'
+                            : 'bg-transparent border-transparent hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 hover:border-zinc-200 dark:hover:border-zinc-700'
                       }`}
                    >
                       <div className={`${activeSection === idx ? s.color : 'text-zinc-600 dark:text-zinc-400'}`}>{s.icon}</div>
@@ -166,8 +167,8 @@ const PhaseSection: React.FC = () => {
                <div className="bg-zinc-50 dark:bg-zinc-800 p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
                   <h4 className="text-sm font-bold text-zinc-900 dark:text-white mb-4">信号测试</h4>
                   <div className="flex gap-2">
-                      <button onClick={() => setPhaseState('GOOD')} className={`flex-1 px-4 py-3 rounded text-xs font-bold border transition-colors ${phaseState === 'GOOD' ? 'bg-emerald-900/50 border-emerald-500 text-white' : 'border-zinc-200 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>正常信号</button>
-                      <button onClick={() => setPhaseState('BAD')} className={`flex-1 px-4 py-3 rounded text-xs font-bold border transition-colors ${phaseState === 'BAD' ? 'bg-red-900/50 border-red-500 text-white' : 'border-zinc-200 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>反相信号</button>
+                       <button onClick={() => setPhaseState('GOOD')} aria-pressed={phaseState === 'GOOD'} className={`flex-1 px-4 py-3 rounded text-xs font-bold border transition-colors ${phaseState === 'GOOD' ? 'bg-emerald-900/50 border-emerald-500 text-white' : 'border-zinc-200 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>正常信号</button>
+                       <button onClick={() => setPhaseState('BAD')} aria-pressed={phaseState === 'INVERTED'} className={`flex-1 px-4 py-3 rounded text-xs font-bold border transition-colors ${phaseState === 'BAD' ? 'bg-red-900/50 border-red-500 text-white' : 'border-zinc-200 dark:border-zinc-600 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>反相信号</button>
                   </div>
                </div>
 
@@ -274,8 +275,8 @@ const EqSection: React.FC = () => {
          </div>
 
          <div className="flex gap-4 mb-6">
-             <button onClick={()=>setMode('DIALOGUE')} className={`flex-1 py-2 rounded text-xs font-bold border ${mode==='DIALOGUE'?'bg-yellow-900/40 border-yellow-500 text-white':'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>对白 (Dialogue)</button>
-             <button onClick={()=>setMode('MUSIC')} className={`flex-1 py-2 rounded text-xs font-bold border ${mode==='MUSIC'?'bg-primary-900/40 border-primary-500 text-white':'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>背景音乐 (BGM)</button>
+             <button onClick={()=>setMode('DIALOGUE')} aria-pressed={mode === 'DIALOGUE'} className={`flex-1 py-2 rounded text-xs font-bold border ${mode==='DIALOGUE'?'bg-yellow-900/40 border-yellow-500 text-white':'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>对白 (Dialogue)</button>
+             <button onClick={()=>setMode('MUSIC')} aria-pressed={mode === 'MUSIC'} className={`flex-1 py-2 rounded text-xs font-bold border ${mode==='MUSIC'?'bg-primary-900/40 border-primary-500 text-white':'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>背景音乐 (BGM)</button>
          </div>
 
          <div className="flex-1 bg-zinc-50 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 relative flex flex-col justify-center">
@@ -502,19 +503,20 @@ const ChecklistSection: React.FC = () => {
                <p className="text-xs text-primary-500 dark:text-cyan-400">Quality Control (QC) Checklist</p>
             </div>
             {allChecked && (
-               <div className="bg-emerald-500 text-zinc-900 dark:text-white px-4 py-2 rounded-lg font-bold shadow-lg animate-bounce">
+               <div className="bg-emerald-500 text-zinc-900 dark:text-white px-4 py-2 rounded-lg font-bold shadow-lg animate-pulse">
                   READY TO DELIVER! 🚀
                </div>
             )}
          </div>
 
          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {items.map((item, i) => (
-               <button 
-                  key={i}
-                  onClick={() => toggle(i)}
-                  className={`p-4 rounded-lg border text-left flex items-center gap-3 transition-colors ${checked[i] ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 hover:border-zinc-500'}`}
-               >
+             {items.map((item, i) => (
+                <button 
+                   key={i}
+                   onClick={() => toggle(i)}
+                   role="checkbox" aria-checked={checked[i]}
+                   className={`p-4 rounded-lg border text-left flex items-center gap-3 transition-colors ${checked[i] ? 'bg-emerald-900/20 border-emerald-500/50' : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 hover:border-zinc-500'}`}
+                >
                   {checked[i] ? <CheckSquare className="text-emerald-400 shrink-0"/> : <CheckSquare className="text-zinc-600 dark:text-zinc-400 shrink-0"/>}
                   <span className={`text-sm ${checked[i] ? 'text-white line-through decoration-zinc-500 opacity-50' : 'text-zinc-700 dark:text-zinc-200'}`}>{item}</span>
                </button>

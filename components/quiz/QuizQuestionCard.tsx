@@ -223,7 +223,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
                      else style = "bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 opacity-40";
                  }
                  return (
-                    <button key={idx} onClick={() => !isRevealed && setTempSelection(opt)} disabled={isRevealed} className={`p-4 rounded-xl border-2 text-left font-bold transition-colors flex items-center justify-between group relative overflow-hidden ${style}`}>
+                     <button key={idx} aria-pressed={isSelected} onClick={() => !isRevealed && setTempSelection(opt)} disabled={isRevealed} className={`p-4 rounded-xl border-2 text-left font-bold transition-colors flex items-center justify-between group relative overflow-hidden ${style}`}>
                        <div className="flex items-center gap-3 relative z-10"><span className={`w-6 h-6 rounded flex items-center justify-center text-xs font-mono border ${isSelected ? 'border-primary-400 text-primary-500 dark:text-primary-400' : 'border-zinc-600 text-zinc-500 dark:text-zinc-400'}`}>{idx + 1}</span><span>{opt}</span></div>
                        {isRevealed && isCorrect && <CheckCircle className="text-emerald-500 relative z-10" size={20}/>}
                        {isRevealed && isSelected && !isCorrect && <XCircle className="text-red-500 relative z-10" size={20}/>}
@@ -257,7 +257,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
                     else style = "bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 opacity-30";
                  }
                  return (
-                    <button key={idx} onClick={() => !isRevealed && setSelectedIndices(prev => prev.includes(idx) ? prev.filter(i=>i!==idx) : [...prev, idx])} disabled={isRevealed} className={`p-4 rounded-xl border-2 text-left font-bold transition-colors flex items-center gap-3 ${style}`}>
+                     <button key={idx} aria-pressed={isSelected} onClick={() => !isRevealed && setSelectedIndices(prev => prev.includes(idx) ? prev.filter(i=>i!==idx) : [...prev, idx])} disabled={isRevealed} className={`p-4 rounded-xl border-2 text-left font-bold transition-colors flex items-center gap-3 ${style}`}>
                        <div className={`w-6 h-6 rounded flex items-center justify-center text-xs font-mono border shrink-0 ${isSelected ? 'border-primary-400 text-primary-500 dark:text-primary-400' : 'border-zinc-600 text-zinc-500 dark:text-zinc-400'}`}>{idx + 1}</div>
                        <div className="flex-1 leading-tight">{opt}</div>
                        {isRevealed && isCorrectOpt && !isSelected && <AlertCircle size={16} className="text-yellow-500"/>}
@@ -285,7 +285,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
                     const isActive = activeLeftIndex === idx;
                     const style = isMatched ? MATCHING_COLORS[idx % MATCHING_COLORS.length] : null;
                     return (
-                        <button key={idx} onClick={() => handleMatchingClick('LEFT', idx)} disabled={isRevealed} className={`w-full p-2 md:p-3 rounded-xl border-2 text-left text-xs transition-colors relative flex items-center gap-2 ${isActive ? 'border-white bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-lg scale-105 z-10' : isMatched ? `${style?.border} ${style?.bg} ${style?.text}` : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>
+                        <button key={idx} aria-pressed={isActive} onClick={() => handleMatchingClick('LEFT', idx)} disabled={isRevealed} className={`w-full p-2 md:p-3 rounded-xl border-2 text-left text-xs transition-colors relative flex items-center gap-2 ${isActive ? 'border-white bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-lg scale-105 z-10' : isMatched ? `${style?.border} ${style?.bg} ${style?.text}` : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}>
                           <div className={`w-5 h-5 rounded flex items-center justify-center text-xs font-bold shrink-0 ${isMatched ? style?.badge : 'bg-zinc-600 text-zinc-700 dark:text-zinc-300'}`}>{String.fromCharCode(65 + idx)}</div><span className="leading-tight">{opt}</span>
                        </button>
                     )
@@ -324,7 +324,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
                  <div key={opt} className={`p-3 rounded-xl border-2 bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-800 flex items-center gap-4 transition-colors ${isRevealed ? (JSON.stringify(orderedOptions) === JSON.stringify(question.correctAnswer) ? 'border-emerald-500' : 'border-red-500') : ''}`}>
                     <div className="text-zinc-500 dark:text-zinc-400 font-mono font-bold w-6">#{idx+1}</div>
                     <div className="flex-1 font-bold text-zinc-900 dark:text-white text-sm">{opt}</div>
-                     {!isRevealed && (<div className="flex flex-col gap-1"><button onClick={() => handleOrderMove(idx, -1)} disabled={idx === 0} className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white disabled:opacity-20"><ArrowUp size={16}/></button><button onClick={() => handleOrderMove(idx, 1)} disabled={idx === orderedOptions.length - 1} className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white disabled:opacity-20"><ArrowDown size={16}/></button></div>)}
+                     {!isRevealed && (<div className="flex flex-col gap-1"><button aria-pressed={false} onClick={() => handleOrderMove(idx, -1)} disabled={idx === 0} className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white disabled:opacity-20"><ArrowUp size={16}/></button><button aria-pressed={false} onClick={() => handleOrderMove(idx, 1)} disabled={idx === orderedOptions.length - 1} className="p-1 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white disabled:opacity-20"><ArrowDown size={16}/></button></div>)}
                  </div>
               ))}
            </div>
@@ -339,7 +339,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
   if (question.type === 'FILL_BLANK') {
      return (
         <div className="space-y-4">
-           <input type="text" value={textInput} onChange={e => setTextInput(e.target.value)} disabled={isRevealed} placeholder="输入答案..." className={`w-full bg-zinc-50 dark:bg-zinc-900 border-2 rounded-xl p-4 text-lg text-zinc-900 dark:text-white outline-none transition-colors placeholder-zinc-400 dark:placeholder-zinc-500 ${isRevealed ? 'border-zinc-700' : 'border-zinc-700 focus:border-primary-500'}`} autoFocus />
+           <input type="text" value={textInput} onChange={e => setTextInput(e.target.value)} disabled={isRevealed} placeholder="输入答案..." aria-label="Your answer" className={`w-full bg-zinc-50 dark:bg-zinc-900 border-2 rounded-xl p-4 text-lg text-zinc-900 dark:text-white outline-none transition-colors placeholder-zinc-400 dark:placeholder-zinc-500 ${isRevealed ? 'border-zinc-700' : 'border-zinc-700 focus:border-primary-500'}`} autoFocus />
            <button onClick={handleSubmit} disabled={isRevealed || !textInput.trim()} className="w-full py-3 bg-primary-600 hover:bg-primary-500 disabled:opacity-50 text-zinc-900 dark:text-white font-bold rounded-xl transition-colors shadow-lg flex items-center justify-center gap-2">
               提交 (Submit) {!isRevealed && <span className="text-[10px] bg-zinc-900/20 dark:bg-zinc-950 px-1.5 rounded opacity-70">Enter</span>}
            </button>
@@ -376,7 +376,7 @@ export const QuizQuestionCard: React.FC<QuizQuestionCardProps> = ({ question, is
                       </div>
                       <span className={`text-xl font-mono font-bold ${isRevealed ? (isClose ? 'text-emerald-400' : 'text-red-400') : 'text-primary-400'}`}>{interactiveValue} <span className="text-sm text-zinc-500 dark:text-zinc-400">{conf.unit}</span></span>
                   </div>
-                  <input type="range" min={conf.min} max={conf.max} step={conf.step} value={interactiveValue} onChange={(e) => setInteractiveValue(Number(e.target.value))} disabled={isRevealed} className="w-full h-2 bg-zinc-100 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"/>
+                  <input type="range" min={conf.min} max={conf.max} step={conf.step} value={interactiveValue} onChange={(e) => setInteractiveValue(Number(e.target.value))} disabled={isRevealed} aria-label={`Adjust ${conf.unit} value`} className="w-full h-2 bg-zinc-100 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"/>
                   <div className="flex justify-between text-[11px] text-zinc-600 dark:text-zinc-400 font-mono"><span>{conf.min}</span><span>{conf.max}</span></div>
               </div>
            </div>

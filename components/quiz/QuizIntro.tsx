@@ -166,27 +166,29 @@ export const QuizIntro: React.FC<QuizIntroProps> = ({ totalQuestions, onStart, o
             <div className="space-y-4">
               <div className="flex gap-2">
                  {[5, 10, 20].map(count => (
-                    <button 
-                       key={count}
-                       onClick={() => handlePresetSelect(count)}
-                         className={`flex-1 py-3 rounded-lg font-bold transition-colors ${selectedQuestionCount === count ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/50' : 'bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}
-                    >
-                       {count}
-                    </button>
-                 ))}
+                     <button 
+                        key={count}
+                        onClick={() => handlePresetSelect(count)}
+                        aria-label={`Select ${count} questions`}
+                          className={`flex-1 py-3 rounded-lg font-bold transition-colors ${selectedQuestionCount === count ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/50' : 'bg-zinc-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700'}`}
+                     >
+                        {count}
+                     </button>
+                  ))}
               </div>
 
               <div className="relative">
                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 dark:text-zinc-400 font-bold uppercase">Custom</div>
-                 <input 
-                    type="number" 
-                    min="1" 
-                    max={totalQuestions}
-                    value={customCountInput}
-                    onChange={(e) => handleCustomInputChange(e.target.value)}
-                    onBlur={handleInputBlur}
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg py-3 pl-20 pr-16 text-zinc-900 dark:text-white font-mono font-bold focus:border-primary-500 focus:outline-none transition-colors"
-                 />
+                  <input 
+                     type="number" 
+                     min="1" 
+                     max={totalQuestions}
+                     value={customCountInput}
+                     onChange={(e) => handleCustomInputChange(e.target.value)}
+                     onBlur={handleInputBlur}
+                     aria-label="Custom question count"
+                     className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg py-3 pl-20 pr-16 text-zinc-900 dark:text-white font-mono font-bold focus:border-primary-500 focus:outline-none transition-colors"
+                  />
                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-600 dark:text-zinc-400">
                     / {totalQuestions}
                  </div>
@@ -224,7 +226,7 @@ export const QuizIntro: React.FC<QuizIntroProps> = ({ totalQuestions, onStart, o
 
       <button 
         onClick={() => onStart(selectedQuestionCount, diffDist)}
-         className="group relative inline-flex items-center justify-center px-12 py-5 font-bold text-zinc-900 dark:text-white transition-colors duration-200 bg-primary-600 hover:bg-primary-500 rounded-full focus:outline-none hover:scale-105 shadow-lg text-xl mt-4"
+         className="group relative inline-flex items-center justify-center px-12 py-5 font-bold text-zinc-900 dark:text-white transition-colors duration-200 bg-primary-600 hover:bg-primary-500 rounded-full focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 hover:scale-105 shadow-lg text-xl mt-4"
       >
         <Play className="mr-2 fill-current" /> 开始挑战
       </button>

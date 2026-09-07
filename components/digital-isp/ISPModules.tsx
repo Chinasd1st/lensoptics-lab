@@ -17,7 +17,7 @@ export const RawFormatModule: React.FC = () => {
                         <Grid3X3 size={32} className="text-emerald-500" />
                      </div>
                      <div className="text-xs font-bold text-zinc-700 dark:text-zinc-300">CMOS 传感器</div>
-                      <div className="text-[10px] text-zinc-500 dark:text-zinc-400">模拟电信号</div>
+                      <div className="text-xs text-zinc-500 dark:text-zinc-400">模拟电信号</div>
                   </div>
 
                   <ArrowRight size={20} className="text-zinc-600 dark:text-zinc-400 hidden md:block" />
@@ -26,10 +26,10 @@ export const RawFormatModule: React.FC = () => {
                   <div className="flex flex-col items-center gap-2">
                      <div className="w-16 h-16 bg-zinc-50 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-600 rounded flex items-center justify-center shadow-lg relative">
                         <Cpu size={32} className="text-primary-500" />
-                         <span className="absolute -bottom-2 bg-primary-900 text-blue-700 dark:text-blue-300 dark:text-blue-200 text-[10px] px-1 rounded">ADC</span>
+                         <span className="absolute -bottom-2 bg-primary-900 text-blue-700 dark:text-blue-300 dark:text-blue-200 text-xs px-1 rounded">ADC</span>
                      </div>
                      <div className="text-xs font-bold text-zinc-700 dark:text-zinc-300">模数转换</div>
-                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400">12/14-bit 线性</div>
+                     <div className="text-xs text-zinc-500 dark:text-zinc-400">12/14-bit 线性</div>
                   </div>
 
                   <ArrowRight size={20} className="text-zinc-600 dark:text-zinc-400 hidden md:block" />
@@ -40,14 +40,14 @@ export const RawFormatModule: React.FC = () => {
                      <div className="w-20 h-24 bg-gradient-to-br from-zinc-700 to-zinc-800 border-2 border-primary-500 rounded-lg flex flex-col items-center justify-center shadow-[0_0_20px_oklch(76%_0.18_60_/_0.2)]">
                         <FileImage size={32} className="text-primary-400 mb-2" />
                         <span className="text-xs font-black text-zinc-900 dark:text-white">RAW</span>
-                        <span className="text-[10px] text-orange-200">.ARW / .CR3</span>
+                        <span className="text-xs text-orange-200">.ARW / .CR3</span>
                      </div>
                      <div className="text-xs font-bold text-primary-600 dark:text-primary-400">原始数据包</div>
-                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400">未处理/无损</div>
+                     <div className="text-xs text-zinc-500 dark:text-zinc-400">未处理/无损</div>
                   </div>
 
                   <div className="flex flex-col gap-1 md:w-32 border-l-2 border-dashed border-zinc-200 dark:border-zinc-800 pl-4 md:ml-4 text-left">
-                     <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mb-1 uppercase tracking-widest">VS JPEG</div>
+                     <div className="text-xs text-zinc-500 dark:text-zinc-400 mb-1 uppercase tracking-widest">VS JPEG</div>
                      <div className="text-xs text-red-600 dark:text-red-400 line-through decoration-zinc-500">白平衡固化</div>
                      <div className="text-xs text-red-600 dark:text-red-400 line-through decoration-zinc-500">色域压缩</div>
                      <div className="text-xs text-red-600 dark:text-red-400 line-through decoration-zinc-500">8-bit 丢弃</div>
@@ -68,36 +68,21 @@ export const RawFormatModule: React.FC = () => {
                          <div className="text-primary-600 dark:text-primary-400 font-bold">光电数值 (单色)</div>
                          <div className="text-zinc-700 dark:text-zinc-300">成品图像 (彩色)</div>
                       </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">色彩深度</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">12bit ~ 16bit</div>
-                         <div className="text-zinc-700 dark:text-zinc-300">8bit</div>
-                      </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">白平衡</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">后期任意调整</div>
-                         <div className="text-zinc-700 dark:text-zinc-300">拍摄时"烘焙"定死</div>
-                      </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">宽容度</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">保留全部高光/暗部</div>
-                         <div className="text-zinc-700 dark:text-zinc-300">两端截断丢失</div>
-                      </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">色彩深度</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">12bit ~ 16bit</div>
-                         <div className="text-zinc-700 dark:text-zinc-300">8bit</div>
-                      </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">白平衡</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">后期任意调整</div>
-                         <div className="text-zinc-700 dark:text-zinc-300">拍摄时"烘焙"定死</div>
-                      </div>
-                      <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-                         <div className="text-zinc-600 dark:text-zinc-400">宽容度</div>
-                         <div className="text-primary-600 dark:text-primary-400 font-bold">保留全部高光/暗部</div>
-                        <div className="text-zinc-700 dark:text-zinc-300">两端截断丢失</div>
-                     </div>
+                       <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                          <div className="text-zinc-600 dark:text-zinc-400">色彩深度</div>
+                          <div className="text-primary-600 dark:text-primary-400 font-bold">12bit ~ 16bit</div>
+                          <div className="text-zinc-700 dark:text-zinc-300">8bit</div>
+                       </div>
+                       <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                          <div className="text-zinc-600 dark:text-zinc-400">白平衡</div>
+                          <div className="text-primary-600 dark:text-primary-400 font-bold">后期任意调整</div>
+                          <div className="text-zinc-700 dark:text-zinc-300">拍摄时"烘焙"定死</div>
+                       </div>
+                       <div className="grid grid-cols-3 p-3 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                          <div className="text-zinc-600 dark:text-zinc-400">宽容度</div>
+                          <div className="text-primary-600 dark:text-primary-400 font-bold">保留全部高光/暗部</div>
+                          <div className="text-zinc-700 dark:text-zinc-300">两端截断丢失</div>
+                       </div>
                   </div>
                </div>
 
@@ -185,14 +170,14 @@ export const ColorSpaceModule: React.FC = () => {
                </svg>
 
                 <div className="absolute top-0 right-0 bg-zinc-50/80 dark:bg-zinc-800 backdrop-blur p-3 rounded border border-zinc-200 dark:border-zinc-800">
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">CIE 1931 Coverage</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">CIE 1931 Coverage</div>
                   <div className="text-2xl font-bold" style={{color: currentGamut.color}}>{currentGamut.area}</div>
-                  <div className="text-[10px] text-zinc-700 dark:text-zinc-300">{currentGamut.label}</div>
+                  <div className="text-xs text-zinc-700 dark:text-zinc-300">{currentGamut.label}</div>
                </div>
             </div>
 
             <div className="absolute bottom-4 left-4 w-48 h-32 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded p-2">
-               <div className="text-[10px] text-zinc-600 dark:text-zinc-400 mb-1 flex justify-between">
+               <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 flex justify-between">
                   <span>OETF Curve</span>
                   <span className={curve === 'LOG' ? 'text-primary-400' : 'text-white'}>{curve}</span>
                </div>
@@ -215,7 +200,7 @@ export const ColorSpaceModule: React.FC = () => {
                       {Object.keys(gamuts).map(k => {
                          const g = gamuts[k as keyof typeof gamuts];
                          return (
-                         <button key={k} onClick={() => setGamut(k as any)} className={`w-full p-3 rounded border text-left text-xs transition-colors ${gamut === k ? `${g.twBg} ${g.twBorder} text-white` : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>
+                         <button key={k} onClick={() => setGamut(k as any)} role="radio" aria-checked={gamut === k} className={`w-full p-3 rounded border text-left text-xs transition-colors ${gamut === k ? `${g.twBg} ${g.twBorder} text-white` : 'border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>
                             <span className="font-bold block">{k}</span>
                             <span className="opacity-70">{g.label}</span>
                          </button>
@@ -227,8 +212,8 @@ export const ColorSpaceModule: React.FC = () => {
                <div>
                   <h4 className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mb-3 uppercase tracking-widest">光电转换 (OETF / Gamma)</h4>
                   <div className="flex gap-2 mb-4">
-                      <button onClick={() => setCurve('LINEAR')} className={`flex-1 p-2 rounded text-xs font-bold border ${curve === 'LINEAR' ? 'bg-zinc-700 dark:bg-zinc-200 border-zinc-600 dark:border-white text-white dark:text-zinc-900' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>Linear</button>
-                      <button onClick={() => setCurve('LOG')} className={`flex-1 p-2 rounded text-xs font-bold border ${curve === 'LOG' ? 'bg-primary-900/30 border-primary-500 text-primary-600 dark:text-primary-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>Log</button>
+                       <button onClick={() => setCurve('LINEAR')} aria-pressed={curve === 'LINEAR'} className={`flex-1 p-2 rounded text-xs font-bold border ${curve === 'LINEAR' ? 'bg-zinc-700 dark:bg-zinc-200 border-zinc-600 dark:border-white text-white dark:text-zinc-900' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>Linear</button>
+                       <button onClick={() => setCurve('LOG')} aria-pressed={curve === 'LOG'} className={`flex-1 p-2 rounded text-xs font-bold border ${curve === 'LOG' ? 'bg-primary-900/30 border-primary-500 text-primary-600 dark:text-primary-400' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'}`}>Log</button>
                   </div>
                   <div className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
                      <span className="font-bold text-primary-600 dark:text-primary-400 block mb-1">Log 曲线原理:</span>
@@ -240,12 +225,12 @@ export const ColorSpaceModule: React.FC = () => {
                   <h4 className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mb-2 uppercase tracking-widest flex items-center gap-2"><FileJson size={12}/> LUT 应用场景</h4>
                   <div className="grid grid-cols-2 gap-2">
                      <div className="bg-zinc-100 dark:bg-zinc-800 p-2 rounded border border-zinc-200 dark:border-zinc-800">
-                        <span className="text-[10px] font-bold text-primary-500 dark:text-cyan-400 block">Monitoring LUT</span>
-                        <span className="text-[10px] text-zinc-500 dark:text-zinc-400">仅用于监视器预览。录制的素材依然是 Log 灰片。</span>
+                        <span className="text-xs font-bold text-primary-500 dark:text-cyan-400 block">Monitoring LUT</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">仅用于监视器预览。录制的素材依然是 Log 灰片。</span>
                      </div>
                      <div className="bg-zinc-100 dark:bg-zinc-800 p-2 rounded border border-zinc-200 dark:border-zinc-800">
-                        <span className="text-[10px] font-bold text-red-600 dark:text-red-400 block">Baking LUT</span>
-                        <span className="text-[10px] text-zinc-500 dark:text-zinc-400">直接烧录进视频。所见即所得，但丢失了宽容度。</span>
+                        <span className="text-xs font-bold text-red-600 dark:text-red-400 block">Baking LUT</span>
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">直接烧录进视频。所见即所得，但丢失了宽容度。</span>
                      </div>
                   </div>
                </div>
@@ -298,7 +283,7 @@ export const BayerMoireModule: React.FC = () => {
             
             <div className="mb-8">
                <Slider label="被摄物体纹理密度 (Frequency)" value={patternDensity} min={10} max={100} step={1} onChange={setPatternDensity} />
-               <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-2">
+               <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
                   当衣服或建筑的纹理密度接近传感器的像素密度时，会发生采样频率不足（奈奎斯特极限），产生彩色的干涉条纹，即摩尔纹。
                </p>
             </div>
@@ -373,8 +358,8 @@ export const WBModule: React.FC = () => {
                <h3 className="text-lg font-bold flex items-center gap-2 text-zinc-900 dark:text-white">
                   <Thermometer className="text-primary-400" size={20}/> 白平衡
                </h3>
-                <button onClick={()=>{setKelvin(5600); setTint(0)}} className="p-2 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-full text-zinc-600 dark:text-zinc-400" title="Reset">
-                  <RefreshCcw size={14}/>
+                <button onClick={()=>{setKelvin(5600); setTint(0)}} className="p-2 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-full text-zinc-600 dark:text-zinc-400" title="Reset" aria-label="Reset white balance">
+                  <RefreshCcw size={14} aria-hidden="true"/>
                </button>
             </div>
             
@@ -385,12 +370,13 @@ export const WBModule: React.FC = () => {
                      <span className="text-zinc-700 dark:text-zinc-300">Temp</span>
                      <span className="text-primary-500">10000K</span>
                   </div>
-                  <input 
-                     type="range" min="2000" max="10000" step="100" 
-                     value={kelvin} 
-                     onChange={(e) => setKelvin(Number(e.target.value))}
-                     className="w-full h-2 bg-gradient-to-r from-blue-600 via-white to-orange-500 rounded-lg appearance-none cursor-pointer"
-                  />
+                   <input 
+                      type="range" min="2000" max="10000" step="100" 
+                      value={kelvin} 
+                      onChange={(e) => setKelvin(Number(e.target.value))}
+                      aria-label="Color temperature in Kelvin"
+                      className="w-full h-2 bg-gradient-to-r from-blue-600 via-white to-orange-500 rounded-lg appearance-none cursor-pointer"
+                   />
                </div>
 
                <div>
@@ -399,12 +385,13 @@ export const WBModule: React.FC = () => {
                      <span className="text-zinc-700 dark:text-zinc-300">Tint</span>
                      <span className="text-primary-500">+50</span>
                   </div>
-                  <input 
-                     type="range" min="-50" max="50" step="1" 
-                     value={tint} 
-                     onChange={(e) => setTint(Number(e.target.value))}
-                     className="w-full h-2 bg-gradient-to-r from-green-600 via-white to-fuchsia-600 rounded-lg appearance-none cursor-pointer"
-                  />
+                   <input 
+                      type="range" min="-50" max="50" step="1" 
+                      value={tint} 
+                      onChange={(e) => setTint(Number(e.target.value))}
+                      aria-label="Tint adjustment"
+                      className="w-full h-2 bg-gradient-to-r from-green-600 via-white to-fuchsia-600 rounded-lg appearance-none cursor-pointer"
+                   />
                </div>
             </div>
          </div>
@@ -447,13 +434,13 @@ export const SamplingModule: React.FC = () => {
             <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Cpu size={18}/> 信号采样</h3>
 
             <div className="space-y-3">
-                <button onClick={() => setMode('BINNING')} className={`w-full p-4 rounded-lg border text-left transition-colors ${mode === 'BINNING' ? 'bg-zinc-100 dark:bg-zinc-800 border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}>
-                   <div className="text-sm font-bold text-primary-600 dark:text-primary-400 mb-1">跳行采样 (Binning)</div>
-                   <div className="text-[10px] text-zinc-600 dark:text-zinc-400">传感器每隔一行读取一行。虽然数据量减少使读出速度变快，但会丢失空间信息，导致摩尔纹和锯齿。</div>
+                 <button onClick={() => setMode('BINNING')} aria-pressed={mode === 'BINNING'} className={`w-full p-4 rounded-lg border text-left transition-colors ${mode === 'BINNING' ? 'bg-zinc-100 dark:bg-zinc-800 border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}>
+                    <div className="text-sm font-bold text-primary-600 dark:text-primary-400 mb-1">跳行采样 (Binning)</div>
+                   <div className="text-xs text-zinc-600 dark:text-zinc-400">传感器每隔一行读取一行。虽然数据量减少使读出速度变快，但会丢失空间信息，导致摩尔纹和锯齿。</div>
                 </button>
-                <button onClick={() => setMode('OVERSAMPLING')} className={`w-full p-4 rounded-lg border text-left transition-colors ${mode === 'OVERSAMPLING' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500' : 'border-zinc-200 dark:border-zinc-800'}`}>
-                  <div className="text-sm font-bold text-primary-500 dark:text-cyan-400 mb-1">超采样 (Oversampling)</div>
-                  <div className="text-[10px] text-zinc-600 dark:text-zinc-400">例如用 6K 分辨率拍摄，输出 4K。把 6K 信息量“浓缩”进 4K。画质极佳，噪点更少。</div>
+                 <button onClick={() => setMode('OVERSAMPLING')} aria-pressed={mode === 'OVERSAMPLING'} className={`w-full p-4 rounded-lg border text-left transition-colors ${mode === 'OVERSAMPLING' ? 'bg-zinc-100 dark:bg-zinc-800 border-cyan-500' : 'border-zinc-200 dark:border-zinc-800'}`}>
+                   <div className="text-sm font-bold text-primary-500 dark:text-cyan-400 mb-1">超采样 (Oversampling)</div>
+                  <div className="text-xs text-zinc-600 dark:text-zinc-400">例如用 6K 分辨率拍摄，输出 4K。把 6K 信息量“浓缩”进 4K。画质极佳，噪点更少。</div>
                </button>
             </div>
          </div>
@@ -477,7 +464,7 @@ export const AIModule: React.FC = () => {
             <h3 className="text-lg font-bold mb-6">AI 计算摄影 (DLSS/Upscaling)</h3>
             <Toggle label="启用 AI 画质增强" checked={enabled} onChange={setEnabled} />
             <div className="mt-6 space-y-4">
-               <div className="text-[10px] text-zinc-600 dark:text-zinc-400 p-3 bg-zinc-50 dark:bg-zinc-800 rounded border-l-2 border-primary-500">
+               <div className="text-xs text-zinc-600 dark:text-zinc-400 p-3 bg-zinc-50 dark:bg-zinc-800 rounded border-l-2 border-primary-500">
                   <span className="text-primary-400 font-bold block mb-1">伪影警告 (Artifacts)</span>
                   NPU 不是在“恢复”细节，而是在“猜”细节。在处理重复纹理或极细线条时，AI 可能会产生不存在的图案。
                </div>

@@ -582,12 +582,12 @@ export const TeleconverterPage: React.FC = () => (
                   </tr>
                </thead>
                 <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors">
+                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 transition-colors">
                      <td className="py-4 pl-2 font-bold text-zinc-900 dark:text-white">70-200mm F2.8 GM II</td>
                      <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">98-280mm F4</td>
                      <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">140-400mm F5.6</td>
                   </tr>
-                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800 transition-colors">
+                  <tr className="hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800 transition-colors">
                      <td className="py-4 pl-2 font-bold text-zinc-900 dark:text-white">200-600mm F5.6-6.3 G</td>
                      <td className="py-4 font-mono text-zinc-700 dark:text-zinc-300">280-840mm F8-9</td>
                      <td className="py-4 font-mono text-yellow-600 dark:text-yellow-500">400-1200mm F11-13 *</td>

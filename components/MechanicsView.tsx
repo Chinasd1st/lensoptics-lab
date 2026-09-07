@@ -90,7 +90,7 @@ const FocusMotorModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
          <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 relative flex items-center justify-center">
-            <div className="relative w-[600px] h-[400px] bg-zinc-50 dark:bg-zinc-800 rounded-xl overflow-hidden shadow-lg border border-zinc-600">
+            <div className="relative w-full max-w-[600px] h-[400px] bg-zinc-50 dark:bg-zinc-800 rounded-xl overflow-hidden shadow-lg border border-zinc-600">
                <div className="absolute top-4 left-4 text-zinc-900 dark:text-white z-10">
                   <h2 className="text-2xl font-bold flex items-center gap-2">
                      {motorType === MotorType.STM && <Cpu className="text-primary-400" />}
@@ -203,7 +203,7 @@ const FocusAlgoModule: React.FC = () => {
          <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex flex-col items-center justify-center p-8 relative">
             <div className="relative w-full max-w-3xl aspect-[16/9] bg-zinc-50 dark:bg-black border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-lg flex">
                <div className="w-1/2 h-full border-r border-zinc-200 dark:border-zinc-800 relative overflow-hidden group">
-                  <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?q=80&w=600" className="w-full h-full object-cover transition-colors duration-75 origin-center scale-110" style={{ filter: `blur(${blurAmount}px)` }} />
+                   <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?q=80&w=600" alt="Focus test subject" className="w-full h-full object-cover transition-colors duration-75 origin-center scale-110" style={{ filter: `blur(${blurAmount}px)` }} />
                   <div className="absolute top-2 left-2 flex flex-col gap-1">
                      <span className="text-[10px] font-mono text-zinc-900 dark:text-white bg-zinc-950/50 px-1 rounded">AF-S</span>
                      {locked && <span className="text-[10px] font-mono text-zinc-900 dark:text-white bg-green-600 px-1 rounded animate-pulse">LOCKED</span>}
@@ -262,12 +262,12 @@ const FocusAlgoModule: React.FC = () => {
          <div className="w-full lg:w-96 bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 p-6 flex flex-col">
       <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2"><Scan size={20} className="text-primary-400"/> 对焦算法实验台 (PDAF/CDAF)</h3>
             <div className="flex gap-2 mb-6">
-      <button onClick={() => { setAlgo('CDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'CDAF' ? 'bg-primary-100 dark:bg-primary-900/30 border-primary-400 dark:border-primary-500 text-primary-700 dark:text-orange-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>对比度检测 (CDAF)</button>
-      <button onClick={() => { setAlgo('PDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'PDAF' ? 'bg-emerald-100 dark:bg-emerald-900/30 border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-100 dark:bg-zinc-800'}`}>相位检测 (PDAF)</button>
+      <button onClick={() => { setAlgo('CDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'CDAF' ? 'bg-primary-100 dark:bg-primary-900/30 border-primary-400 dark:border-primary-500 text-primary-700 dark:text-orange-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>对比度检测 (CDAF)</button>
+      <button onClick={() => { setAlgo('PDAF'); setLocked(false); }} className={`flex-1 py-3 rounded border font-bold text-xs transition-colors ${algo === 'PDAF' ? 'bg-emerald-100 dark:bg-emerald-900/30 border-emerald-400 dark:border-emerald-500 text-emerald-700 dark:text-emerald-200' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 dark:bg-zinc-800'}`}>相位检测 (PDAF)</button>
             </div>
             <div className="mb-6 bg-zinc-50 dark:bg-zinc-800 p-4 rounded border border-zinc-200 dark:border-zinc-800">
-               <div className="flex justify-between mb-2 text-xs text-zinc-600 dark:text-zinc-400"><span>Manual Override</span><span>{lensPos.toFixed(0)}%</span></div>
-               <input type="range" min="0" max="100" step="0.1" value={lensPos} onChange={(e) => { setLensPos(Number(e.target.value)); setLocked(false); }} className="w-full accent-primary-500 h-1 bg-zinc-600 appearance-none rounded" />
+               <div className="flex justify-between mb-2 text-xs text-zinc-600 dark:text-zinc-400"><label htmlFor="manual-focus">Manual Override</label><span>{lensPos.toFixed(0)}%</span></div>
+               <input id="manual-focus" type="range" min="0" max="100" step="0.1" value={lensPos} onChange={(e) => { setLensPos(Number(e.target.value)); setLocked(false); }} className="w-full accent-primary-500 h-1 bg-zinc-600 appearance-none rounded" />
             </div>
             <button onClick={startFocusing} disabled={isFocusing || locked} className={`w-full py-4 rounded font-bold mb-6 flex items-center justify-center gap-2 shadow-lg transition-colors ${locked ? 'bg-green-600 text-white' : isFocusing ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400 cursor-wait' : 'bg-primary-600 hover:bg-primary-500 text-white'}`}>
       {locked ? <><Focus size={16}/> FOCUS LOCKED</> : isFocusing ? 'FOCUSING...' : 'AF-ON (半按快门)'}
@@ -288,7 +288,7 @@ const StabilizationModule: React.FC = () => {
    return (
       <div className="flex flex-col lg:flex-row h-full">
          <div className="flex-1 bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center relative overflow-hidden">
-            <div className="relative w-[480px] h-[320px] bg-zinc-50 dark:bg-black border-4 border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-lg">
+            <div className="relative w-full max-w-[480px] h-[320px] bg-zinc-50 dark:bg-black border-4 border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden shadow-lg">
                <div className="absolute top-2 right-2 text-red-600 dark:text-red-500 animate-pulse text-xs font-mono z-20">REC</div>
                <div className="absolute bottom-2 left-2 text-zinc-900 dark:text-white text-xs font-mono z-20">STAB: {mode}</div>
                {mode === 'EIS' && <div className="absolute inset-8 border-2 border-red-500/50 z-10 pointer-events-none"><span className="absolute -top-5 left-0 text-xs text-red-600 dark:text-red-500">EIS Crop Area (10-20%)</span></div>}
@@ -302,10 +302,10 @@ const StabilizationModule: React.FC = () => {
             <div className="space-y-4">
       <Slider label="抖动幅度" value={shakeAmount} min={0} max={3} step={0.5} onChange={setShakeAmount} />
                <div className="space-y-2">
-      <button onClick={() => setMode('OFF')} className={`w-full p-3 rounded border text-left ${mode === 'OFF' ? 'bg-red-100 dark:bg-red-900/50 border-red-400 dark:border-red-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-red-600 dark:text-red-400 flex items-center gap-2"><BicepsFlexed size={14}/> 人体云台 (Human Gimbal)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">人体云台：靠双手和身体抵消抖动，最原始也最灵活。轻量设备（如 BMPCC）尤其适合手持运镜。</div></button>
-      <button onClick={() => setMode('OIS')} className={`w-full p-3 rounded border text-left ${mode === 'OIS' ? 'bg-primary-100 border-primary-400 dark:bg-primary-900/50 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Move size={12}/> OIS (光学防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Lens Shift：镜片组位移抵消抖动。机身内没有移动部件，但补偿范围有限。<br/><span className="text-emerald-500">优点：</span>对长焦有效，不裁切画幅。</div></button>
-      <button onClick={() => setMode('IBIS')} className={`w-full p-3 rounded border text-left ${mode === 'IBIS' ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2"><Vibrate size={12}/> IBIS (机身防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Sensor Shift：传感器位移补偿。与镜头无关，任何镜头都能受益，且可校正旋转轴。<br/><span className="text-emerald-500">优点：</span>通用性强，支持全部镜头。</div></button>
-      <button onClick={() => setMode('EIS')} className={`w-full p-3 rounded border text-left ${mode === 'EIS' ? 'bg-primary-100 dark:bg-primary-900/50 border-primary-400 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Scaling size={12}/> EIS (电子防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Electronic：算法裁切画面 + 陀螺仪数据增稳。无需硬件，但会损失画幅并引入变形。<br/><span className="text-red-400">缺点：</span>裁切画幅，画质损失。</div></button>
+      <button onClick={() => setMode('OFF')} aria-pressed={mode === 'OFF'} className={`w-full p-3 rounded border text-left ${mode === 'OFF' ? 'bg-red-100 dark:bg-red-900/50 border-red-400 dark:border-red-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-red-600 dark:text-red-400 flex items-center gap-2"><BicepsFlexed size={14}/> 人体云台 (Human Gimbal)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">人体云台：靠双手和身体抵消抖动，最原始也最灵活。轻量设备（如 BMPCC）尤其适合手持运镜。</div></button>
+      <button onClick={() => setMode('OIS')} aria-pressed={mode === 'OIS'} className={`w-full p-3 rounded border text-left ${mode === 'OIS' ? 'bg-primary-100 border-primary-400 dark:bg-primary-900/50 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Move size={12}/> OIS (光学防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Lens Shift：镜片组位移抵消抖动。机身内没有移动部件，但补偿范围有限。<br/><span className="text-emerald-500">优点：</span>对长焦有效，不裁切画幅。</div></button>
+      <button onClick={() => setMode('IBIS')} aria-pressed={mode === 'IBIS'} className={`w-full p-3 rounded border text-left ${mode === 'IBIS' ? 'bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2"><Vibrate size={12}/> IBIS (机身防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Sensor Shift：传感器位移补偿。与镜头无关，任何镜头都能受益，且可校正旋转轴。<br/><span className="text-emerald-500">优点：</span>通用性强，支持全部镜头。</div></button>
+      <button onClick={() => setMode('EIS')} aria-pressed={mode === 'EIS'} className={`w-full p-3 rounded border text-left ${mode === 'EIS' ? 'bg-primary-100 dark:bg-primary-900/50 border-primary-400 dark:border-primary-500' : 'border-zinc-200 dark:border-zinc-800'}`}><div className="font-bold text-sm text-primary-600 dark:text-primary-400 flex items-center gap-2"><Scaling size={12}/> EIS (电子防抖)</div><div className="text-[10px] text-zinc-600 dark:text-zinc-400">Electronic：算法裁切画面 + 陀螺仪数据增稳。无需硬件，但会损失画幅并引入变形。<br/><span className="text-red-400">缺点：</span>裁切画幅，画质损失。</div></button>
                </div>
             </div>
          </div>
@@ -423,6 +423,8 @@ const FlangeDistanceModule: React.FC = () => {
                      <button 
                         onClick={() => setLensType('NATIVE')} 
                         disabled={system === 'SLR'} // Can't put E lens on EF body easily in reality without optics
+                        aria-disabled={system === 'SLR'}
+                        title="不可用：单反机身无法使用无反原生镜头"
                         className={`flex-1 p-3 rounded border text-xs font-bold ${lensType === 'NATIVE' ? 'bg-zinc-100 dark:bg-zinc-700 border-emerald-400 dark:border-emerald-500 text-zinc-900 dark:text-white' : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400'} ${system === 'SLR' ? 'opacity-30 cursor-not-allowed' : ''}`}
                      >
       原生镜头适配器（补齐法兰距）                     </button>

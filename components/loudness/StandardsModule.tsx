@@ -27,25 +27,25 @@ export const StandardsModule: React.FC = () => {
                       </tr>
                    </thead>
                    <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
-                      <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                      <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                          <td className="p-4 font-bold text-zinc-900 dark:text-white">EBU R128 (欧洲)</td>
                          <td className="p-4 font-mono text-emerald-600 dark:text-emerald-600 dark:text-green-400 font-bold">-23 LUFS</td>
                          <td className="p-4 font-mono">-1.0 dBTP</td>
                          <td className="p-4">绝对红线，误差通常只允许 ±0.5 LU</td>
                       </tr>
-                      <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                      <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                          <td className="p-4 font-bold text-zinc-900 dark:text-white">中国广电 (GY/T 262)</td>
                         <td className="p-4 font-mono text-emerald-600 dark:text-green-400 font-bold">-23 LUFS</td>
                         <td className="p-4 font-mono">-1.0 dBTP</td>
                         <td className="p-4">源自 ITU-R BS.1770</td>
                      </tr>
-                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                         <td className="p-4 font-bold text-zinc-900 dark:text-white">日本电视 (TR-B32)</td>
                         <td className="p-4 font-mono text-emerald-600 dark:text-green-400 font-bold">-24 LUFS</td>
                         <td className="p-4 font-mono">-1.0 dBTP</td>
                         <td className="p-4">比欧洲标准略低</td>
                      </tr>
-                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                         <td className="p-4 font-bold text-zinc-900 dark:text-white">Netflix / Disney+</td>
                         <td className="p-4 font-mono text-emerald-600 dark:text-green-400 font-bold">-27 LUFS</td>
                         <td className="p-4 font-mono">-2.0 dBTP</td>
@@ -73,19 +73,19 @@ export const StandardsModule: React.FC = () => {
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                         <td className="p-4 font-bold text-zinc-900 dark:text-white">YouTube</td>
                         <td className="p-4 font-mono text-primary-500 dark:text-cyan-400 font-bold">-14 LUFS</td>
                         <td className="p-4 font-mono">-1.0 dBTP</td>
                         <td className="p-4 text-primary-600 dark:text-primary-400">超过 -14 会被强制拉低，低于不拉高</td>
                      </tr>
-                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                         <td className="p-4 font-bold text-zinc-900 dark:text-white">Bilibili (B站)</td>
                         <td className="p-4 font-mono text-primary-500 dark:text-cyan-400 font-bold">-16 ~ -14 LUFS</td>
                         <td className="p-4 font-mono">-1.0 dBTP</td>
                         <td className="p-4">近期标准趋向于 -14 LUFS</td>
                      </tr>
-                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-100 dark:bg-zinc-800">
+                     <tr className="hover:bg-zinc-50 dark:hover:bg-zinc-700 dark:bg-zinc-800">
                         <td className="p-4 font-bold text-zinc-900 dark:text-white">Spotify / Apple Music</td>
                         <td className="p-4 font-mono text-primary-500 dark:text-cyan-400 font-bold">-14 LUFS</td>
                         <td className="p-4 font-mono">-1.0 dBTP</td>
